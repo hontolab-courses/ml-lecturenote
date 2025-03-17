@@ -426,10 +426,10 @@ pandasは行列データを効率的に扱う<a class="reference external" href=
 </table>
 </div>
 <p>一般に表データはMicrosoftのExcelファイルで取り扱われることが多い．
-しかし，データ分析の世界では，比較的小さな表データは，特定のソフトウェアに依存しない（互換性の高い）<strong>CSV（comma-sepprated values）ファイル</strong>，もしくは<strong>TSV（tab-separated values）ファイル</strong>で保存/配布されることが多い．
-CSVファイルは表の各項目の値をカンマ（,）で区切ったテキストデータである．
+しかし，データ分析の世界では，比較的小さな表データは，特定のソフトウェアに依存しない（互換性の高い）<strong>CSV（comma-sepprated values）ファイル</strong>，もしくは<strong>TSV（tab-separated values）ファイル</strong>で保存/配布されることが多い．</p>
+<p>CSVファイルは表の各項目の値をカンマ（,）で区切ったテキストデータである．
 CSVファイルの行が表の行に相当する．
-CSVファイルの1行目には，表の項目名を並べることが多い．
+CSVファイルの1行目には，表の構造を示す項目名を並べることがある．
 CSVファイルの拡張子には<code class="docutils literal notranslate"><span class="pre">.csv</span></code>が用いられる．</p>
 <p>以下は，上記都道府県に関する表データをCSVファイルとして保存したその中身の例である．</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">都道府県ID</span><span class="p">,</span><span class="n">都道府県名</span><span class="p">,</span><span class="mi">2020</span><span class="n">年法定人口</span><span class="p">,</span><span class="n">県庁所在地</span>
@@ -439,12 +439,11 @@ CSVファイルの拡張子には<code class="docutils literal notranslate"><spa
 <span class="o">...</span>
 </pre></div>
 </div>
-<p>1行には表の項目（見出し）が，2行目以降には各都道府県に関するデータがカンマで区切られて定義されている．
-上記ファイルはCSVファイルなので，各データがカンマで区切られている．
-この表データをTSVファイルで保存する場合は，カンマではなくタブ記号（\t）でデータを区切りる．
+<p>1行には表の項目（見出し）が，2行目以降には各都道府県に関するデータがカンマで区切られ定義されている．
+この表データをTSVファイルで保存する場合は，カンマではなくタブ記号（\t）でデータを区切る．
 TSVファイルの拡張子は<code class="docutils literal notranslate"><span class="pre">.tsv</span></code>である．</p>
-<p>pandasライブラリでは，表形式のデータを<strong>データフレーム（DataFrame）</strong> という形式に変換してデータの前処理や分析を行う．
-データフレームとはPythonで<strong>計算処理を効率的に行うための表データ</strong>だと思ってもらえばOK．
+<p>pandasライブラリでは，表形式のデータを<strong>データフレーム（DataFrame）</strong> という形式に変換し，データの前処理や分析を行う．
+データフレームとは，Pythonで<strong>計算処理を効率的に行うための表データ</strong>のようなものと思えば良い．
 以下，pandasの扱い方について説明する．</p>
 </section>
 <section id="id2">
@@ -453,6 +452,14 @@ TSVファイルの拡張子は<code class="docutils literal notranslate"><span c
 お手元の計算環境にpandasライブラリがない場合は，以下のコマンドでpandasをインストールしよう．</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>pandas
 </pre></div>
+</div>
+<p>pandasをインストール後，以下のコードを実行してpandasライブラリを読み込む．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
 </div>
 <p>Jupyterを用いている場合は，セルに以下を書いて実行しよう．</p>
 <div class="cell docutils container">
@@ -466,14 +473,7 @@ TSVファイルの拡張子は<code class="docutils literal notranslate"><span c
 </div>
 </div>
 </div>
-<p>pandasをインストール後，以下のコードを実行してpandasライブラリを読み込む．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-</pre></div>
-</div>
-</div>
-</div>
+<p>以下は，表示を見やすくするためのおまじないである．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 警告文を非表示に</span>
@@ -494,7 +494,7 @@ TSVファイルの拡張子は<code class="docutils literal notranslate"><span c
 ダウンロードしたファイルは<code class="docutils literal notranslate"><span class="pre">data</span></code>ディレクトリに<code class="docutils literal notranslate"><span class="pre">titanic_train.csv</span></code>という名前で保存したとする．</p>
 <p>pandasで表データを読み込むには<code class="docutils literal notranslate"><span class="pre">read_table</span></code>関数を用いる．
 以下は<code class="docutils literal notranslate"><span class="pre">dataset</span></code>ディレクトリにある<code class="docutils literal notranslate"><span class="pre">titanic_train.csv</span></code>を読み込み，ファイルの中身をデータフレームに変換したものを変数<code class="docutils literal notranslate"><span class="pre">df</span></code>に格納するコードである．
-関数の1つ目の引数にファイルの保存先を指定する．
+関数の1つ目の引数にはファイルの保存先を指定する．
 <code class="docutils literal notranslate"><span class="pre">sep</span></code>という引数では，読み込んだファイルに用いられている区切り文字を指定している．
 今回読み込むファイルはCSVファイルなのでカンマ（,）を指定している．
 TSVファイルを読み込む場合はタブ文字（\t）を指定する．</p>
@@ -821,7 +821,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 <section id="id8">
 <h3><span class="section-number">1.4.4. </span>基本統計量<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
 <p>DataFrameオブジェクトのメソッド<code class="docutils literal notranslate"><span class="pre">describe</span></code>を用いると，表の各項目の基本統計量が得られる．
-得られる基本統計量は以下の通りです：</p>
+得られる基本統計量は以下の通り：</p>
 <ul class="simple">
 <li><p>データ数</p></li>
 <li><p>平均</p></li>
@@ -1464,7 +1464,7 @@ Name: 総人口, Length: 48, dtype: int64
 </div>
 </div>
 </div>
-<p>もう1つの射影方法は中括弧の中で列項目名を指定する方法である．
+<p>もう1つの射影方法は，中括弧の中で列項目名を指定する方法である．
 この方法では，注目したい列名を<strong>文字列もしくは文字列のリスト</strong>で指定する．
 以下は，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>から列「総人口」にあるデータを抽出するコードである．</p>
 <div class="cell docutils container">
@@ -1602,7 +1602,7 @@ Name: 総人口, Length: 48, dtype: int64
 </section>
 <section id="id12">
 <h3><span class="section-number">1.5.3. </span>データフレームに対する四則演算<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
-<p>pandasのDataFrameオブジェクトから任意の列を射影しスカラーの四則演算を適用すると，射影した列データ全体に演算が適用される．
+<p>pandasのDataFrameオブジェクトから任意の列を射影した後，スカラーの四則演算を適用すると，射影した列データ全体に演算が適用される．
 例えば，以下はデータフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>の<code class="docutils literal notranslate"><span class="pre">総人口</span></code>列の各値に100を加算するコード例である．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2135,7 +2135,7 @@ Length: 48, dtype: float64
 </section>
 <section id="id14">
 <h3><span class="section-number">1.5.5. </span>絞り込み<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
-<p>データフレームから特定の条件を満たすレコードのみを取得するには2種類の方法がある：</p>
+<p>DataFrameオブジェクトから特定の条件を満たすレコードのみを取得するには2種類の方法がある：</p>
 <ul class="simple">
 <li><p>中括弧の中で条件を指定する方法</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">query</span></code>メソッドを使用する方法</p></li>
@@ -3163,7 +3163,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
 <section id="id15">
 <h2><span class="section-number">1.6. </span>データフレームの保存<a class="headerlink" href="#id15" title="Link to this heading">#</a></h2>
 <p>データフレームの中身をCSV/TSVファイルに保存するにはDataFrameオブジェクトの<code class="docutils literal notranslate"><span class="pre">to_csv</span></code>メソッドを用いる．
-以下，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>を<code class="docutils literal notranslate"><span class="pre">dataset</span></code>ディレクトリにCSVファイルとして保存するコード例．</p>
+以下，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>を<code class="docutils literal notranslate"><span class="pre">data</span></code>ディレクトリにCSVファイルとして保存するコード例．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;data/SSDSE-E-2024.csv&#39;</span><span class="p">)</span>
@@ -3197,7 +3197,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
 <section id="id17">
 <h3><span class="section-number">1.7.1. </span>列名の変更<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
 <p>列名の変更はDataFrameオブジェクトの<code class="docutils literal notranslate"><span class="pre">rename</span></code>メソッドで行う．
-<code class="docutils literal notranslate"><span class="pre">rename</span></code>メソッドのの<code class="docutils literal notranslate"><span class="pre">columns</span></code>引数に<code class="docutils literal notranslate"><span class="pre">{'変更前の列名':</span> <span class="pre">'変更後の列名'}</span></code>の辞書を与えると，列名を変更できる．
+<code class="docutils literal notranslate"><span class="pre">rename</span></code>メソッドのの<code class="docutils literal notranslate"><span class="pre">columns</span></code>引数に<code class="docutils literal notranslate"><span class="pre">{'変更前の列名':</span> <span class="pre">'変更後の列名'}</span></code>形式の辞書を与えると，列名を変更できる．
 <code class="docutils literal notranslate"><span class="pre">rename</span></code>メソッドは列名変更後のDataFrameオブジェクトを返す．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3531,12 +3531,13 @@ TSVファイルとして保存したい場合は，以下のように引数<code
 </div>
 <p>DataFrameオブジェクトに新しい列を追加するもう1つの方法は<code class="docutils literal notranslate"><span class="pre">assign</span></code>メソッドを用いる方法である．
 <code class="docutils literal notranslate"><span class="pre">assign</span></code>メソッドを用いると，複数の列を同時に追加できる．</p>
-<p>以下は，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>に<code class="docutils literal notranslate"><span class="pre">医師数</span></code>列，<code class="docutils literal notranslate"><span class="pre">歯科医師数</span></code>列，<code class="docutils literal notranslate"><span class="pre">薬剤師数</span></code>列の値の合計値を格納した<code class="docutils literal notranslate"><span class="pre">医療従事者数</span></code>という列を追加するコード例である．
+<p>以下は，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>に<code class="docutils literal notranslate"><span class="pre">生産年齢人口率</span></code>に加えて，<code class="docutils literal notranslate"><span class="pre">医師数</span></code>列，<code class="docutils literal notranslate"><span class="pre">歯科医師数</span></code>列，<code class="docutils literal notranslate"><span class="pre">薬剤師数</span></code>列の値の合計値を格納した<code class="docutils literal notranslate"><span class="pre">医療従事者数</span></code>という列を追加するコード例である．
 なお，<code class="docutils literal notranslate"><span class="pre">assign</span></code>メソッドは返り値として列を追加後のDataFrameオブジェクトを返すことに注意（元のDataFrameオブジェクトを変更しない）．
 また，<code class="docutils literal notranslate"><span class="pre">assign</span></code>メソッドを使用するときは，代入先の列名はクオーツ（’）で包まない（文字列リテラルにする）ことに注意（<a class="reference internal" href="#l1-q6"><span class="std std-ref">★Quiz Q6</span></a>，<a class="reference internal" href="#l1-q7"><span class="std std-ref">★Quiz Q7</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+    <span class="n">生産年齢人口率</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;15〜64歳人口&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;総人口&#39;</span><span class="p">],</span>
     <span class="n">医療従事者数</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;医師数&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;歯科医師数&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;薬剤師数&#39;</span><span class="p">]</span>
 <span class="p">)</span>
 </pre></div>
@@ -3617,7 +3618,8 @@ TSVファイルとして保存したい場合は，以下のように引数<code
 <section id="q1">
 <span id="l1-q1"></span><h3><span class="section-number">1.8.1. </span>Q1: データの読み込み<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://github.com/lgreski/pokemonData">pokemonData</a>は，ポケットモンスターシリーズに登場するポケモンの能力値をまとめたデータセットである．
-<a class="reference external" href="https://raw.githubusercontent.com/lgreski/pokemonData/refs/heads/master/Pokemon.csv">コチラ</a>のURLからCSVファイルをダウンロードし，その内容をpandasデータフレームに変換して変数<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>に代入しなさい．</p>
+<a class="reference external" href="https://raw.githubusercontent.com/lgreski/pokemonData/refs/heads/master/Pokemon.csv">コチラ</a>のURLからCSVファイルをダウンロードし，その内容をpandasデータフレームに変換して変数<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>に代入しなさい．
+さらに，<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>の中身を確認しなさい．</p>
 </section>
 <section id="q2">
 <span id="l1-q2"></span><h3><span class="section-number">1.8.2. </span>Q2: データの確認<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
