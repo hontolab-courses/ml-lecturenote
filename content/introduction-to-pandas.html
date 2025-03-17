@@ -364,13 +364,13 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">1.8. クイズ</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q">1.8.1. Q: データの読み込み</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">1.8.2. Q: データの確認</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q-hp">1.8.3. Q: HP, 攻撃力, 防御力</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q-9">1.8.4. Q: 第9世代</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">1.8.5. Q: ゴーストタイプ</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">1.8.6. Q: 偏差値</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">1.8.7. Q: データフレームの保存</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">1.8.1. Q1: データの読み込み</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">1.8.2. Q2: データの確認</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q3-hp">1.8.3. Q3: HP, 攻撃力, 防御力</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q4-9">1.8.4. Q4: 第9世代</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q5">1.8.5. Q5: ゴーストタイプ</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q6">1.8.6. Q6: 偏差値</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q7">1.8.7. Q7: データフレームの保存</a></li>
 </ul>
 </li>
 </ul>
@@ -3533,7 +3533,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
 <code class="docutils literal notranslate"><span class="pre">assign</span></code>メソッドを用いると，複数の列を同時に追加できる．</p>
 <p>以下は，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>に<code class="docutils literal notranslate"><span class="pre">医師数</span></code>列，<code class="docutils literal notranslate"><span class="pre">歯科医師数</span></code>列，<code class="docutils literal notranslate"><span class="pre">薬剤師数</span></code>列の値の合計値を格納した<code class="docutils literal notranslate"><span class="pre">医療従事者数</span></code>という列を追加するコード例である．
 なお，<code class="docutils literal notranslate"><span class="pre">assign</span></code>メソッドは返り値として列を追加後のDataFrameオブジェクトを返すことに注意（元のDataFrameオブジェクトを変更しない）．
-また，<code class="docutils literal notranslate"><span class="pre">assign</span></code>メソッドを使用するときは，代入先の列名はクオーツ（’）で包まない（文字列リテラルにする）ことに注意．</p>
+また，<code class="docutils literal notranslate"><span class="pre">assign</span></code>メソッドを使用するときは，代入先の列名はクオーツ（’）で包まない（文字列リテラルにする）ことに注意（<a class="reference internal" href="#l1-q6"><span class="std std-ref">Quiz Q6</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
@@ -3613,29 +3613,30 @@ TSVファイルとして保存したい場合は，以下のように引数<code
 <hr class="docutils" />
 <section id="id19">
 <h2><span class="section-number">1.8. </span>クイズ<a class="headerlink" href="#id19" title="Link to this heading">#</a></h2>
-<section id="q">
-<h3><span class="section-number">1.8.1. </span>Q: データの読み込み<a class="headerlink" href="#q" title="Link to this heading">#</a></h3>
+<p>以下のクイズの回答にGoogle Colaboratoryを使いたい方は<a class="reference external" href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-pandas.ipynb">コチラ</a>をクリック．</p>
+<section id="q1">
+<span id="l1-q1"></span><h3><span class="section-number">1.8.1. </span>Q1: データの読み込み<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://github.com/lgreski/pokemonData">pokemonData</a>は，ポケットモンスターシリーズに登場するポケモンの能力値をまとめたデータセットである．
 <a class="reference external" href="https://raw.githubusercontent.com/lgreski/pokemonData/refs/heads/master/Pokemon.csv">コチラ</a>のURLからCSVファイルをダウンロードし，その内容をpandasデータフレームに変換して変数<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>に代入しなさい．</p>
 </section>
-<section id="id20">
-<h3><span class="section-number">1.8.2. </span>Q: データの確認<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
+<section id="q2">
+<span id="l1-q2"></span><h3><span class="section-number">1.8.2. </span>Q2: データの確認<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
 <p>データフレーム<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>で取り扱われているポケモンの数（行数）および列数を調べなさい．</p>
 </section>
-<section id="q-hp">
-<h3><span class="section-number">1.8.3. </span>Q: HP, 攻撃力, 防御力<a class="headerlink" href="#q-hp" title="Link to this heading">#</a></h3>
+<section id="q3-hp">
+<span id="l1-q3"></span><h3><span class="section-number">1.8.3. </span>Q3: HP, 攻撃力, 防御力<a class="headerlink" href="#q3-hp" title="Link to this heading">#</a></h3>
 <p>データフレーム<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>で扱われているポケモンの<code class="docutils literal notranslate"><span class="pre">HP</span></code>，攻撃力（<code class="docutils literal notranslate"><span class="pre">Attack</span></code>），防御力（<code class="docutils literal notranslate"><span class="pre">Defense</span></code>）の平均値を調べなさい．</p>
 </section>
-<section id="q-9">
-<h3><span class="section-number">1.8.4. </span>Q: 第9世代<a class="headerlink" href="#q-9" title="Link to this heading">#</a></h3>
+<section id="q4-9">
+<span id="l1-q4"></span><h3><span class="section-number">1.8.4. </span>Q4: 第9世代<a class="headerlink" href="#q4-9" title="Link to this heading">#</a></h3>
 <p>データフレーム<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>の中で，第9世代（スカーレット・ヴァイオレット）のポケモンの情報を表示しなさい．</p>
 </section>
-<section id="id21">
-<h3><span class="section-number">1.8.5. </span>Q: ゴーストタイプ<a class="headerlink" href="#id21" title="Link to this heading">#</a></h3>
+<section id="q5">
+<span id="l1-q5"></span><h3><span class="section-number">1.8.5. </span>Q5: ゴーストタイプ<a class="headerlink" href="#q5" title="Link to this heading">#</a></h3>
 <p>データフレーム<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>の中で「ゴースト（Ghost）」タイプのポケモンの情報を表示しなさい．</p>
 </section>
-<section id="id22">
-<h3><span class="section-number">1.8.6. </span>Q: 偏差値<a class="headerlink" href="#id22" title="Link to this heading">#</a></h3>
+<section id="q6">
+<span id="l1-q6"></span><h3><span class="section-number">1.8.6. </span>Q6: 偏差値<a class="headerlink" href="#q6" title="Link to this heading">#</a></h3>
 <p>データフレーム<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>の情報によると，<code class="docutils literal notranslate"><span class="pre">Total</span></code>値の平均値は443.1，標準偏差は121.2である．
 この値を用いてデータフレーム<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>中の各ポケモンの<code class="docutils literal notranslate"><span class="pre">Total</span></code>値に関する偏差値を算出しなさい．
 また，計算した偏差値を<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>の列<code class="docutils literal notranslate"><span class="pre">Total_Z_score</span></code>に格納しなさい．</p>
@@ -3645,8 +3646,8 @@ TSVファイルとして保存したい場合は，以下のように引数<code
 z = \frac{x - \mu}{\sigma} \times 10 + 50
 \]</div>
 </section>
-<section id="id23">
-<h3><span class="section-number">1.8.7. </span>Q: データフレームの保存<a class="headerlink" href="#id23" title="Link to this heading">#</a></h3>
+<section id="q7">
+<span id="l1-q7"></span><h3><span class="section-number">1.8.7. </span>Q7: データフレームの保存<a class="headerlink" href="#q7" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">Total</span></code>の偏差値に関する列を追加したデータフレーム<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>をTSVファイルとして保存しなさい．
 また，保存したTSVファイルをテキストエディタやExcelなどを用いて確認しなさい．
 なお，TSVファイル名は<code class="docutils literal notranslate"><span class="pre">pokemon.tsv</span></code>とし，見出し（列名）をファイル内に含めるようにすること．</p>
@@ -3739,13 +3740,13 @@ z = \frac{x - \mu}{\sigma} \times 10 + 50
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">1.8. クイズ</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q">1.8.1. Q: データの読み込み</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">1.8.2. Q: データの確認</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q-hp">1.8.3. Q: HP, 攻撃力, 防御力</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q-9">1.8.4. Q: 第9世代</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">1.8.5. Q: ゴーストタイプ</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">1.8.6. Q: 偏差値</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">1.8.7. Q: データフレームの保存</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">1.8.1. Q1: データの読み込み</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">1.8.2. Q2: データの確認</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q3-hp">1.8.3. Q3: HP, 攻撃力, 防御力</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q4-9">1.8.4. Q4: 第9世代</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q5">1.8.5. Q5: ゴーストタイプ</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q6">1.8.6. Q6: 偏差値</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q7">1.8.7. Q7: データフレームの保存</a></li>
 </ul>
 </li>
 </ul>
