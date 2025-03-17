@@ -769,7 +769,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 </section>
 <section id="id6">
 <h3><span class="section-number">1.4.2. </span>表の行数<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
-<p>表データの行数だけを得たいときは，<code class="docutils literal notranslate"><span class="pre">len</span></code>関数を用いる．</p>
+<p>表データの行数だけを得たいときは，<code class="docutils literal notranslate"><span class="pre">len</span></code>関数を用いる（<a class="reference internal" href="#l1-q2"><span class="std std-ref">★Quiz Q2</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
@@ -1259,7 +1259,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 </div></div></div>
 </div>
 <p>DataFrameオブジェクトのメソッド<code class="docutils literal notranslate"><span class="pre">tail</span></code>は，データフレームの末尾<span class="math notranslate nohighlight">\(N\)</span>件のレコードを返す．
-引数に何も指定しないと5件返す．</p>
+引数に何も指定しないと5件返す（<a class="reference internal" href="#l1-q1"><span class="std std-ref">★Quiz Q1</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
@@ -1492,7 +1492,7 @@ Name: 総人口, Length: 48, dtype: int64
 </div>
 <p>ドットを用いる方法は簡便であるが，列項目を複数指定して射影できない．
 中括弧を用いる射影方法では，中括弧の中に文字列のリストを与えることで，複数の列項目に注目してデータを抽出できる．
-以下は，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>から「地域コード」「都道府県」「総人口」の列のデータを抽出するコードである．</p>
+以下は，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>から「地域コード」「都道府県」「総人口」の列のデータを抽出するコードである（<a class="reference internal" href="#l1-q3"><span class="std std-ref">★Quiz Q3</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;地域コード&#39;</span><span class="p">,</span> <span class="s1">&#39;都道府県&#39;</span><span class="p">,</span> <span class="s1">&#39;総人口&#39;</span><span class="p">]</span>
@@ -2664,13 +2664,13 @@ Length: 48, dtype: float64
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p class="rubric" id="q-df-7000000">Q. df.総人口 &gt;= 7000000 を実行すると何が返ってくるのか？</p>
+<p class="rubric" id="df-7000000">df.総人口 &gt;= 7000000 を実行すると何が返ってくるのか？</p>
 <p>実行してみると分かるが，<code class="docutils literal notranslate"><span class="pre">df</span></code>の各レコードの<code class="docutils literal notranslate"><span class="pre">総人口</span></code>が700万以上かそうでないかを<code class="docutils literal notranslate"><span class="pre">True</span></code>か<code class="docutils literal notranslate"><span class="pre">False</span></code>で表したpandas.Series（リストのようなもの）が返ってくる．
 返ってくるpandas.Seriesでは，nつ目の要素が<code class="docutils literal notranslate"><span class="pre">df</span></code>のn番目のレコードが<code class="docutils literal notranslate"><span class="pre">True</span></code>か<code class="docutils literal notranslate"><span class="pre">False</span></code>を表している．
 pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils literal notranslate"><span class="pre">True/False</span></code>のリスト（もしくはpandas.Series）を入れると，値がTrueのレコードだけをDataFrameオブジェクトから抽出して返す．
 この振る舞いを利用して，pandasではレコードの絞り込みを行うのである．</p>
 </div>
-<p>同じことをDataFrameオブジェクトの<code class="docutils literal notranslate"><span class="pre">query</span></code>メソッドを使って書くと，以下のようになる．</p>
+<p>同じことをDataFrameオブジェクトの<code class="docutils literal notranslate"><span class="pre">query</span></code>メソッドを使って書くと，以下のようになる（<a class="reference internal" href="#l1-q4"><span class="std std-ref">★Quiz Q4</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;総人口 &gt;= 7000000&#39;</span><span class="p">)</span>
@@ -3051,7 +3051,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
 </div>
 <p>以下はOR条件の例．OR条件は<code class="docutils literal notranslate"><span class="pre">|</span></code>（パイプ）で繋ぐ．
 条件が増えると，中括弧で条件を指定する方法は見にくくなる．
-条件が多い場合は，<code class="docutils literal notranslate"><span class="pre">query</span></code>メソッドを使った方がコードの可読性を高められる．</p>
+条件が多い場合は，<code class="docutils literal notranslate"><span class="pre">query</span></code>メソッドを使った方がコードの可読性を高められる（<a class="reference internal" href="#l1-q5"><span class="std std-ref">★Quiz Q5</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 合計特殊出生率が1.8以上もしくは1.1未満のレコードをすべて抽出</span>
@@ -3533,7 +3533,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
 <code class="docutils literal notranslate"><span class="pre">assign</span></code>メソッドを用いると，複数の列を同時に追加できる．</p>
 <p>以下は，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>に<code class="docutils literal notranslate"><span class="pre">医師数</span></code>列，<code class="docutils literal notranslate"><span class="pre">歯科医師数</span></code>列，<code class="docutils literal notranslate"><span class="pre">薬剤師数</span></code>列の値の合計値を格納した<code class="docutils literal notranslate"><span class="pre">医療従事者数</span></code>という列を追加するコード例である．
 なお，<code class="docutils literal notranslate"><span class="pre">assign</span></code>メソッドは返り値として列を追加後のDataFrameオブジェクトを返すことに注意（元のDataFrameオブジェクトを変更しない）．
-また，<code class="docutils literal notranslate"><span class="pre">assign</span></code>メソッドを使用するときは，代入先の列名はクオーツ（’）で包まない（文字列リテラルにする）ことに注意（<a class="reference internal" href="#l1-q6"><span class="std std-ref">Quiz Q6</span></a>）．</p>
+また，<code class="docutils literal notranslate"><span class="pre">assign</span></code>メソッドを使用するときは，代入先の列名はクオーツ（’）で包まない（文字列リテラルにする）ことに注意（<a class="reference internal" href="#l1-q6"><span class="std std-ref">★Quiz Q6</span></a>，<a class="reference internal" href="#l1-q7"><span class="std std-ref">★Quiz Q7</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
