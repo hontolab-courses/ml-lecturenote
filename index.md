@@ -26,7 +26,7 @@ Googleアカウントを持っていない学生は，授業までに取得し�
 ## 授業計画とコンテンツ
 | |  日時  | トピック | スライド資料 | Hands-on | クイズ |
 | ---- | ---- | ---- | ---- | ---- | ---- |
-| 1 | 04/14 | ガイダンス & Pandas入門 |  [Speaker Deck]() | [Here](content/introduction-to-pandas/main.ipynb) | [Google Colab]() |
+| 1 | 04/14 | ガイダンス & Pandas入門 |  [Speaker Deck]() | [Here](content/introduction-to-pandas.ipynb) | [Google Colab]() |
 | 2 | 04/21 | 機械学習の概要 & はじめての機械学習 |  [Speaker Deck]() | [Here]() | [Google Colab]() |
 | 3 | 04/28 | クラスタリング1: K-means & 階層的クラスタリング |  [Speaker Deck]() | [Here]() | [Google Colab]() |
 | 4 | 05/12 | クラスタリング2：密度ベースクラスタリング |  [Speaker Deck]() | [Here]() | [Google Colab]() |

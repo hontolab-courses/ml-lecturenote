@@ -6,7 +6,7 @@ parts:
 - caption: はじめに
   numbered: True
   chapters:
-    - file: content/introduction-to-pandas/main.ipynb
+    - file: content/introduction-to-pandas.ipynb
     - file: content/introduction-to-ml.ipynb
 - caption: クラスタリング
   numbered: True
