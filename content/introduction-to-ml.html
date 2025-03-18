@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. 第2回: 決定木から始める機械学習 &#8212; 機械学習発展（導入編）の講義ノート</title>
+    <title>2. 決定木から始める機械学習 &#8212; 機械学習発展（導入編）の講義ノート</title>
   
   
   
@@ -64,7 +64,7 @@
     <link rel="canonical" href="https://mlnote.hontolab.org/content/introduction-to-ml.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="1. 第1回: pandas入門" href="introduction-to-pandas.html" />
+    <link rel="prev" title="1. pandas入門" href="introduction-to-pandas.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -156,8 +156,8 @@
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">はじめに</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="introduction-to-pandas.html">1. 第1回: pandas入門</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. 第2回: 決定木から始める機械学習</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction-to-pandas.html">1. pandas入門</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. 決定木から始める機械学習</a></li>
 </ul>
 
     </div>
@@ -324,7 +324,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>第2回: 決定木から始める機械学習</h1>
+    <h1>決定木から始める機械学習</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -337,10 +337,13 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.1. 例題1: アヤメ</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.2. 例題2: タイタニック号の乗船者データ</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2.3. クイズ</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">2.3.1. 課題1</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">2.3.2. 課題2</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">2.3.3. 課題3</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">2.3.4. 課題4</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">2.3.1. Q1: ヒストグラム</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">2.3.2. Q2: 出現頻度</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q3">2.3.3. Q3: データの集約</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q4">2.3.4. Q4: 学習のためのデータ分割</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q5">2.3.5. Q5: 決定木の構築</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q6">2.3.6. Q6: 決定木における各属性の寄与度</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q7">2.3.7. Q7: 決定木の再構築</a></li>
 </ul>
 </li>
 </ul>
@@ -355,7 +358,7 @@
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1><span class="section-number">2. </span>第2回: 決定木から始める機械学習<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">2. </span>決定木から始める機械学習<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
 <p>このHands-onでは，機械学習手法のひとつである<strong>決定木</strong>を使って，あらかじめ与えられたデータから，未知データを分類する規則を抽出・適用する<strong>教師あり学習</strong>を体験する．
 このHands-onで用いるデータは以下の通り：</p>
 <ul class="simple">
@@ -368,8 +371,8 @@ Google Colaboratory（もしくはJupyter）に</p>
 <li><p>graphviz</p></li>
 <li><p>category_encoders</p></li>
 </ul>
-<p>の2つのライブラリをインストールするために， 以下のコードを実行する．</p>
-<div class="cell docutils container">
+<p>の2つのライブラリをインストールするために， 以下のコードを実行しよう．</p>
+<div class="cell tag_remove-out docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">category_encoders</span>
@@ -387,9 +390,6 @@ Google Colaboratory（もしくはJupyter）に</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 表形式のデータを操作するためのライブラリ</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-
-<span class="c1"># 行列計算をおこなうためのライブラリ</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="c1"># 機械学習用ライブラリsklearn</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
@@ -548,7 +548,10 @@ Google Colaboratory（もしくはJupyter）に</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><style>#sk-container-id-1 {color: black;background-color: white;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeClassifier(criterion=&#x27;entropy&#x27;, random_state=12345)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeClassifier</label><div class="sk-toggleable__content"><pre>DecisionTreeClassifier(criterion=&#x27;entropy&#x27;, random_state=12345)</pre></div></div></div></div></div></div></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DecisionTreeClassifier(criterion=&#39;entropy&#39;, random_state=12345)
+</pre></div>
+</div>
+</div>
 </div>
 <p>品種を予測するルールが学習された．
 以下のコードを実行して，予測ルールをわかりやすく可視化してみよう．</p>
@@ -564,7 +567,7 @@ Google Colaboratory（もしくはJupyter）に</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/cf55a1755f6d6dceeebb5ab84935107940a291c356f1161f3d6907b406d0e1e2.svg" src="../_images/cf55a1755f6d6dceeebb5ab84935107940a291c356f1161f3d6907b406d0e1e2.svg" />
+<img alt="../_images/4eb05554ac1fa152fec3e09284941bd7316a25a19980eed14824974523050133.svg" src="../_images/4eb05554ac1fa152fec3e09284941bd7316a25a19980eed14824974523050133.svg" />
 </div>
 </div>
 <p>分類ルールが木のように枝分かれした形で可視化された．
@@ -722,7 +725,7 @@ Google Colaboratory（もしくはJupyter）に</p>
 タイタニックとその事故は映画化されるなど世界的に有名である．</p>
 <p>乗船者に関する情報が残っていたために，事故後，多くの人が事故に関する分析を行った．
 私たちもタイタニック号の乗船者情報を用いて，生死を分けた条件について分析を行ってみよう．
-以下のコードを実行して，タイタニック号の乗船者（の一部）のデータを読み込もう．</p>
+以下のコードを実行して，タイタニック号の乗船者（の一部）のデータを読み込もう（<a class="reference internal" href="#l2-q1"><span class="std std-ref">★Quiz 1</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># データの読み込み</span>
@@ -926,7 +929,7 @@ Google Colaboratory（もしくはJupyter）に</p>
 </div>
 <p>分析の結果，どうやら等級が高い（数値が小さい）ほど生き残っている方の割合が大きいようだ．
 等級以外の属性でも同様の分析を行ってみよう．
-例えば，性別（Sex）と生存の有無の関係は以下のコードで得られる．</p>
+例えば，性別（Sex）と生存の有無の関係は以下のコードで得られる（<a class="reference internal" href="#l2-q2"><span class="std std-ref">★Quiz 2</span></a>，<a class="reference internal" href="#l2-q3"><span class="std std-ref">★Quiz 3</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">titanic_df</span><span class="p">[</span><span class="s1">&#39;Survived&#39;</span><span class="p">],</span> <span class="n">titanic_df</span><span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
@@ -1046,7 +1049,7 @@ AgeとEmbarkedのみ欠損値を埋めることにしよう．</p>
 </div>
 </div>
 </div>
-<p>変数<code class="docutils literal notranslate"><span class="pre">titanic_test_df</span></code>には生存の有無の情報も含まれているが，予測モデルの性能評価の際には，生存情報が未知であるとして予測を行い，予測結果と（隠しておいた）生存情報を照らし合わせて評価することになる．</p>
+<p>変数<code class="docutils literal notranslate"><span class="pre">titanic_test_df</span></code>には生存の有無の情報も含まれているが，予測モデルの性能評価の際には，生存情報が未知であるとして予測を行い，予測結果と（隠しておいた）生存情報を照らし合わせて評価することになる（<a class="reference internal" href="#l2-q4"><span class="std std-ref">★Quiz 4</span></a>）．</p>
 <p>簡易的な分析を行ってみると，生存の有無を識別するために有効な指標がありそうな気もする．
 しかし実際には，複数の指標が絡み合って生存の有無が決まっていると思われる．
 このような状況で，指標（特徴量）同士の複雑な関係性を考慮しながら，予測のためのルールを抽出するのが<strong>教師あり学習</strong>である．</p>
@@ -1222,7 +1225,10 @@ AgeとEmbarkedのみ欠損値を埋めることにしよう．</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><style>#sk-container-id-2 {color: black;background-color: white;}#sk-container-id-2 pre{padding: 0;}#sk-container-id-2 div.sk-toggleable {background-color: white;}#sk-container-id-2 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-2 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-2 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-2 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-2 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-2 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-2 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-2 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-2 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-2 div.sk-item {position: relative;z-index: 1;}#sk-container-id-2 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-2 div.sk-item::before, #sk-container-id-2 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-2 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-2 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-2 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-2 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-2 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-2 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-2 div.sk-label-container {text-align: center;}#sk-container-id-2 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-2 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>OneHotEncoder(cols=[&#x27;Embarked&#x27;, &#x27;Sex&#x27;], use_cat_names=True)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" checked><label for="sk-estimator-id-2" class="sk-toggleable__label sk-toggleable__label-arrow">OneHotEncoder</label><div class="sk-toggleable__content"><pre>OneHotEncoder(cols=[&#x27;Embarked&#x27;, &#x27;Sex&#x27;], use_cat_names=True)</pre></div></div></div></div></div></div></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OneHotEncoder(cols=[&#39;Embarked&#39;, &#39;Sex&#39;], use_cat_names=True)
+</pre></div>
+</div>
+</div>
 </div>
 <p>それでは，<code class="docutils literal notranslate"><span class="pre">titanic_train_df</span></code>に決定木アルゴリズムを適用して，生存の有無のルールを抽出（学習）してみよう．
 決定木アルゴリズムは<code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code>クラスを用いて実行できる．
@@ -1247,7 +1253,10 @@ AgeとEmbarkedのみ欠損値を埋めることにしよう．</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><style>#sk-container-id-3 {color: black;background-color: white;}#sk-container-id-3 pre{padding: 0;}#sk-container-id-3 div.sk-toggleable {background-color: white;}#sk-container-id-3 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-3 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-3 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-3 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-3 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-3 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-3 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-3 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-3 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-3 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-3 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-3 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-3 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-3 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-3 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-3 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-3 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-3 div.sk-item {position: relative;z-index: 1;}#sk-container-id-3 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-3 div.sk-item::before, #sk-container-id-3 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-3 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-3 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-3 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-3 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-3 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-3 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-3 div.sk-label-container {text-align: center;}#sk-container-id-3 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-3 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-3" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeClassifier(criterion=&#x27;entropy&#x27;, max_depth=3, random_state=12345)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" checked><label for="sk-estimator-id-3" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeClassifier</label><div class="sk-toggleable__content"><pre>DecisionTreeClassifier(criterion=&#x27;entropy&#x27;, max_depth=3, random_state=12345)</pre></div></div></div></div></div></div></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DecisionTreeClassifier(criterion=&#39;entropy&#39;, max_depth=3, random_state=12345)
+</pre></div>
+</div>
+</div>
 </div>
 <p>生存の有無を予測するルールが学習された．
 以下のコードを実行して，生存の有無を予測するためのルールをわかりやすく可視化してみよう．</p>
@@ -1263,7 +1272,7 @@ AgeとEmbarkedのみ欠損値を埋めることにしよう．</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/f3f1f17a635c5f9877d4e77c12752adfcc263b9ed601684d0787e2c7f564947d.svg" src="../_images/f3f1f17a635c5f9877d4e77c12752adfcc263b9ed601684d0787e2c7f564947d.svg" />
+<img alt="../_images/ae4da2821436a351ccf51950a74761baa5656391dc3b605aba2c0107fe0fd816.svg" src="../_images/ae4da2821436a351ccf51950a74761baa5656391dc3b605aba2c0107fe0fd816.svg" />
 </div>
 </div>
 <p>分類ルールが得られた．</p>
@@ -1273,7 +1282,7 @@ AgeとEmbarkedのみ欠損値を埋めることにしよう．</p>
 <li><p>性別が女性であり（Sex_male&lt;=0.5: True），乗船クラスが1等もしくは2等クラス（Pclass&lt;=2.5: True）の乗客は95.7%の確率で生存したこと</p></li>
 <li><p>その条件にマッチする乗客は，全体の18.5%存在すること</p></li>
 </ul>
-<p>を示している．</p>
+<p>を示している（<a class="reference internal" href="#l2-q5"><span class="std std-ref">★Quiz 5</span></a>）．</p>
 <p>なんとなく予測ルールは分かったが，各指標が予測にどの程度影響があるかを調べてみよう．
 以下のコードを実行しよう．</p>
 <div class="cell docutils container">
@@ -1298,7 +1307,7 @@ Embarked_Q	0.0
 </div>
 </div>
 </div>
-<p>この結果からも，<strong>性別</strong>や<strong>等級</strong>が生存に大きく影響を与えていたことがうかがえる．</p>
+<p>この結果からも，<strong>性別</strong>や<strong>等級</strong>が生存に大きく影響を与えていたことがうかがえる（<a class="reference internal" href="#l2-q6"><span class="std std-ref">★Quiz 6</span></a>）．</p>
 <p>さて，ここまでやったことは予測のためのルール（モデル）の構築であった．
 構築した予測モデルを使って，未知のデータを予測してみよう．
 この例題の冒頭で，変数<code class="docutils literal notranslate"><span class="pre">titanic_test_df</span></code>に<strong>予測モデルの構築に使われていないデータ</strong>を別途用意していたことを思い出そう．</p>
@@ -1429,7 +1438,7 @@ Embarked_Q	0.0
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># X_testは，生存情報以外のすべての指標</span>
 <span class="n">X_test</span> <span class="o">=</span> <span class="n">titanic_test_df</span><span class="p">[</span><span class="n">target_features</span><span class="p">]</span>
 
-<span class="c1"># カテゴリ変数を計算しやすく変換する</span>
+<span class="c1"># カテゴリ変数を変換して計算しやすくする</span>
 <span class="n">X_test</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 
 <span class="c1"># 予測</span>
@@ -1468,7 +1477,7 @@ Embarked_Q	0.0
 </div>
 <p>色々情報が出てきたが，<code class="docutils literal notranslate"><span class="pre">Accuracy</span></code>という数値を見てほしい．
 Accuracyは予測結果のうち，<strong>実際に生存した乗客を予測モデルが「生存」と予測し，死亡した乗客を予測モデルが「死亡」と予測できたケースの割合</strong>を意味する．
-上記結果によると，Accuracyは約76.1%を示しており，そこそこの割合で生存の有無を予測できていることが分かる．</p>
+上記結果によると，Accuracyは約76.1%を示しており，そこそこの割合で生存の有無を予測できていることが分かる（<a class="reference internal" href="#l2-q7"><span class="std std-ref">★Quiz 7</span></a>）．</p>
 </section>
 <hr class="docutils" />
 <section id="id4">
@@ -1638,218 +1647,48 @@ Accuracyは予測結果のうち，<strong>実際に生存した乗客を予測�
 <li><p>income: 年収（50Kドル以上，50Kドル未満の二値）</p></li>
 </ul>
 <p>このデータに対して決定木アルゴリズムを適用して，ある人物が年間収入が50Kドル以上か未満かを分類する機械学習モデルを構築したい．</p>
-<section id="id5">
-<h3><span class="section-number">2.3.1. </span>課題1<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
-<p>機械学習モデルを構築する前に，基礎データとして<code class="docutils literal notranslate"><span class="pre">income_df</span></code>データに含まれる調査対象者の年齢，性別，年収の分布を知りたい．
-年齢に関するヒストグラム（階級数は10）を作成せよ．また，性別（男，女），年収（50K以上，50K未満）について，属性値に対応する人数を求めよ．</p>
-<ul class="simple">
-<li><p>ヒント1: ヒストグラムの作成には<code class="docutils literal notranslate"><span class="pre">pandas.series.hist</span></code>関数を用いるとよい（<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.hist.html">参考</a>）</p></li>
-<li><p>ヒント2: 要素の出現頻度を求めるには<code class="docutils literal notranslate"><span class="pre">pandas.series.value_counts</span></code>メソッドを用いるとよい（<a class="reference external" href="https://note.nkmk.me/python-pandas-value-counts/">参考</a>）</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">income_df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
-</pre></div>
-</div>
-<img alt="../_images/6f885c36ba9b18464260885c3555c9aa6e0042d3f722d435ca2f6cfe75a635ea.png" src="../_images/6f885c36ba9b18464260885c3555c9aa6e0042d3f722d435ca2f6cfe75a635ea.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">income_df</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Male      21790
- Female    10771
-Name: sex, dtype: int64
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">income_df</span><span class="p">[</span><span class="s1">&#39;income&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> &lt;=50K    24720
- &gt;50K      7841
-Name: income, dtype: int64
-</pre></div>
-</div>
-</div>
-</div>
+<section id="q1">
+<span id="l2-q1"></span><h3><span class="section-number">2.3.1. </span>Q1: ヒストグラム<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
+<p>機械学習モデルを構築する前に，<code class="docutils literal notranslate"><span class="pre">income_df</span></code>データに含まれる調査対象者の年齢の分布を知りたい．
+年齢に関するヒストグラム（階級数は10）を作成せよ．</p>
+<p>※ ヒント: ヒストグラムの作成には<code class="docutils literal notranslate"><span class="pre">pandas.series.hist</span></code>関数を用いるとよい（<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.hist.html">参考</a>）</p>
 </section>
-<section id="id6">
-<h3><span class="section-number">2.3.2. </span>課題2<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<section id="q2">
+<span id="l2-q2"></span><h3><span class="section-number">2.3.2. </span>Q2: 出現頻度<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
+<p>機械学習モデルを構築する前に，<code class="docutils literal notranslate"><span class="pre">income_df</span></code>データに含まれる性別，年収の分布を知りたい．
+性別（男，女），年収（50K以上，50K未満）について，属性値に対応する人数を求めよ．</p>
+<p>※ ヒント: 要素の出現頻度を求めるには<code class="docutils literal notranslate"><span class="pre">pandas.series.value_counts</span></code>メソッドを用いるとよい（<a class="reference external" href="https://note.nkmk.me/python-pandas-value-counts/">参考</a>）</p>
+</section>
+<section id="q3">
+<span id="l2-q3"></span><h3><span class="section-number">2.3.3. </span>Q3: データの集約<a class="headerlink" href="#q3" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">income_df</span></code>データを集約し，学歴ごとに年間収入クラスの内訳（割合）を調べよ．</p>
-<ul class="simple">
-<li><p>ヒント3: pandasのcrosstabメソッドを使う（タイタニックの例を再訪すること）</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">income_df</span><span class="p">[</span><span class="s1">&#39;education&#39;</span><span class="p">],</span> <span class="n">income_df</span><span class="p">[</span><span class="s1">&#39;income&#39;</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>income</th>
-      <th>&lt;=50K</th>
-      <th>&gt;50K</th>
-    </tr>
-    <tr>
-      <th>education</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>10th</th>
-      <td>0.933548</td>
-      <td>0.066452</td>
-    </tr>
-    <tr>
-      <th>11th</th>
-      <td>0.948936</td>
-      <td>0.051064</td>
-    </tr>
-    <tr>
-      <th>12th</th>
-      <td>0.923788</td>
-      <td>0.076212</td>
-    </tr>
-    <tr>
-      <th>1st-4th</th>
-      <td>0.964286</td>
-      <td>0.035714</td>
-    </tr>
-    <tr>
-      <th>5th-6th</th>
-      <td>0.951952</td>
-      <td>0.048048</td>
-    </tr>
-    <tr>
-      <th>7th-8th</th>
-      <td>0.938080</td>
-      <td>0.061920</td>
-    </tr>
-    <tr>
-      <th>9th</th>
-      <td>0.947471</td>
-      <td>0.052529</td>
-    </tr>
-    <tr>
-      <th>Assoc-acdm</th>
-      <td>0.751640</td>
-      <td>0.248360</td>
-    </tr>
-    <tr>
-      <th>Assoc-voc</th>
-      <td>0.738784</td>
-      <td>0.261216</td>
-    </tr>
-    <tr>
-      <th>Bachelors</th>
-      <td>0.585247</td>
-      <td>0.414753</td>
-    </tr>
-    <tr>
-      <th>Doctorate</th>
-      <td>0.259080</td>
-      <td>0.740920</td>
-    </tr>
-    <tr>
-      <th>HS-grad</th>
-      <td>0.840491</td>
-      <td>0.159509</td>
-    </tr>
-    <tr>
-      <th>Masters</th>
-      <td>0.443413</td>
-      <td>0.556587</td>
-    </tr>
-    <tr>
-      <th>Preschool</th>
-      <td>1.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>Prof-school</th>
-      <td>0.265625</td>
-      <td>0.734375</td>
-    </tr>
-    <tr>
-      <th>Some-college</th>
-      <td>0.809765</td>
-      <td>0.190235</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
+<p>※ ヒント: pandasの<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.crosstab.html">crosstab</a>関数を使う（タイタニックの例でも使ったので，確認してみよう）</p>
 </section>
-<section id="id7">
-<h3><span class="section-number">2.3.3. </span>課題3<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">income_df</span></code>データに決定木アルゴリズムを適用し，年収（<code class="docutils literal notranslate"><span class="pre">income</span></code>）の分類における各属性（列）の寄与度を求めよ．</p>
+<section id="q4">
+<span id="l2-q4"></span><h3><span class="section-number">2.3.4. </span>Q4: 学習のためのデータ分割<a class="headerlink" href="#q4" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">income_df</span></code>データに決定木アルゴリズムを適用するために，データを7:3に分割し，7割のデータを学習用データ（<code class="docutils literal notranslate"><span class="pre">income_train_df</span></code>），3割のデータを評価用データ（<code class="docutils literal notranslate"><span class="pre">income_test_df</span></code>）としなさい．</p>
+</section>
+<section id="q5">
+<span id="l2-q5"></span><h3><span class="section-number">2.3.5. </span>Q5: 決定木の構築<a class="headerlink" href="#q5" title="Link to this heading">#</a></h3>
+<p>以下は，「年齢」「雇用形態」「学歴」「婚姻の有無」「職業」「家族内における役割」「人種」「性別」「週あたりの労働時間」「出身国」の属性に着目して，<code class="docutils literal notranslate"><span class="pre">income_df</span></code>データから年収カテゴリを予測する決定木を構築するコードである．
+<code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">----------</span> </code> の間を埋めてコードを完成させなさい．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># データを学習用（70%）と評価用（30%）に分割する</span>
-<span class="n">income_train_df</span><span class="p">,</span> <span class="n">income_test_df</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-                                <span class="n">income_df</span><span class="p">,</span>
-                                <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
-                                <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                                <span class="n">stratify</span><span class="o">=</span><span class="n">income_df</span><span class="o">.</span><span class="n">income</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;workclass&#39;</span><span class="p">,</span> <span class="s1">&#39;education&#39;</span><span class="p">,</span> <span class="s1">&#39;marital-status&#39;</span><span class="p">,</span> <span class="s1">&#39;occupation&#39;</span><span class="p">,</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 注目する属性</span>
+<span class="n">target_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;workclass&#39;</span><span class="p">,</span> <span class="s1">&#39;education&#39;</span><span class="p">,</span> <span class="s1">&#39;marital-status&#39;</span><span class="p">,</span> <span class="s1">&#39;occupation&#39;</span><span class="p">,</span> 
                    <span class="s1">&#39;relationship&#39;</span><span class="p">,</span> <span class="s1">&#39;race&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">,</span> <span class="s1">&#39;hours-per-week&#39;</span><span class="p">,</span> <span class="s1">&#39;native-country&#39;</span><span class="p">]</span>
+
+<span class="c1"># 数値に変換したいカテゴリ変数</span>
 <span class="n">encoded_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;education&#39;</span><span class="p">,</span> <span class="s1">&#39;workclass&#39;</span><span class="p">,</span> <span class="s1">&#39;marital-status&#39;</span><span class="p">,</span> <span class="s1">&#39;relationship&#39;</span><span class="p">,</span> <span class="s1">&#39;occupation&#39;</span><span class="p">,</span> <span class="s1">&#39;native-country&#39;</span><span class="p">,</span> <span class="s1">&#39;race&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">]</span>
 
+<span class="c1"># カテゴリ変数を数値情報に変換する</span>
 <span class="n">encoder</span> <span class="o">=</span> <span class="n">category_encoders</span><span class="o">.</span><span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="n">encoded_features</span><span class="p">,</span> <span class="n">use_cat_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">income_train_df</span><span class="p">[</span><span class="n">target_features</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><style>#sk-container-id-4 {color: black;background-color: white;}#sk-container-id-4 pre{padding: 0;}#sk-container-id-4 div.sk-toggleable {background-color: white;}#sk-container-id-4 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-4 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-4 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-4 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-4 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-4 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-4 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-4 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-4 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-4 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-4 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-4 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-4 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-4 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-4 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-4 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-4 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-4 div.sk-item {position: relative;z-index: 1;}#sk-container-id-4 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-4 div.sk-item::before, #sk-container-id-4 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-4 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-4 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-4 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-4 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-4 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-4 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-4 div.sk-label-container {text-align: center;}#sk-container-id-4 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-4 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-4" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>OneHotEncoder(cols=[&#x27;education&#x27;, &#x27;workclass&#x27;, &#x27;marital-status&#x27;, &#x27;relationship&#x27;,
-                    &#x27;occupation&#x27;, &#x27;native-country&#x27;, &#x27;race&#x27;, &#x27;sex&#x27;],
-              use_cat_names=True)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox" checked><label for="sk-estimator-id-4" class="sk-toggleable__label sk-toggleable__label-arrow">OneHotEncoder</label><div class="sk-toggleable__content"><pre>OneHotEncoder(cols=[&#x27;education&#x27;, &#x27;workclass&#x27;, &#x27;marital-status&#x27;, &#x27;relationship&#x27;,
-                    &#x27;occupation&#x27;, &#x27;native-country&#x27;, &#x27;race&#x27;, &#x27;sex&#x27;],
-              use_cat_names=True)</pre></div></div></div></div></div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 予測に用いる年収情報以外のすべての指標をX_trainに</span>
+
+<span class="c1"># ---------------------</span>
+<span class="c1"># ここから必要なコードを埋める</span>
+
+<span class="c1"># 予測に用いる年収情報以外のすべての指標をX_trainに</span>
 <span class="n">X_train</span> <span class="o">=</span> <span class="n">income_train_df</span><span class="p">[</span><span class="n">target_features</span><span class="p">]</span>
 
 <span class="c1"># カテゴリ変数を数値情報に変換</span>
@@ -1858,173 +1697,29 @@ Name: income, dtype: int64
 <span class="c1"># y_trainは年収クラスをあらわす指標</span>
 <span class="n">y_train</span> <span class="o">=</span> <span class="n">income_train_df</span><span class="o">.</span><span class="n">income</span>
 
-<span class="c1"># 学習</span>
+<span class="c1"># 学習器の定義（決定木を使う）</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;entropy&#39;</span><span class="p">,</span>
                                <span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># ここまで必要なコードを埋める</span>
+<span class="c1"># ---------------------</span>
+
+<span class="c1"># 学習用データを使って学習</span>
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><style>#sk-container-id-5 {color: black;background-color: white;}#sk-container-id-5 pre{padding: 0;}#sk-container-id-5 div.sk-toggleable {background-color: white;}#sk-container-id-5 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-5 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-5 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-5 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-5 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-5 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-5 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-5 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-5 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-5 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-5 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-5 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-5 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-5 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-5 div.sk-item {position: relative;z-index: 1;}#sk-container-id-5 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-5 div.sk-item::before, #sk-container-id-5 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-5 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-5 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-5 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-5 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-5 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-5 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-5 div.sk-label-container {text-align: center;}#sk-container-id-5 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-5 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-5" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeClassifier(criterion=&#x27;entropy&#x27;, max_depth=5)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox" checked><label for="sk-estimator-id-5" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeClassifier</label><div class="sk-toggleable__content"><pre>DecisionTreeClassifier(criterion=&#x27;entropy&#x27;, max_depth=5)</pre></div></div></div></div></div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">importance</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="n">importance</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>age	0.0894604682456178
-workclass_ Federal-gov	0.0
-workclass_ Private	0.0
-workclass_ State-gov	0.000640985686209342
-workclass_ Self-emp-inc	0.0
-workclass_ ?	0.0
-workclass_ Local-gov	0.0
-workclass_ Self-emp-not-inc	0.0
-workclass_ Without-pay	0.0
-workclass_ Never-worked	0.0
-education_ Bachelors	0.06141563902135156
-education_ 10th	0.0
-education_ Some-college	0.006168600381132655
-education_ 11th	0.0
-education_ 12th	0.0
-education_ Prof-school	0.003625407861733974
-education_ Assoc-voc	0.0
-education_ HS-grad	0.00881490359411402
-education_ Masters	0.010774717032624306
-education_ Doctorate	0.0
-education_ Assoc-acdm	0.0
-education_ 7th-8th	0.0
-education_ 9th	0.0
-education_ 1st-4th	0.0
-education_ Preschool	0.0
-education_ 5th-6th	0.0
-marital-status_ Divorced	0.0
-marital-status_ Separated	0.0
-marital-status_ Married-civ-spouse	0.5943231227829802
-marital-status_ Never-married	0.0
-marital-status_ Widowed	0.0
-marital-status_ Married-spouse-absent	0.0
-marital-status_ Married-AF-spouse	0.0
-occupation_ Prof-specialty	0.07941724495727506
-occupation_ Other-service	0.0
-occupation_ Exec-managerial	0.0643690097067649
-occupation_ ?	0.0
-occupation_ Adm-clerical	0.0
-occupation_ Machine-op-inspct	0.0
-occupation_ Sales	0.0
-occupation_ Transport-moving	0.0
-occupation_ Craft-repair	0.0
-occupation_ Handlers-cleaners	0.0
-occupation_ Tech-support	0.0
-occupation_ Farming-fishing	0.0
-occupation_ Protective-serv	0.0011395499411790816
-occupation_ Priv-house-serv	0.0
-occupation_ Armed-Forces	0.0
-relationship_ Unmarried	0.0
-relationship_ Own-child	0.0
-relationship_ Husband	0.0
-relationship_ Not-in-family	0.0
-relationship_ Wife	0.0
-relationship_ Other-relative	0.0
-race_ White	0.0
-race_ Black	0.0
-race_ Amer-Indian-Eskimo	0.0
-race_ Asian-Pac-Islander	0.0
-race_ Other	0.0
-sex_ Male	0.0041206015012343125
-sex_ Female	0.0
-hours-per-week	0.07499207892598281
-native-country_ United-States	0.0
-native-country_ Mexico	0.0
-native-country_ ?	0.0
-native-country_ Puerto-Rico	0.0
-native-country_ Ecuador	0.0
-native-country_ Canada	0.0
-native-country_ Jamaica	0.0
-native-country_ Philippines	0.0
-native-country_ Ireland	0.0
-native-country_ Columbia	0.0
-native-country_ Cuba	0.0
-native-country_ Vietnam	0.0
-native-country_ South	0.0
-native-country_ Portugal	0.0007376703617999955
-native-country_ Scotland	0.0
-native-country_ England	0.0
-native-country_ Germany	0.0
-native-country_ Dominican-Republic	0.0
-native-country_ India	0.0
-native-country_ Trinadad&amp;Tobago	0.0
-native-country_ Poland	0.0
-native-country_ Haiti	0.0
-native-country_ El-Salvador	0.0
-native-country_ Greece	0.0
-native-country_ Taiwan	0.0
-native-country_ Guatemala	0.0
-native-country_ China	0.0
-native-country_ Outlying-US(Guam-USVI-etc)	0.0
-native-country_ Japan	0.0
-native-country_ Nicaragua	0.0
-native-country_ Italy	0.0
-native-country_ Hong	0.0
-native-country_ Iran	0.0
-native-country_ Cambodia	0.0
-native-country_ France	0.0
-native-country_ Honduras	0.0
-native-country_ Yugoslavia	0.0
-native-country_ Peru	0.0
-native-country_ Hungary	0.0
-native-country_ Laos	0.0
-native-country_ Thailand	0.0
-native-country_ Holand-Netherlands	0.0
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="id8">
-<h3><span class="section-number">2.3.4. </span>課題4<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
-<p>課題3の結果をもとに年収分類に寄与する特徴量を（最大5つ）特定し，その特徴量のみを用いて再度決定木モデルを構築せよ．その際，できる限りシンプルなモデルになるよう，あまり木が深くならないよう調整すること．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;education&#39;</span><span class="p">,</span> <span class="s1">&#39;marital-status&#39;</span><span class="p">,</span> <span class="s1">&#39;occupation&#39;</span><span class="p">,</span> <span class="s1">&#39;hours-per-week&#39;</span><span class="p">]</span>
-<span class="n">encoded_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;education&#39;</span><span class="p">,</span> <span class="s1">&#39;marital-status&#39;</span><span class="p">,</span> <span class="s1">&#39;occupation&#39;</span><span class="p">]</span>
-
-<span class="n">encoder</span> <span class="o">=</span> <span class="n">category_encoders</span><span class="o">.</span><span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="n">encoded_features</span><span class="p">,</span> <span class="n">use_cat_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">income_train_df</span><span class="p">[</span><span class="n">target_features</span><span class="p">])</span>
-
-<span class="n">X_train</span> <span class="o">=</span> <span class="n">income_train_df</span><span class="p">[</span><span class="n">target_features</span><span class="p">]</span>
-<span class="n">X_train</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="n">income_train_df</span><span class="o">.</span><span class="n">income</span>
-
-<span class="c1"># 学習</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;entropy&#39;</span><span class="p">,</span>
-                               <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><style>#sk-container-id-6 {color: black;background-color: white;}#sk-container-id-6 pre{padding: 0;}#sk-container-id-6 div.sk-toggleable {background-color: white;}#sk-container-id-6 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-6 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-6 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-6 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-6 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-6 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-6 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-6 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-6 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-6 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-6 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-6 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-6 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-6 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-6 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-6 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-6 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-6 div.sk-item {position: relative;z-index: 1;}#sk-container-id-6 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-6 div.sk-item::before, #sk-container-id-6 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-6 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-6 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-6 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-6 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-6 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-6 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-6 div.sk-label-container {text-align: center;}#sk-container-id-6 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-6 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-6" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeClassifier(criterion=&#x27;entropy&#x27;, max_depth=3)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox" checked><label for="sk-estimator-id-6" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeClassifier</label><div class="sk-toggleable__content"><pre>DecisionTreeClassifier(criterion=&#x27;entropy&#x27;, max_depth=3)</pre></div></div></div></div></div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Source</span><span class="p">(</span><span class="n">export_graphviz</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                       <span class="n">feature_names</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
-                       <span class="n">class_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&lt;=50K&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;50K&#39;</span><span class="p">],</span>
-                       <span class="n">proportion</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                       <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span> <span class="c1"># 見た目の調整</span>
-                      <span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/5aa465660a4475d8eab0b2448bd652160932de23cd1c3e8c1ca339c55ac8a476.svg" src="../_images/5aa465660a4475d8eab0b2448bd652160932de23cd1c3e8c1ca339c55ac8a476.svg" />
-</div>
-</div>
+<section id="q6">
+<span id="l2-q6"></span><h3><span class="section-number">2.3.6. </span>Q6: 決定木における各属性の寄与度<a class="headerlink" href="#q6" title="Link to this heading">#</a></h3>
+<p>構築した決定木モデル（<code class="docutils literal notranslate"><span class="pre">model</span></code>）を用いて，年収（<code class="docutils literal notranslate"><span class="pre">income</span></code>）の分類における各属性（列）の寄与度を表示しなさい．
+なお，寄与度がゼロのものは表示しなくてよい．</p>
+</section>
+<section id="q7">
+<span id="l2-q7"></span><h3><span class="section-number">2.3.7. </span>Q7: 決定木の再構築<a class="headerlink" href="#q7" title="Link to this heading">#</a></h3>
+<p>Q6の結果をもとに年収分類に寄与する特徴量を（最大5つ）特定し，その特徴量のみを用いて再度決定木モデルを構築しなさい．
+その際，あまり木が深くならないよう調整し，できる限りシンプルなモデルになるようにすること．</p>
 </section>
 </section>
 </section>
@@ -2065,7 +1760,7 @@ native-country_ Holand-Netherlands	0.0
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">1. </span>第1回: pandas入門</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>pandas入門</p>
       </div>
     </a>
 </div>
@@ -2088,10 +1783,13 @@ native-country_ Holand-Netherlands	0.0
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.1. 例題1: アヤメ</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.2. 例題2: タイタニック号の乗船者データ</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2.3. クイズ</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">2.3.1. 課題1</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">2.3.2. 課題2</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">2.3.3. 課題3</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">2.3.4. 課題4</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">2.3.1. Q1: ヒストグラム</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">2.3.2. Q2: 出現頻度</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q3">2.3.3. Q3: データの集約</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q4">2.3.4. Q4: 学習のためのデータ分割</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q5">2.3.5. Q5: 決定木の構築</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q6">2.3.6. Q6: 決定木における各属性の寄与度</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q7">2.3.7. Q7: 決定木の再構築</a></li>
 </ul>
 </li>
 </ul>
