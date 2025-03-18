@@ -1,0 +1,1466 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3. K-means &amp; 階層的クラスタリング &#8212; 機械学習発展（導入編）の講義ノート</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/kmeans-and-hierarchical-clustering';</script>
+    <link rel="canonical" href="https://mlnote.hontolab.org/content/kmeans-and-hierarchical-clustering.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="2. 決定木から始める機械学習" href="introduction-to-ml.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">機械学習発展（導入編）の講義ノート</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">はじめに</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction-to-pandas.html">1. pandas入門</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction-to-ml.html">2. 決定木から始める機械学習</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">クラスタリング</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. K-means &amp; 階層的クラスタリング</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/kmeans-and-hierarchical-clustering.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/content/kmeans-and-hierarchical-clustering.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>K-means & 階層的クラスタリング</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.1. 例題1: 人工データに対するK-meansクラスタリング</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.2. 例題2: とある購買データに対する階層的クラスタリング</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3.2.1. データ間の距離の計算</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.2.2. 階層的クラスタリングの実行</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3.3. クイズ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">3.3.1. Q1: ユークリッド距離とコサイン類似度</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">3.3.2. Q2: 距離/類似度の解釈</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q3">3.3.3. Q3: ポケモンデータ再び</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q4-k-means">3.3.4. Q4: K-means</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q5">3.3.5. Q5: クラスタの特徴</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q6">3.3.6. Q6: 階層的クラスタリング結果の比較</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="k-means">
+<h1><span class="section-number">3. </span>K-means &amp; 階層的クラスタリング<a class="headerlink" href="#k-means" title="Link to this heading">#</a></h1>
+<p>このHands-onでは下記の2種類のデータを用いて，K-meansと階層的クラスタリングを体験する．</p>
+<ul class="simple">
+<li><p>人工的な2次元データ</p></li>
+<li><p>とある購買データ</p></li>
+</ul>
+<p>Hands-onに先立って，必要なライブラリを読み込んでおこう．</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 表形式のデータを操作するためのライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># 機械学習用ライブラリsklearnのKmeansクラス</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="c1"># 距離行列の計算のためのライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">distance</span>
+
+<span class="c1"># 階層的クラスタリング用のライブラリ</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.cluster.hierarchy</span><span class="w"> </span><span class="kn">import</span> <span class="n">dendrogram</span><span class="p">,</span> <span class="n">linkage</span><span class="p">,</span> <span class="n">cut_tree</span>
+
+<span class="c1"># グラフ描画ライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span><span class="p">;</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+
+<span class="c1"># 警告文を表示させないおまじない</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<section id="id1">
+<h2><span class="section-number">3.1. </span>例題1: 人工データに対するK-meansクラスタリング<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>K-meansクラスタリングの効果や特徴を知るために，実際にK-meansを使ってみよう．</p>
+<p>例題1で用いるデータは<a class="reference external" href="http://cs.joensuu.fi/sipu/datasets/">University of Eastern Finlandの計算学部が公開しているデータセット</a>である．
+このデータは人工的に作られた5000個の2次元データで，各次元に特に意味はない．</p>
+<p>まずは以下のコードを実行して，<code class="docutils literal notranslate"><span class="pre">s1_df</span></code>変数にデータを読み込もう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://cs.joensuu.fi/sipu/datasets/s1.txt&quot;</span>
+<span class="n">s1_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span>
+
+<span class="c1"># 最初の10件のデータを表示</span>
+<span class="n">s1_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>664159</td>
+      <td>550946</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>665845</td>
+      <td>557965</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>597173</td>
+      <td>575538</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>618600</td>
+      <td>551446</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>635690</td>
+      <td>608046</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>588100</td>
+      <td>557588</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>582015</td>
+      <td>546191</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>604678</td>
+      <td>574577</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>572029</td>
+      <td>518313</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>604737</td>
+      <td>574591</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>データの傾向を見るために，XY平面にデータをプロットしてみよう
+下記のコードを実行すると，データの散布図を表示できる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">s1_df</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">s1_df</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/4fe94f7451543a12642a63524cd3f94f760505d7c409f331138edaf4700d683c.png" src="../_images/4fe94f7451543a12642a63524cd3f94f760505d7c409f331138edaf4700d683c.png" />
+</div>
+</div>
+<p>散布図を見ると，このデータセットの特徴が分かる．
+目視レベルでは，データは<strong>15個</strong>のクラスタに分かれているように見える．</p>
+<p>では，K-meansクラスタリングによって，目論見どおりにデータを15個のクラスタに分けられるか試してみよう．
+以下のコードを実行する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># クラスタリングを実行</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">&#39;random&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">s1_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KMeans(init=&#39;random&#39;, n_clusters=15)
+</pre></div>
+</div>
+</div>
+</div>
+<p>たった2行でクラスタリングが完了した．
+クラスタリング結果は<code class="docutils literal notranslate"><span class="pre">model</span></code>が保持している．
+各データがどのクラスタに分類されたかを抽出するには，以下のコードを実行する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 結果を格納</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">labels_</span>
+
+<span class="c1"># 表示</span>
+<span class="n">labels</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 8,  8,  8, ..., 10, 10, 10], dtype=int32)
+</pre></div>
+</div>
+</div>
+</div>
+<p>K-meansクラスタリングの結果を踏まえて，散布図を色分けしてみよう．
+今回の分析ではクラスタの数が15と多いので，下記のコードを実行して色分けのための準備を行う．</p>
+<p>下記コードを実行して，散布図を15のグループごとに色分けを行ってみよう．
+K-meansクラスタリングは，目論見どおりにデータを分割できていただろうか？（<a class="reference internal" href="#l3-q3"><span class="std std-ref">★Quiz 3</span></a>，<a class="reference internal" href="#l3-q4"><span class="std std-ref">★Quiz 4</span></a>）</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">s1_df</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">s1_df</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+    <span class="n">c</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="c1"># クラスタに応じて色分け</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="c1"># 透明度</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="c1"># マーカーのサイズ</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;tab20_r&quot;</span> <span class="c1"># カラーパレット（20色対応）</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x13fdd92e0&gt;
+</pre></div>
+</div>
+<img alt="../_images/cae3567638af9f08eb90f13002ec59fddc71e99fa8e48fecc1237bd32077722a.png" src="../_images/cae3567638af9f08eb90f13002ec59fddc71e99fa8e48fecc1237bd32077722a.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="id2">
+<h2><span class="section-number">3.2. </span>例題2: とある購買データに対する階層的クラスタリング<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>次はあるeコマースサイトにおける購買データを用いて，階層的クラスタリングを用いる例題に取り組んでみよう．
+まずは何も考えずに，以下のコードを実行してHands-onで用いるデータをダウンロードしよう．</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># zipファイルをダウンロードし解凍</span>
+<span class="o">!</span>wget<span class="w"> </span>https://gihyo.jp/assets/files/book/2014/978-4-7741-6674-2/download/DM_sampledata.zip
+<span class="o">!</span>unzip<span class="w"> </span>DM_sampledata.zip
+</pre></div>
+</div>
+</div>
+</div>
+<p>次にダウンロードしたデータをデータフレーム化して，<code class="docutils literal notranslate"><span class="pre">e_commerce_df</span></code>変数に代入する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># データをpandasのデータフレームとして読み込む</span>
+<span class="n">e_commerce_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;DM_sampledata/ch5_3.txt&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+<span class="c1"># ファイルを読み込んだので，元ファイル/ディレクトリを削除しておく</span>
+<span class="o">!</span>rm<span class="w"> </span>-rf<span class="w"> </span>DM_sampledata.zip<span class="w"> </span>DM_sampledata
+</pre></div>
+</div>
+</div>
+</div>
+<p>変数<code class="docutils literal notranslate"><span class="pre">e_commerce_df</span></code>に読み込まれたデータフレームには，</p>
+<ul class="simple">
+<li><p>書籍</p></li>
+<li><p>衣服</p></li>
+<li><p>化粧品</p></li>
+<li><p>食料品</p></li>
+<li><p>飲料</p></li>
+</ul>
+<p>を1年間で何回購入したかについて，100名の顧客のデータが記録されている（このデータは<a class="reference external" href="https://gihyo.jp/book/2014/978-4-7741-6674-2/support">書籍「手を動かしながら学ぶビジネスに活かすデータマイニング」のサポートページにて公開されているデータ</a>である）．</p>
+<p>以下のコードを実行し，中身を確認してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 最初の10件を表示</span>
+<span class="n">e_commerce_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>books</th>
+      <th>cloths</th>
+      <th>cosmetics</th>
+      <th>foods</th>
+      <th>liquors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>43</td>
+      <td>0</td>
+      <td>3</td>
+      <td>4</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>25</td>
+      <td>5</td>
+      <td>5</td>
+      <td>3</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>19</td>
+      <td>0</td>
+      <td>2</td>
+      <td>3</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>31</td>
+      <td>3</td>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>46</td>
+      <td>9</td>
+      <td>2</td>
+      <td>5</td>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id3">
+<h3><span class="section-number">3.2.1. </span>データ間の距離の計算<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>Pythonで階層的クラスタリングを実行するには，<code class="docutils literal notranslate"><span class="pre">scipy</span></code>ライブラリの<code class="docutils literal notranslate"><span class="pre">linkage</span></code>関数を用いるのが簡単だ．
+<code class="docutils literal notranslate"><span class="pre">linkage</span></code>関数は入力（第1引数）として <strong>ベクトル間の距離（を格納した行列データ）</strong> が必要となる．
+ここでベクトルとは，n個の特徴量からなるデータを意味する．
+今回の<code class="docutils literal notranslate"><span class="pre">e_commerce_df</span></code>のデータフレームでは，1行1行が1名の顧客情報を表すベクトルデータとなる．
+では，距離の情報を用意しよう．</p>
+<p>正攻法でやるならば，100行ある<code class="docutils literal notranslate"><span class="pre">e_commerce_df</span></code>の顧客データのすべての組み合わせを比較して，各顧客ベクトルの距離を計算する必要がある．
+<code class="docutils literal notranslate"><span class="pre">scipy</span></code>ライブラリはそれを簡単に実行してくれる便利な関数<code class="docutils literal notranslate"><span class="pre">distance.pdist</span></code>を提供している．</p>
+<p>以下のコードを実行してベクトル間の距離を計算してみよう（<a class="reference internal" href="#l3-q1"><span class="std std-ref">★Quiz 1</span></a>，<a class="reference internal" href="#l3-q2"><span class="std std-ref">★Quiz 2</span></a>）．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pdist関数を使い，全ベクトル間の距離を計算．距離の定義にはユークリッド距離を用いる</span>
+<span class="n">dist_matrix</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">pdist</span><span class="p">(</span><span class="n">e_commerce_df</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span>
+
+<span class="c1"># 距離行列を表示</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">distance</span><span class="o">.</span><span class="n">squareform</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>90</th>
+      <th>91</th>
+      <th>92</th>
+      <th>93</th>
+      <th>94</th>
+      <th>95</th>
+      <th>96</th>
+      <th>97</th>
+      <th>98</th>
+      <th>99</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.000000</td>
+      <td>18.841444</td>
+      <td>24.124676</td>
+      <td>13.341664</td>
+      <td>10.049876</td>
+      <td>18.708287</td>
+      <td>14.628739</td>
+      <td>41.388404</td>
+      <td>13.228757</td>
+      <td>9.486833</td>
+      <td>...</td>
+      <td>8.426150</td>
+      <td>19.442222</td>
+      <td>14.933185</td>
+      <td>35.270384</td>
+      <td>5.744563</td>
+      <td>12.124356</td>
+      <td>23.452079</td>
+      <td>18.920888</td>
+      <td>44.068129</td>
+      <td>17.378147</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>18.841444</td>
+      <td>0.000000</td>
+      <td>8.888194</td>
+      <td>9.000000</td>
+      <td>22.045408</td>
+      <td>11.789826</td>
+      <td>22.248595</td>
+      <td>25.416530</td>
+      <td>25.179357</td>
+      <td>23.302360</td>
+      <td>...</td>
+      <td>15.427249</td>
+      <td>15.968719</td>
+      <td>17.663522</td>
+      <td>49.386233</td>
+      <td>18.920888</td>
+      <td>16.431677</td>
+      <td>17.748239</td>
+      <td>9.110434</td>
+      <td>26.589472</td>
+      <td>23.216374</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>24.124676</td>
+      <td>8.888194</td>
+      <td>0.000000</td>
+      <td>12.806248</td>
+      <td>28.548205</td>
+      <td>13.416408</td>
+      <td>29.866369</td>
+      <td>25.238859</td>
+      <td>30.347982</td>
+      <td>27.856777</td>
+      <td>...</td>
+      <td>21.283797</td>
+      <td>22.583180</td>
+      <td>23.388031</td>
+      <td>56.797887</td>
+      <td>24.515301</td>
+      <td>20.024984</td>
+      <td>24.083189</td>
+      <td>12.247449</td>
+      <td>26.191602</td>
+      <td>30.033315</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>13.341664</td>
+      <td>9.000000</td>
+      <td>12.806248</td>
+      <td>0.000000</td>
+      <td>16.340135</td>
+      <td>7.071068</td>
+      <td>19.390719</td>
+      <td>29.376862</td>
+      <td>18.193405</td>
+      <td>15.556349</td>
+      <td>...</td>
+      <td>9.327379</td>
+      <td>13.564660</td>
+      <td>11.958261</td>
+      <td>44.810713</td>
+      <td>12.124356</td>
+      <td>7.937254</td>
+      <td>17.146428</td>
+      <td>7.348469</td>
+      <td>32.341923</td>
+      <td>18.654758</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>10.049876</td>
+      <td>22.045408</td>
+      <td>28.548205</td>
+      <td>16.340135</td>
+      <td>0.000000</td>
+      <td>20.856654</td>
+      <td>8.185353</td>
+      <td>39.597980</td>
+      <td>12.409674</td>
+      <td>8.426150</td>
+      <td>...</td>
+      <td>7.874008</td>
+      <td>14.525839</td>
+      <td>12.884099</td>
+      <td>28.583212</td>
+      <td>6.000000</td>
+      <td>13.190906</td>
+      <td>18.193405</td>
+      <td>19.261360</td>
+      <td>43.162484</td>
+      <td>8.888194</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>12.124356</td>
+      <td>16.431677</td>
+      <td>20.024984</td>
+      <td>7.937254</td>
+      <td>13.190906</td>
+      <td>9.539392</td>
+      <td>18.357560</td>
+      <td>34.146742</td>
+      <td>11.661904</td>
+      <td>9.746794</td>
+      <td>...</td>
+      <td>9.055385</td>
+      <td>14.106736</td>
+      <td>8.485281</td>
+      <td>40.484565</td>
+      <td>8.831761</td>
+      <td>0.000000</td>
+      <td>18.466185</td>
+      <td>13.228757</td>
+      <td>37.881394</td>
+      <td>15.459625</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>23.452079</td>
+      <td>17.748239</td>
+      <td>24.083189</td>
+      <td>17.146428</td>
+      <td>18.193405</td>
+      <td>18.708287</td>
+      <td>16.000000</td>
+      <td>23.811762</td>
+      <td>24.269322</td>
+      <td>22.315914</td>
+      <td>...</td>
+      <td>16.583124</td>
+      <td>5.830952</td>
+      <td>16.155494</td>
+      <td>40.570926</td>
+      <td>19.672316</td>
+      <td>18.466185</td>
+      <td>0.000000</td>
+      <td>13.928388</td>
+      <td>27.166155</td>
+      <td>12.727922</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>18.920888</td>
+      <td>9.110434</td>
+      <td>12.247449</td>
+      <td>7.348469</td>
+      <td>19.261360</td>
+      <td>10.198039</td>
+      <td>20.928450</td>
+      <td>23.216374</td>
+      <td>23.643181</td>
+      <td>20.297783</td>
+      <td>...</td>
+      <td>12.529964</td>
+      <td>11.832160</td>
+      <td>15.394804</td>
+      <td>47.138095</td>
+      <td>16.822604</td>
+      <td>13.228757</td>
+      <td>13.928388</td>
+      <td>0.000000</td>
+      <td>26.758176</td>
+      <td>19.697716</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>44.068129</td>
+      <td>26.589472</td>
+      <td>26.191602</td>
+      <td>32.341923</td>
+      <td>43.162484</td>
+      <td>30.854497</td>
+      <td>41.158231</td>
+      <td>8.185353</td>
+      <td>47.021272</td>
+      <td>45.563143</td>
+      <td>...</td>
+      <td>37.960506</td>
+      <td>29.933259</td>
+      <td>37.054015</td>
+      <td>67.216070</td>
+      <td>42.178193</td>
+      <td>37.881394</td>
+      <td>27.166155</td>
+      <td>26.758176</td>
+      <td>0.000000</td>
+      <td>39.597980</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>17.378147</td>
+      <td>23.216374</td>
+      <td>30.033315</td>
+      <td>18.654758</td>
+      <td>8.888194</td>
+      <td>21.587033</td>
+      <td>8.366600</td>
+      <td>36.069378</td>
+      <td>15.716234</td>
+      <td>13.490738</td>
+      <td>...</td>
+      <td>13.076697</td>
+      <td>10.954451</td>
+      <td>13.527749</td>
+      <td>29.427878</td>
+      <td>12.845233</td>
+      <td>15.459625</td>
+      <td>12.727922</td>
+      <td>19.697716</td>
+      <td>39.597980</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>100 rows × 100 columns</p>
+</div></div></div>
+</div>
+<p>100行あるベクトルデータのすべての組み合わせについて距離を計算した結果（距離行列）が<code class="docutils literal notranslate"><span class="pre">dist_matrix</span></code>として得られた．
+この距離行列を使って階層的クラスタリングを実行してみよう．</p>
+</section>
+<section id="id4">
+<h3><span class="section-number">3.2.2. </span>階層的クラスタリングの実行<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>講義でも述べたように，階層的クラスタリングではクラスタの作り方の基準として</p>
+<ul class="simple">
+<li><p>最長距離法（complete linkage method）</p></li>
+<li><p>最短距離法（single linkage method）</p></li>
+<li><p>重心法（centroid method）</p></li>
+<li><p>群平均法（group average method）</p></li>
+<li><p>ウォード法（Ward’s method）</p></li>
+</ul>
+<p>などがある．
+今回はウォード法を使ってみよう．
+以下のコードを実行して，ウォード法を用いた階層的クラスタリングを適用する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e_commerce_result</span> <span class="o">=</span> <span class="n">linkage</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;ward&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>階層的クラスタリングの結果が変数<code class="docutils literal notranslate"><span class="pre">e_commerce_result</span></code>に格納された．</p>
+<p>階層的クラスタリングにおいて，各要素（ベクトル）が徐々に併合されていく結果を示したものを<strong>デンドログラム</strong>と呼ぶ．
+以下のコードを実行し，デンドログラムを表示させてみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 図の大きさの設定</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">))</span>
+
+<span class="c1"># 図の表示</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">dendrogram</span><span class="p">(</span><span class="n">e_commerce_result</span><span class="p">,</span>
+                 <span class="n">leaf_font_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b670550ad3f381cf552381bdc278b453e06b48c20f9e15e45a6706218a66ec34.png" src="../_images/b670550ad3f381cf552381bdc278b453e06b48c20f9e15e45a6706218a66ec34.png" />
+</div>
+</div>
+<p>デンドログラムが表示されると，階層的クラスタリングを実行したという気分になる（<a class="reference internal" href="#l3-q6"><span class="std std-ref">★Quiz 6</span></a>）．</p>
+<p>今回は顧客の一人一人について私たちは特に知識がないため，この図を眺めてもよく分からない．
+そこで，適当な深さでデンドログラムの枝を切って，各要素をクラスタに分けてみよう．
+その上で，各クラスタに入っている要素がどのような性質を持っているかを分析してみよう．</p>
+<p>デンドログラムの枝を切り，指定したクラスタ数に分割するには<code class="docutils literal notranslate"><span class="pre">cutree</span></code>関数を用いる．
+<code class="docutils literal notranslate"><span class="pre">k</span></code>に数値を指定すると，デンドログラムをその数のクラスタに分割することができる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 4つのクラスタに分割</span>
+<span class="n">e_commerce_cluster</span> <span class="o">=</span> <span class="n">cut_tree</span><span class="p">(</span><span class="n">e_commerce_result</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># 最初の10件のみ表示</span>
+<span class="n">e_commerce_cluster</span><span class="p">[:</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0, 1, 1, 1, 0, 1, 2, 3, 0, 0])
+</pre></div>
+</div>
+</div>
+</div>
+<p>変数<code class="docutils literal notranslate"><span class="pre">e_commerce_cluster</span></code>に100名の顧客のクラスタ割り当て番号が格納された．</p>
+<p>さて，クラスタリングの結果は変数<code class="docutils literal notranslate"><span class="pre">e_commerce_cluster</span></code>に得られたが，各クラスタがどのような購買傾向を持っているかを分析するには，<code class="docutils literal notranslate"><span class="pre">e_commerce_df</span></code>データと照らし合わせる必要がある．
+そこで，以下のコードを実行して，<code class="docutils literal notranslate"><span class="pre">e_commerce_cluster</span></code>と<code class="docutils literal notranslate"><span class="pre">e_commerce_df</span></code>を結合してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 結合</span>
+<span class="n">new_e_commerce_df</span> <span class="o">=</span> <span class="n">e_commerce_df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+    <span class="n">cluster_id</span> <span class="o">=</span> <span class="n">e_commerce_cluster</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># 先頭の数件のみ表示</span>
+<span class="n">new_e_commerce_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>books</th>
+      <th>cloths</th>
+      <th>cosmetics</th>
+      <th>foods</th>
+      <th>liquors</th>
+      <th>cluster_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>43</td>
+      <td>0</td>
+      <td>3</td>
+      <td>4</td>
+      <td>10</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>25</td>
+      <td>5</td>
+      <td>5</td>
+      <td>3</td>
+      <td>11</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>19</td>
+      <td>0</td>
+      <td>2</td>
+      <td>3</td>
+      <td>8</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>31</td>
+      <td>3</td>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>46</td>
+      <td>9</td>
+      <td>2</td>
+      <td>5</td>
+      <td>7</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>各顧客データがどのクラスタに分類するかのデータが得られた．
+このデータを用いて，クラスタ毎に書籍の平均購買数，衣類の平均購買数などを調べてみよう．</p>
+<p>今回の分析のように，クラスタ毎に何らかの情報をまとめて計算することを<strong>集約演算</strong>と呼ぶ．
+やや複雑に見えるが，以下のコードを実行してみてよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_e_commerce_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
+    <span class="s1">&#39;cluster_id&#39;</span> <span class="c1"># cluster_idでデータをまとめる</span>
+<span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="s1">&#39;mean&#39;</span> <span class="c1"># まとまり毎に平均値を算出</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>books</th>
+      <th>cloths</th>
+      <th>cosmetics</th>
+      <th>foods</th>
+      <th>liquors</th>
+    </tr>
+    <tr>
+      <th>cluster_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>48.363636</td>
+      <td>8.454545</td>
+      <td>4.636364</td>
+      <td>5.636364</td>
+      <td>3.863636</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>26.562500</td>
+      <td>6.187500</td>
+      <td>4.500000</td>
+      <td>4.750000</td>
+      <td>5.531250</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>35.923077</td>
+      <td>17.730769</td>
+      <td>4.423077</td>
+      <td>5.000000</td>
+      <td>6.923077</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>9.200000</td>
+      <td>14.400000</td>
+      <td>5.350000</td>
+      <td>4.250000</td>
+      <td>8.400000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>クラスタ毎に書籍，衣類，化粧品，食料品，飲料の平均購買数が求まった．
+ユーザの購買傾向がクラスタ毎に少しずつ異なることが確認できる（<a class="reference internal" href="#l3-q5"><span class="std std-ref">★Quiz 5</span></a>）．</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id5">
+<h2><span class="section-number">3.3. </span>クイズ<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<section id="q1">
+<span id="l3-q1"></span><h3><span class="section-number">3.3.1. </span>Q1: ユークリッド距離とコサイン類似度<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
+<p>以下の図のように，2次元のユークリッド空間上に，13個のデータ点が図のように分布している状況を考える（各点の座標については，下記コードのリスト<code class="docutils literal notranslate"><span class="pre">data</span></code>に収められている）．</p>
+<p>N次元空間上の任意の点<span class="math notranslate nohighlight">\(v_1\)</span>，<span class="math notranslate nohighlight">\(v_2\)</span>が与えられたとき，<span class="math notranslate nohighlight">\(v_1\)</span>と<span class="math notranslate nohighlight">\(v_2\)</span>のユークリッド距離を求める関数<code class="docutils literal notranslate"><span class="pre">calc_euclidean_dist(v1,</span> <span class="pre">v2)</span></code>，コサイン類似度を求める関数<code class="docutils literal notranslate"><span class="pre">calc_cosine_sim(v1,</span> <span class="pre">v2)</span></code>を実装しなさい．
+さらに，下図の13つの点のすべての組み合わせについて，そのユークリッド距離とコサイン類似度を求めなさい．</p>
+<p>なお，実装する関数の第1引数および第2引数は，実数のリストを想定しなさい．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;ticks&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+
+<span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">)</span> <span class="c1"># zipの逆操作</span>
+
+<span class="c1"># 可視化</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">xs</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">ys</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/749732a1babae37ebf1511bf7fcb9b6d600f53f48215303b26fac8675814a9af.png" src="../_images/749732a1babae37ebf1511bf7fcb9b6d600f53f48215303b26fac8675814a9af.png" />
+</div>
+</div>
+</section>
+<section id="q2">
+<span id="l3-q2"></span><h3><span class="section-number">3.3.2. </span>Q2: 距離/類似度の解釈<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
+<p>Q1で扱ったデータ集合において，点<span class="math notranslate nohighlight">\(v=(11, 4)\)</span>との最も類似する点（最近傍点）を求めたい．
+ユークリッド空間の各次元の意味，最近傍点の定義が下記のような設定である場合，点の類似性を評価する関数としてユークリッド距離，コサイン類似度のどちらを用いるのが適切か考察しながら，最近傍点を求めなさい．</p>
+<ol class="arabic simple">
+<li><p>各点は都市の位置情報を表しており，第1次元は「緯度」，第2次元は「経度」を意味する．最近傍点として，<strong>物理的距離が近い都市</strong>を見つけたいケース．</p></li>
+<li><p>各点はユーザの購買傾向を表しており，第1次元は「ジャンルAに属する商品を購入した回数」，第2次元は「ジャンルBに属する商品を購入した回数」を意味する．最近傍点として，<strong>購買傾向が似ているユーザ</strong>を見つけたいケース．</p></li>
+</ol>
+</section>
+<section id="q3">
+<span id="l3-q3"></span><h3><span class="section-number">3.3.3. </span>Q3: ポケモンデータ再び<a class="headerlink" href="#q3" title="Link to this heading">#</a></h3>
+<p><a class="reference internal" href="#content/introduction-to-pandas.ipynb"><span class="xref myst">第1章pandas入門</span></a>のクイズ課題で用いたデータセット<a class="reference external" href="https://github.com/lgreski/pokemonData">pokemonData</a>を再度ダウンロードし，その内容をpandasデータフレームに変換して変数<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>に代入しなさい．</p>
+<p>その上で，データフレーム<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>から属性<code class="docutils literal notranslate"><span class="pre">HP</span></code>，<code class="docutils literal notranslate"><span class="pre">Attack</span></code>，<code class="docutils literal notranslate"><span class="pre">Defense</span></code>，<code class="docutils literal notranslate"><span class="pre">Sp.</span> <span class="pre">Atk</span></code>，<code class="docutils literal notranslate"><span class="pre">Sp.</span> <span class="pre">Def</span></code>，<code class="docutils literal notranslate"><span class="pre">Speed</span></code>の値だけを抽出し，データフレームの最初の5件だけを表示しなさい．</p>
+</section>
+<section id="q4-k-means">
+<span id="l3-q4"></span><h3><span class="section-number">3.3.4. </span>Q4: K-means<a class="headerlink" href="#q4-k-means" title="Link to this heading">#</a></h3>
+<p>Q3で準備したデータフレーム<code class="docutils literal notranslate"><span class="pre">pokenmon_df</span></code>とK-meansクラスタリング手法を用いて，第1世代ポケモンを7グループに分けたい．
+属性<code class="docutils literal notranslate"><span class="pre">HP</span></code>，<code class="docutils literal notranslate"><span class="pre">Attack</span></code>，<code class="docutils literal notranslate"><span class="pre">Defense</span></code>，<code class="docutils literal notranslate"><span class="pre">Sp.</span> <span class="pre">Atk</span></code>，<code class="docutils literal notranslate"><span class="pre">Sp.</span> <span class="pre">Def</span></code>，<code class="docutils literal notranslate"><span class="pre">Speed</span></code>のみに注目して，第1世代ポケモンデータにK-meansクラスタリングを適用しなさい．</p>
+</section>
+<section id="q5">
+<span id="l3-q5"></span><h3><span class="section-number">3.3.5. </span>Q5: クラスタの特徴<a class="headerlink" href="#q5" title="Link to this heading">#</a></h3>
+<p>Q4で求めた各クラスタに含まれるポケモンデータの<code class="docutils literal notranslate"><span class="pre">HP</span></code>，<code class="docutils literal notranslate"><span class="pre">Attack</span></code>，<code class="docutils literal notranslate"><span class="pre">Defense</span></code>，<code class="docutils literal notranslate"><span class="pre">Sp.</span> <span class="pre">Atk</span></code>，<code class="docutils literal notranslate"><span class="pre">Sp.</span> <span class="pre">Def</span></code>，<code class="docutils literal notranslate"><span class="pre">Speed</span></code>の平均値を求めなさい．</p>
+</section>
+<section id="q6">
+<span id="l3-q6"></span><h3><span class="section-number">3.3.6. </span>Q6: 階層的クラスタリング結果の比較<a class="headerlink" href="#q6" title="Link to this heading">#</a></h3>
+<p>Q1で扱った13個のデータ点について，階層的クラスタリング法を用いて段階的にクラスタに分割したい．</p>
+<p><code class="docutils literal notranslate"><span class="pre">scipy.cluster.hierarchy</span></code>ライブラリの<code class="docutils literal notranslate"><span class="pre">linkage</span></code>関数および<code class="docutils literal notranslate"><span class="pre">dendrogram</span></code>関数を用いて，Q1で扱ったデータに階層的クラスタリングを適用しなさい．
+その際，階層的クラスタリングのクラスタ生成手法として下記3つの方法を用いて，クラスタの生成過程を結果を比較しなさい：</p>
+<ul class="simple">
+<li><p>セントロイド法（centroid）</p></li>
+<li><p>最短距離法（single linkage）</p></li>
+<li><p>最長距離法（complete linkage）</p></li>
+</ul>
+<p>なお，クラスタ間の距離の尺度にはユークリッド距離を用いること．</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="introduction-to-ml.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>決定木から始める機械学習</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.1. 例題1: 人工データに対するK-meansクラスタリング</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.2. 例題2: とある購買データに対する階層的クラスタリング</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3.2.1. データ間の距離の計算</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.2.2. 階層的クラスタリングの実行</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3.3. クイズ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">3.3.1. Q1: ユークリッド距離とコサイン類似度</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">3.3.2. Q2: 距離/類似度の解釈</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q3">3.3.3. Q3: ポケモンデータ再び</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q4-k-means">3.3.4. Q4: K-means</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q5">3.3.5. Q5: クラスタの特徴</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q6">3.3.6. Q6: 階層的クラスタリング結果の比較</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025- by Yusuke Yamamoto.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
