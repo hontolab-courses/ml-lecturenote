@@ -28,8 +28,7 @@ Googleアカウントを持っていない学生は，授業までに取得し�
 | |  日時  | トピック | スライド資料 | Hands-on | クイズ | クイズ解答 |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | 1 | 04/14 | ガイダンス & Pandas入門 |  [Speaker Deck]() | [Here](content/introduction-to-pandas.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-pandas.ipynb) |  |
-| 2 | 04/21 | 機械学習の概要 & はじめての機械学習 |  |  |  |  |
-| 2 | 04/21 | 機械学習の概要 & はじめての機械学習 |  |  |  |  |
+| 2 | 04/21 | 機械学習の概要 & はじめての機械学習 |  | [Here](content/introduction-to-pandas.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-ml.ipynb) |  |
 | 3 | 04/28 | クラスタリング1: K-means & 階層的クラスタリング |   |  |  |  |
 | 4 | 05/12 | クラスタリング2：密度ベースクラスタリング |  |  |  |  |
 | 5 | 05/19 | 分類1: K近傍法 & 教師あり機械学習のお作法 |   |  |  |  |
