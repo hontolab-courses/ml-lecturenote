@@ -11,5 +11,5 @@ parts:
 - caption: クラスタリング
   numbered: True
   chapters:
-    - file: content/clustering.ipynb
+    - file: content/kmeans-and-hierarchical-clustering.ipynb
 
