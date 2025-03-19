@@ -12,4 +12,9 @@ parts:
   numbered: True
   chapters:
     - file: content/kmeans-and-hierarchical-clustering.ipynb
+    - file: content/dbscan-and-others.ipynb
+- caption: 分類
+  numbered: True
+  chapters:
+    - file: content/knn-and-ml-flow.ipynb
 
