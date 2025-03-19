@@ -17,4 +17,4 @@ parts:
   numbered: True
   chapters:
     - file: content/knn-and-ml-flow.ipynb
-
+    - file: content/svm.ipynb
