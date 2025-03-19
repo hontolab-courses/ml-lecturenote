@@ -64,6 +64,7 @@
     <link rel="canonical" href="https://mlnote.hontolab.org/content/knn-and-ml-flow.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7. サポートベクターマシン" href="svm.html" />
     <link rel="prev" title="4. DBSCAN &amp; クラスタリングの実用上の問題" href="dbscan-and-others.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -168,6 +169,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">5. K近傍法 &amp; 教師あり学習のお作法</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="svm.html">7. サポートベクターマシン</a></li>
 </ul>
 
     </div>
@@ -356,7 +358,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">5.2.4. より妥当な手続き</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5.3. 例題3: ある時期のアメリカ合衆国の年収調査データ</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l5-s3">5.3. 例題3: ある時期のアメリカ合衆国の年収調査データ</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. クイズ</a><ul class="visible nav section-nav flex-column">
@@ -1353,6 +1355,7 @@ Label 1 = 10
 <span class="n">knn_model</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span>
 
 <span class="c1"># 交差検証をしながら分類器を構築・評価</span>
+<span class="c1"># cross_validate関数はデータ分割と交差検証，分類器構築，分類器評価を簡単にまとめて実行できる</span>
 <span class="n">scores</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">knn_model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">k_fold</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">score_funcs</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy list: &quot;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_accuracy&#39;</span><span class="p">])</span>
 
@@ -1368,7 +1371,7 @@ kNN accuracy:  0.8151515151515152
 </div>
 </div>
 </div>
-<p>上記コードではデータ分割と交差検証，分類器構築，分類器評価を簡単にまとめて実行できる<code class="docutils literal notranslate"><span class="pre">cross_validate</span></code>関数を使っている．
+<p>上記コードでは，データ分割と交差検証，分類器構築，分類器評価を簡単にまとめて実行できる<code class="docutils literal notranslate"><span class="pre">cross_validate</span></code>関数を用いている．
 5分割交差検証の1回（ラウンド）ごとの精度スコアが<code class="docutils literal notranslate"><span class="pre">scores['test_accuracy']</span></code>に格納されている．
 また，その平均値の計算も行っている．
 一般に，交差検証を用いた性能評価では評価値の平均値を用いる．</p>
@@ -1470,11 +1473,11 @@ AUC:  0.8239583333333333
 <li><p>パラメータチューニング（<a class="reference internal" href="#l5-q5"><span class="std std-ref">★Quiz 5</span></a>）</p></li>
 </ul>
 <p>などが必要となる．</p>
-</section>
-</section>
 <hr class="docutils" />
-<section id="id7">
-<h2><span class="section-number">5.3. </span>例題3: ある時期のアメリカ合衆国の年収調査データ<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+</section>
+</section>
+<section id="l5-s3">
+<span id="id7"></span><h2><span class="section-number">5.3. </span>例題3: ある時期のアメリカ合衆国の年収調査データ<a class="headerlink" href="#l5-s3" title="Link to this heading">#</a></h2>
 <p>最後の例題で扱うデータは，<a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/Adult">1994年に作成されたアメリカ合衆国の国勢調査のデータセット（一部）</a>である．
 機械学習の研究分野では著名なデータセットで通称”Adult Dataset”と呼ばれている．
 このデータセットには，</p>
@@ -2086,22 +2089,18 @@ True : 7841 (24.1%)
 <p>データフレーム<code class="docutils literal notranslate"><span class="pre">X_</span></code>のデータが標準化された．</p>
 <p>前処理が終わったので，K近傍法（K=5）を用いて分類器を構築してみよう．
 分類器の性能評価は，5分割の層別化交差検証，評価指標は「マクロ精度（balanced accuracy）」「適合率（precision）」の2つを用いることにする．</p>
-<p>やや長いが，下記コードを実行し，交差検証を用いて分類器の構築，性能評価をしてみよう</p>
+<p>今回は学習と評価の過程を分かりやすくするために，ブラックボックスな<code class="docutils literal notranslate"><span class="pre">cross_validate</span></code>関数は用いないコードを用意した．
+やや長いが，下記コードを実行し，交差検証を用いて分類器の構築，性能評価をしてみよう</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 時間計測に使う</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-
-<span class="c1"># 評価スコアを入れる場所</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 評価スコアを入れる場所</span>
 <span class="n">accuracy_scores</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">precision_scores</span> <span class="o">=</span> <span class="p">[]</span>
-
 
 <span class="c1"># 5分割層別化交差検証</span>
 <span class="n">kfold</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">kfold</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="c1"># train_idx, test_idxには，データフレーム中の何番目のデータを用いるかのリストが入っている．</span>
-    <span class="c1"># 3つの分類器に対して同じデータを用いて評価すること．</span>
     <span class="n">X_train</span> <span class="o">=</span> <span class="n">X_</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">]</span>
     <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
     <span class="n">y_train</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">]</span>
@@ -2248,6 +2247,15 @@ True : 7841 (24.1%)
         <p class="prev-next-title"><span class="section-number">4. </span>DBSCAN &amp; クラスタリングの実用上の問題</p>
       </div>
     </a>
+    <a class="right-next"
+       href="svm.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>サポートベクターマシン</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -2277,7 +2285,7 @@ True : 7841 (24.1%)
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">5.2.4. より妥当な手続き</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5.3. 例題3: ある時期のアメリカ合衆国の年収調査データ</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l5-s3">5.3. 例題3: ある時期のアメリカ合衆国の年収調査データ</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. クイズ</a><ul class="visible nav section-nav flex-column">

@@ -1,0 +1,789 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>7. サポートベクターマシン &#8212; 機械学習発展（導入編）の講義ノート</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/svm';</script>
+    <link rel="canonical" href="https://mlnote.hontolab.org/content/svm.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="5. K近傍法 &amp; 教師あり学習のお作法" href="knn-and-ml-flow.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">機械学習発展（導入編）の講義ノート</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">はじめに</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction-to-pandas.html">1. pandas入門</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction-to-ml.html">2. 決定木から始める機械学習</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">クラスタリング</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="kmeans-and-hierarchical-clustering.html">3. K-means &amp; 階層的クラスタリング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dbscan-and-others.html">4. DBSCAN &amp; クラスタリングの実用上の問題</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">分類</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="knn-and-ml-flow.html">5. K近傍法 &amp; 教師あり学習のお作法</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. サポートベクターマシン</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/svm.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/content/svm.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>サポートベクターマシン</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist">7.1. 例題1: MNIST手書き数字データ</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l6-sec2">7.2. 例題2: 線形分離不可能なデータに対するサポートベクターマシン</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">7.3. クイズ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">7.3.1. Q1: 実行時間の計測</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">7.3.2. Q2: 年収カテゴリ分類の性能比較</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1><span class="section-number">7. </span>サポートベクターマシン<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>このHands-onでは下記2種類のデータを用いて，サポートベクターマシンについて体験する．</p>
+<ul class="simple">
+<li><p>手書き数字画像（<a class="reference internal" href="#content/knn-and-ml-flow.ipynb"><span class="xref myst">第5章</span></a>のHands-onでも用いたデータ）</p></li>
+<li><p>人工的に作られたある2次元データ</p></li>
+</ul>
+<p>Hands-onに先立って，必要なライブラリを読み込んでおこう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 表形式のデータを操作するためのライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># 行列計算をおこなうためのライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># データセット</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span>
+
+<span class="c1"># K近傍法を実行するためのクラス</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+
+<span class="c1"># 決定木を実行するためのクラス</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="c1"># サポートベクターマシンを実行するためのモジュール</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">svm</span>
+
+<span class="c1"># データ変換のためのクラス</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">preprocessing</span>
+
+<span class="c1"># 交差検証を行うためのクラス</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">StratifiedKFold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">cross_validate</span>
+
+<span class="c1"># 評価指標（マクロ精度）</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">balanced_accuracy_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span>
+
+<span class="c1"># グラフ描画ライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<section id="mnist">
+<span id="l6-s1"></span><h2><span class="section-number">7.1. </span>例題1: MNIST手書き数字データ<a class="headerlink" href="#mnist" title="Link to this heading">#</a></h2>
+<p>例題1では，K近傍法のHands-onで用いた<a class="reference external" href="http://yann.lecun.com/exdb/mnist/">MNISTデータセット</a>を用いて，手書き数字の識別するサポートベクターマシン分類器を構築しよう．
+データセットの詳細は<a class="reference internal" href="#content/knn-and-ml-flow.ipynb"><span class="xref myst">前回のHands-on</span></a>を参照のこと．</p>
+<p>それでは，以下のコードを実行してMNISTデータセットを読み込もう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mnist_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_digits</span><span class="p">()</span>
+<span class="n">X_mnist</span> <span class="o">=</span> <span class="n">mnist_dataset</span><span class="o">.</span><span class="n">data</span>
+<span class="n">y_mnist</span> <span class="o">=</span> <span class="n">mnist_dataset</span><span class="o">.</span><span class="n">target</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>前回の「K近傍法」の授業では，機械学習を実際に行う際には</p>
+<ul class="simple">
+<li><p>前処理</p></li>
+<li><p>学習･評価の流れ</p></li>
+<li><p>評価手法</p></li>
+</ul>
+<p>に関するお作法があることを学んだ．
+K近傍法や機械学習のお作法の復習のために，まずはK近傍法を使ってMNISTの分類器の構築・評価を行ってみよう．
+今回は5分割交差検証を行い，評価手法にはマクロ精度（Balanced Accuracy）を用いることにする．</p>
+<p>下記コードは，MNISTデータセットにK近傍法を適用する例である．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 5分割「層別化」交差検証の準備（乱数を固定）</span>
+<span class="n">k_fold</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span>
+
+<span class="c1"># 評価指標（マクロ精度）</span>
+<span class="n">score_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;balanced_accuracy&#39;</span><span class="p">]</span>
+
+<span class="c1"># K近傍法のモデルの定義（K=5で設定）</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">knn_model</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span>
+
+<span class="c1"># 交差検証をしながら分類器を構築・評価</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">knn_model</span><span class="p">,</span> <span class="n">X_mnist</span><span class="p">,</span> <span class="n">y_mnist</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">k_fold</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">score_funcs</span><span class="p">)</span>
+
+<span class="c1"># 交差検証の評価スコアを平均としてまとめる</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Balanced accuracy: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_balanced_accuracy&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Balanced accuracy:  0.9870943800943801
+</pre></div>
+</div>
+</div>
+</div>
+<p>マクロ精度は98.7%程度になった．
+K近傍法でも十分な分類性能を発揮することが分かる．</p>
+<p>次はサポートベクターマシンで手書き数字画像の分類器を構築・評価してみよう．
+機械学習万能ライブラリである<code class="docutils literal notranslate"><span class="pre">sklearn</span></code>は，サポートベクターマシンに関するクラスも提供している．
+<code class="docutils literal notranslate"><span class="pre">sklearn</span></code>ではサポートベクターマシンに関連するクラスとして</p>
+<ul class="simple">
+<li><p>分類問題を扱うための<code class="docutils literal notranslate"><span class="pre">svm.SVC</span></code>クラス</p></li>
+<li><p>回帰問題を扱うための<code class="docutils literal notranslate"><span class="pre">svm.SVR</span></code>クラス</p></li>
+</ul>
+<p>の2種類を提供している．
+今回は分類問題を扱うので，<code class="docutils literal notranslate"><span class="pre">svm.SVC</span></code>クラスを用いる．
+今回はカーネルトリックは使わず，単純な線形サポートベクターマシンを使ってみよう．</p>
+<p><code class="docutils literal notranslate"><span class="pre">sklearn</span></code>ライブラリを使えば，上のK近傍法コードをたった一行変えるだけで，サポートベクターマシンによる分類器の構築・評価ができてしまう．
+以下，修正したコードを実行してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k_fold</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span>
+<span class="n">score_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;balanced_accuracy&#39;</span><span class="p">]</span>
+
+<span class="c1"># 線形サポートベクターマシン（ここが修正点）</span>
+<span class="n">svm_model</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">svm_model</span><span class="p">,</span> <span class="n">X_mnist</span><span class="p">,</span> <span class="n">y_mnist</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">k_fold</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">score_funcs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Balanced accuracy: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_balanced_accuracy&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Balanced accuracy:  0.9787107780048956
+</pre></div>
+</div>
+</div>
+</div>
+<p>サポートベクターマシンを用いたときのマクロ精度は98%程度になった．
+MNISTデータセットの分類問題に関しては，サポートベクターマシンとK近傍法の性能は同程度のようだ．</p>
+<hr class="docutils" />
+</section>
+<section id="l6-sec2">
+<span id="id2"></span><h2><span class="section-number">7.2. </span>例題2: 線形分離不可能なデータに対するサポートベクターマシン<a class="headerlink" href="#l6-sec2" title="Link to this heading">#</a></h2>
+<p>次の例題では，人工的な2次元データの分類問題を扱う．
+まずは以下のコードを実行して，今回の例題で用いるデータを読み込もう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_circles</span><span class="p">,</span> <span class="n">make_moons</span>
+<span class="n">moons</span> <span class="o">=</span> <span class="n">make_circles</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">777</span><span class="p">)</span>
+
+<span class="n">X_moon</span> <span class="o">=</span> <span class="n">moons</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">y_moon</span> <span class="o">=</span> <span class="n">moons</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">X_moon</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">X_moon</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">y_moon</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x1&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;x2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/793fb37016f10e89d730398f3cc731674ed77cef5b28ad71af9d663cca4b1d72.png" src="../_images/793fb37016f10e89d730398f3cc731674ed77cef5b28ad71af9d663cca4b1d72.png" />
+</div>
+</div>
+<p>今回用いるデータは，授業でも扱った「ドーナツ型」のデータ分布をしている．
+内側にオレンジ色の点（ラベル1）が，外側に青色の点（ラベル0）が分布している．
+これらデータを用いて，データがラベル1かラベル0かを分類する分類器を構築してみよう．</p>
+<p>まず，線形SVMを用いて分類器を構築・評価してみよう．
+以下のように例題1のコードをほぼそのまま流用することで，線形SVMの学習・評価ができる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k_fold</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span>
+
+<span class="c1"># 今回は評価指標として適合率（precision）と再現率（recall）を使用</span>
+<span class="n">score_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;precision_macro&#39;</span><span class="p">,</span> <span class="s1">&#39;recall_macro&#39;</span><span class="p">]</span>
+
+<span class="c1"># 線形サポートベクターマシン（ここが修正点）</span>
+<span class="n">svm_model</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">svm_model</span><span class="p">,</span> <span class="n">X_moon</span><span class="p">,</span> <span class="n">y_moon</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">k_fold</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">score_funcs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Precision: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_precision_macro&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recall: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_recall_macro&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Precision:  0.4916286178314683
+Recall:  0.49333333333333335
+</pre></div>
+</div>
+</div>
+</div>
+<p>適合率も再現率も49%なので，デタラメにラベルを答える場合とほぼ性能が分からないと言える．
+授業でも説明したが，素のサポートベクターマシン（線形SVM）は，今回用いるデータセットのような<strong>線形分離不可能</strong>な分類問題にはうまく対応できない．
+このような場合は，データを高次元に写像することでうまく対応できる可能性がある．</p>
+<p>普通の流れならここでカーネルトリックを用いた非線形SVMを用いるのだが，少し寄り道をしよう．
+手動でデータを高次元に写像し，そのデータに対して線形SVMを適用してみよう．</p>
+<p>今回用いたデータは2次元データであった．
+ここで，1次元目の要素を<span class="math notranslate nohighlight">\(x_1\)</span>，2次元目の要素を<span class="math notranslate nohighlight">\(x_2\)</span>としたとき，3次元目の要素として<span class="math notranslate nohighlight">\(\sqrt{x_1^2+x_2^2}\)</span>をデータに追加しよう．
+以下はそのためのコードである．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_moon_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">X_moon</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">X_moon</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">X_moon</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># データの末尾10件のみ表示</span>
+<span class="n">X_moon_new</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">:,</span> <span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.22518032,  0.8642077 ,  0.89306278],
+       [ 0.96372889, -0.22060904,  0.98865653],
+       [ 0.38431474, -0.4575082 ,  0.59750445],
+       [ 0.23280386, -1.08479306,  1.10949251],
+       [ 0.54765035, -0.73467811,  0.91633664],
+       [ 0.48637921,  0.10255874,  0.49707447],
+       [-1.02809832,  0.07486352,  1.0308204 ],
+       [-0.84914995, -0.54263203,  1.00772276],
+       [-0.69927825,  0.70696368,  0.99437805],
+       [-0.4580985 , -1.02554963,  1.12321248]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>3次元目の要素がデータに追加された．
+新たに作った<code class="docutils literal notranslate"><span class="pre">X_new</span></code>を使って，再度サポートベクターマシンを適用してみよう．
+以下，そのコード例である．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k_fold</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span>
+<span class="n">score_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;precision_macro&#39;</span><span class="p">,</span> <span class="s1">&#39;recall_macro&#39;</span><span class="p">]</span>
+<span class="n">svm_model</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+
+<span class="c1"># XをX_newに修正</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">svm_model</span><span class="p">,</span> <span class="n">X_moon_new</span><span class="p">,</span> <span class="n">y_moon</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">k_fold</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">score_funcs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Precision: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_precision_macro&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recall: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_recall_macro&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Precision:  0.9636484983314795
+Recall:  0.9633333333333335
+</pre></div>
+</div>
+</div>
+</div>
+<p>適合率も再現率も大幅に向上した．
+今回のデータは円の形に分布していたので，3時限目のデータとして円の半径に相当するような要素を追加した．
+それが功を奏して分類器の性能が向上した．</p>
+<p>しかし，このような都合の良いの高次元写像をデータに応じて地力で見つけるのは容易ではない．
+こんなときに有用なのが<strong>カーネルトリックを用いた非線形SVM</strong>である．
+例題の締めとして，<strong>RBFカーネルを用いた非線形SVM</strong>による分類器の構築・評価を行ってみよう．</p>
+<p><code class="docutils literal notranslate"><span class="pre">sklearn</span></code>ライブラリを用いれば，非線形SVMも簡単に実行できてしまう．
+今回はパラメータチューニングはせず，デフォルトの状態でRBFカーネルを用いてみよう．
+以下のコードを実行して，（手動で高次元化していない）元のデータを用いた学習・評価を行ってみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k_fold</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span>
+<span class="n">score_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;precision_macro&#39;</span><span class="p">,</span> <span class="s1">&#39;recall_macro&#39;</span><span class="p">]</span>
+
+<span class="c1"># カーネルにRBFカーネルを指定</span>
+<span class="n">svm_model</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">)</span>
+
+<span class="c1"># 交差検証</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">svm_model</span><span class="p">,</span> <span class="n">X_moon</span><span class="p">,</span> <span class="n">y_moon</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">k_fold</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">score_funcs</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Precision: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_precision_macro&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recall: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_recall_macro&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Precision:  0.9638575268817204
+Recall:  0.9633333333333335
+</pre></div>
+</div>
+</div>
+</div>
+<p>データを手動で高次元空間に写像しなくても，RBFカーネルが良い具合に振る舞ってくれた．</p>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h2><span class="section-number">7.3. </span>クイズ<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>※ 以下のクイズの回答にGoogle Colaboratoryを使いたい方は<a class="reference external" href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/svm.ipynb">コチラ</a>をクリック．</p>
+<section id="q1">
+<span id="l6-q1"></span><h3><span class="section-number">7.3.1. </span>Q1: 実行時間の計測<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
+<p>機械学習モデルの交差検証を簡単に行ってくれる<code class="docutils literal notranslate"><span class="pre">sklearn</span></code>ライブラリの<code class="docutils literal notranslate"><span class="pre">cross_validate</span></code>関数は，その返値（辞書）には</p>
+<ul class="simple">
+<li><p>学習の所要時間（<code class="docutils literal notranslate"><span class="pre">fit_time</span></code>）</p></li>
+<li><p>評価（推論）の所要時間（<code class="docutils literal notranslate"><span class="pre">score_time</span></code>）</p></li>
+</ul>
+<p>に関する情報が格納されている（<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_validate.html">参考</a>）．</p>
+<p>この情報を用いて，<a class="reference internal" href="#l6-s1"><span class="std std-ref">例題1</span></a>におけるMNIST分類器を</p>
+<ol class="arabic simple">
+<li><p>多項式カーネル（<code class="docutils literal notranslate"><span class="pre">kernel='poly'</span></code>）を用いたサポートベクターマシン</p></li>
+<li><p>K近傍法（<code class="docutils literal notranslate"><span class="pre">K=5</span></code>）</p></li>
+<li><p>決定木</p></li>
+</ol>
+<p>の3つの機械学習手法で構築した際の</p>
+<ul class="simple">
+<li><p>分類器の性能</p></li>
+<li><p>分類器の構築（学習）にかかる時間</p></li>
+<li><p>分類器の評価（推論）にかかる時間</p></li>
+</ul>
+<p>について比較を行いなさい．</p>
+</section>
+<section id="q2">
+<span id="l6-q2"></span><h3><span class="section-number">7.3.2. </span>Q2: 年収カテゴリ分類の性能比較<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
+<p>Q1で行った同様の比較を，<a class="reference internal" href="#content/knn-and-ml-flow.ipynb"><span class="xref myst">第5章</span></a>のクイズで取り組んだ<a class="reference internal" href="knn-and-ml-flow.html#l5-s3"><span class="std std-ref">年収カテゴリ分類問題</span></a>に対して行いなさい．</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="knn-and-ml-flow.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>K近傍法 &amp; 教師あり学習のお作法</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist">7.1. 例題1: MNIST手書き数字データ</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l6-sec2">7.2. 例題2: 線形分離不可能なデータに対するサポートベクターマシン</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">7.3. クイズ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">7.3.1. Q1: 実行時間の計測</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">7.3.2. Q2: 年収カテゴリ分類の性能比較</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025- by Yusuke Yamamoto.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
