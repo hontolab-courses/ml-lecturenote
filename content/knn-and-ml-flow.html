@@ -1,0 +1,2342 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5. K近傍法 &amp; 教師あり学習のお作法 &#8212; 機械学習発展（導入編）の講義ノート</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/knn-and-ml-flow';</script>
+    <link rel="canonical" href="https://mlnote.hontolab.org/content/knn-and-ml-flow.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="4. DBSCAN &amp; クラスタリングの実用上の問題" href="dbscan-and-others.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">機械学習発展（導入編）の講義ノート</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">はじめに</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction-to-pandas.html">1. pandas入門</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction-to-ml.html">2. 決定木から始める機械学習</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">クラスタリング</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="kmeans-and-hierarchical-clustering.html">3. K-means &amp; 階層的クラスタリング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dbscan-and-others.html">4. DBSCAN &amp; クラスタリングの実用上の問題</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">分類</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. K近傍法 &amp; 教師あり学習のお作法</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/knn-and-ml-flow.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/content/knn-and-ml-flow.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>K近傍法 & 教師あり学習のお作法</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5. K近傍法 &amp; 教師あり学習のお作法</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist">5.1. 例題1: MNIST手書き数字データ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">5.1.1. 学習</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">5.2. 例題2: 人工的に作られたある2次元データ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">5.2.1. 誤った手続き1: 交差検証を行わない</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">5.2.2. 誤った手続き2: 層別化を行わない</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">5.2.3. 誤った手続き3: 評価指標が適切でない</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">5.2.4. より妥当な手続き</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5.3. 例題3: ある時期のアメリカ合衆国の年収調査データ</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. クイズ</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">6.1. Q1: 崩し字データのダウンロード</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">6.2. Q2: データの確認</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q3">6.3. Q3: ラベルデータの分布</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q4-k">6.4. Q4: くずし字画像分類に対するK近傍法の瀬能</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q5">6.5. Q5: 最適パラメータの探索</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="k">
+<h1><span class="section-number">5. </span>K近傍法 &amp; 教師あり学習のお作法<a class="headerlink" href="#k" title="Link to this heading">#</a></h1>
+<p>このHands-onでは下記3種類のデータを用いて，K近傍法と教師あり学習のお作法について体験する．</p>
+<ul class="simple">
+<li><p>手書き数字画像</p></li>
+<li><p>人工的に作られたある2次元データ</p></li>
+<li><p>ある時期のアメリカ合衆国の年収調査データ</p></li>
+</ul>
+<p>Hands-onに先立って，必要なライブラリを読み込んでおこう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 表形式のデータを操作するためのライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># 行列計算をおこなうためのライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># データセット</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span>
+
+<span class="c1"># K近傍法を実行するためのクラス</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+
+<span class="c1"># 交差検証を行うためのクラス</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">KFold</span><span class="p">,</span> <span class="n">StratifiedKFold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">cross_validate</span>
+
+<span class="c1"># 精度，マクロ精度，適合率，AUCを評価するための関数</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">balanced_accuracy_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">roc_auc_score</span>
+
+<span class="c1"># データ変換のためのクラス</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">preprocessing</span>
+
+<span class="c1"># データ分割のための関数</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="c1"># グラフ描画ライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<section id="mnist">
+<h2><span class="section-number">5.1. </span>例題1: MNIST手書き数字データ<a class="headerlink" href="#mnist" title="Link to this heading">#</a></h2>
+<p>例題1では，K近傍法を用いて手書き数字の識別の体験をする．
+用いるデータは，かの有名な<a class="reference external" href="http://yann.lecun.com/exdb/mnist/">MNISTデータセット</a>である．
+今回は，<code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>ライブラリに梱包された8x8ピクセルの領域に描かれた手書き数字のグレースケール画像のデータセットを用いる．
+データセット中の手書き数字は<strong>0から9の数</strong>に対応している．
+また，手書き画像データは<strong>各ピクセルに0から255の数値</strong>が割り当てられており，その数字によって白黒の濃淡がつけられている（0が黒，255が白に対応）．</p>
+<p>以下のコードを実行してMNISTデータセットを読み込もう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mnist_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_digits</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">mnist_dataset</span><span class="o">.</span><span class="n">data</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">mnist_dataset</span><span class="o">.</span><span class="n">target</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>変数<code class="docutils literal notranslate"><span class="pre">X</span></code>は行列（numpy.ndarray）で，各行が手書き数字画像，各行がピクセルに対応している．
+変数<code class="docutils literal notranslate"><span class="pre">y</span></code>には，各行の手書き数字画像に対応する数字（ラベル）のリストが格納されている．</p>
+<p>今回対象とする手書き数字画像は8x8ピクセルの画像である．
+画像を計算可能なデータとして表現する場合，行列を用いて画像中の各ピクセルの色を表現する方法が直感に合う．
+しかし，MNISTデータセットでは，データを扱いやすくするために8x8ピクセルの画像を1x64の横ベクトルで表現している．</p>
+<p>描きコードを実行して，<code class="docutils literal notranslate"><span class="pre">X</span></code>には何件の手書き数字画像が格納されているのか確認してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1797, 64)
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">X</span></code>の行列のサイズが表示された．
+行が1797，列が64なので，手書き画像のデータ数は1797のようである．</p>
+<p>行列<code class="docutils literal notranslate"><span class="pre">X</span></code>に格納されたデータを眺めてみよう．
+描きコードを実行して，51番目に格納された手書き数字画像データを確認してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 51番目のデータに対応するインデックス（行列は0行目から始まるので50ではなく51）</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="c1"># ターゲットとなる画像データとラベルを変数に格納</span>
+<span class="n">target_data</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">target_label</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">番目の手書き数字 = &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">target_label</span><span class="p">)</span>
+
+<span class="c1"># 51番目の画像データ（各ピクセルの値）</span>
+<span class="n">target_data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>51番目の手書き数字 =  2
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.,  0.,  0.,  5., 14., 12.,  2.,  0.,  0.,  0.,  7., 15.,  8.,
+       14.,  4.,  0.,  0.,  0.,  6.,  2.,  3., 13.,  1.,  0.,  0.,  0.,
+        0.,  1., 13.,  4.,  0.,  0.,  0.,  0.,  1., 11.,  9.,  0.,  0.,
+        0.,  0.,  8., 16., 13.,  0.,  0.,  0.,  0.,  0.,  5., 14., 16.,
+       11.,  2.,  0.,  0.,  0.,  0.,  0.,  6., 12., 13.,  3.,  0.])
+</pre></div>
+</div>
+</div>
+</div>
+<p>51番目の画像データの中身とそれに対応する数字が表示された．
+画像データの横ベクトルが意味が分からないので，8x8の行列に直してみよう．
+以下のコードを実行すると，行列の形を1x64から8x8に変更できる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># numpy行列のshapeメソッドは行列の形を変換する</span>
+<span class="n">target_matrix</span> <span class="o">=</span> <span class="n">target_data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">target_matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.,  0.,  0.,  5., 14., 12.,  2.,  0.],
+       [ 0.,  0.,  7., 15.,  8., 14.,  4.,  0.],
+       [ 0.,  0.,  6.,  2.,  3., 13.,  1.,  0.],
+       [ 0.,  0.,  0.,  1., 13.,  4.,  0.,  0.],
+       [ 0.,  0.,  1., 11.,  9.,  0.,  0.,  0.],
+       [ 0.,  8., 16., 13.,  0.,  0.,  0.,  0.],
+       [ 0.,  5., 14., 16., 11.,  2.,  0.,  0.],
+       [ 0.,  0.,  0.,  6., 12., 13.,  3.,  0.]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>どのピクセルにどのような値がセットされているのか分かりやすくなったが，視覚的にどうなっているのか全然分からない．
+下記コードを実行して行列データを可視化してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">target_matrix</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/afcfc3e4582afe111730e17860fd5af2ed5943d31b7b703cc81bfb36a586b839.png" src="../_images/afcfc3e4582afe111730e17860fd5af2ed5943d31b7b703cc81bfb36a586b839.png" />
+</div>
+</div>
+<p>8x8ピクセルなので荒くて分かりづらいが，遠目で見ると「2」という数字に見える．</p>
+<section id="id1">
+<h3><span class="section-number">5.1.1. </span>学習<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>データの中身の理解が進んだので，K近傍法を用いて手書き数字画像の分類器を構築してみよう．
+授業でも説明したように，教師あり学習を行いモデル構築とモデル評価を行うには訓練データとテストデータが必要になる．</p>
+<p><code class="docutils literal notranslate"><span class="pre">sklearn</span></code>ライブラリには，データセットを訓練データとテストデータに分割する便利な関数<code class="docutils literal notranslate"><span class="pre">train_test_split</span></code>がある．
+下記コードを実行して，手元にあるデータセットを「訓練データ」と「テストデータ」に分割してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="c1"># データセットを訓練データ80%，テストデータ20%に分割</span>
+    <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># 分割時にはデータセットをシャッフル</span>
+    <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>    <span class="c1"># ラベルの分布が訓練データとテストデータで同じになるようにする</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">train_test_split</span></code>関数の第1引数，第2引数にセットされた<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">y</span></code>について，</p>
+<ul class="simple">
+<li><p>80%が訓練データ: <code class="docutils literal notranslate"><span class="pre">X_train</span></code>（画像データ）と<code class="docutils literal notranslate"><span class="pre">y_train</span></code>（対応するラベル）</p></li>
+<li><p>20%がテストデータ: <code class="docutils literal notranslate"><span class="pre">X_test</span></code>（画像データ）と<code class="docutils literal notranslate"><span class="pre">y_test</span></code>（対応するラベル）</p></li>
+</ul>
+<p>に分割された．
+本当にデータセットは80:20に分割されているか確認してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;訓練データのサイズ&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;テストデータのサイズ&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>訓練データのサイズ 1437
+テストデータのサイズ 360
+</pre></div>
+</div>
+</div>
+</div>
+<p>大体80:20に分割されていることが分かる．</p>
+<p>先の<code class="docutils literal notranslate"><span class="pre">train_test_split</span></code>関数の実行時には，stratify（層別化）オブションを有効にしていた．
+下記のコードを実行して，ラベルの分布が訓練データとテストデータで同じになっているか，確認しておこう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 訓練データの分布</span>
+<span class="n">keys</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 : 142
+1 : 145
+2 : 142
+3 : 146
+4 : 145
+5 : 146
+6 : 145
+7 : 143
+8 : 139
+9 : 144
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># テストデータの分布</span>
+<span class="n">keys</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 : 36
+1 : 37
+2 : 35
+3 : 37
+4 : 36
+5 : 36
+6 : 36
+7 : 36
+8 : 35
+9 : 36
+</pre></div>
+</div>
+</div>
+</div>
+<p>訓練データもテストデータも，0から9までの手書き数字データがほぼ均等に分布していることが確認できる．</p>
+<p>それでは，K近傍法で手書き数字画像の分類器を構築しよう．
+MNISTデータセットはデータがキレイなため，特に前処理を行わなくても<code class="docutils literal notranslate"><span class="pre">sklearn</span></code>ライブラリを使えば分類器の構築は数行で終わってしまう．</p>
+<p>今回はK近傍法のパラメータは</p>
+<ul class="simple">
+<li><p>近傍数<code class="docutils literal notranslate"><span class="pre">K</span></code>: 5</p></li>
+<li><p>距離関数<code class="docutils literal notranslate"><span class="pre">metric</span></code>: euclidean（ユークリッド距離）</p></li>
+</ul>
+<p>とし，以下のコードを実行して分類器を構築してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">knn_model</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span>
+<span class="n">knn_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-1 pre {
+  padding: 0;
+}
+
+#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-1 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-1 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>KNeighborsClassifier(metric=&#x27;euclidean&#x27;)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>KNeighborsClassifier</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.neighbors.KNeighborsClassifier.html">?<span>Documentation for KNeighborsClassifier</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>KNeighborsClassifier(metric=&#x27;euclidean&#x27;)</pre></div> </div></div></div></div></div></div>
+</div>
+<p>K近傍法による分類器が構築できた．</p>
+<p>それではテストデータから適当にピックアップし，分類器で正しく数値分類できるか確認してみよう．
+下記コードを実行すると，テストデータからランダムに3個データを取得し，構築した分類器による予測を行える．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+<span class="n">test_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">test_size</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># 何番目のテストデータか</span>
+    <span class="n">target_data</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+    <span class="n">target_label</span> <span class="o">=</span> <span class="n">y_test</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="c1"># K近傍法による推論</span>
+    <span class="n">y_predicted</span> <span class="o">=</span> <span class="n">knn_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">target_data</span><span class="p">)</span>
+
+    <span class="c1"># 手書き数字画像を表示</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">target_data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+    <span class="c1"># 推論結果と正解ラベルの表示</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;予測ラベル: &quot;</span><span class="p">,</span> <span class="n">y_predicted</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;正解ラベル: &quot;</span><span class="p">,</span> <span class="n">target_label</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/075d5d8bb4da00b80209d346b8a6a942a99787d57927fd01676836373e89cbb1.png" src="../_images/075d5d8bb4da00b80209d346b8a6a942a99787d57927fd01676836373e89cbb1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>予測ラベル:  [6]
+正解ラベル:  6
+</pre></div>
+</div>
+<img alt="../_images/a16a6947d835428639e12afacd35c8c26f94fd66b0c521b5ec8b9e4ed5e0af7c.png" src="../_images/a16a6947d835428639e12afacd35c8c26f94fd66b0c521b5ec8b9e4ed5e0af7c.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>予測ラベル:  [5]
+正解ラベル:  5
+</pre></div>
+</div>
+<img alt="../_images/6c47c0ed034fe2857aeda5813552bc9aec840a2c8bc8e433088af1fc334e31a1.png" src="../_images/6c47c0ed034fe2857aeda5813552bc9aec840a2c8bc8e433088af1fc334e31a1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>予測ラベル:  [9]
+正解ラベル:  9
+</pre></div>
+</div>
+</div>
+</div>
+<p>どんな分類結果が得られただろうか．
+（位置が調整された）手書き数字画像であれば，単純なK近傍法であっても正確にラベルを予測することができそうだ．</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id2">
+<h2><span class="section-number">5.2. </span>例題2: 人工的に作られたある2次元データ<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>次の例題では，機械学習の手順や評価指標の重要性を体験してみよう．
+この例題で用いるのは，この例題のために作成した二次元データである．
+データの値に特に意味はない．
+以下のコードを実行して，データを読み込もう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/hontolab-courses/ml-lecturenote/refs/heads/main/content/data/imbalanced-data.tsv&quot;</span>
+<span class="n">scatter_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">scatter_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>label</th>
+      <th>x1</th>
+      <th>x2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>10.922188</td>
+      <td>11.037222</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>5.560963</td>
+      <td>-1.993854</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>-0.172181</td>
+      <td>2.659002</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>9.094238</td>
+      <td>-0.180836</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>-1.802328</td>
+      <td>5.721992</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>103</th>
+      <td>1</td>
+      <td>-2.940544</td>
+      <td>5.098511</td>
+    </tr>
+    <tr>
+      <th>104</th>
+      <td>0</td>
+      <td>8.265318</td>
+      <td>11.367254</td>
+    </tr>
+    <tr>
+      <th>105</th>
+      <td>1</td>
+      <td>4.993353</td>
+      <td>8.362569</td>
+    </tr>
+    <tr>
+      <th>106</th>
+      <td>0</td>
+      <td>8.472310</td>
+      <td>11.346936</td>
+    </tr>
+    <tr>
+      <th>107</th>
+      <td>0</td>
+      <td>10.755054</td>
+      <td>6.829503</td>
+    </tr>
+  </tbody>
+</table>
+<p>108 rows × 3 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">scatter_df</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/33de2ce6c9680cc02b93ad3802e89d1b406bfd6163e8f174103856ecda14b760.png" src="../_images/33de2ce6c9680cc02b93ad3802e89d1b406bfd6163e8f174103856ecda14b760.png" />
+</div>
+</div>
+<p>変数<code class="docutils literal notranslate"><span class="pre">scatter_df</span></code>には，ラベル0とラベル1のデータ点が合計108個格納されている．
+ラベルの分布を以下のコードを実行して確認してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keys</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">scatter_df</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Label&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Label 0 = 80
+Label 1 = 28
+</pre></div>
+</div>
+</div>
+</div>
+<p>ラベル1のデータがラベル0の3分の1程度しかなく，データの分布が偏っていることが分かる（<a class="reference internal" href="#l5-q1"><span class="std std-ref">★Quiz 1</span></a>，<a class="reference internal" href="#l5-q2"><span class="std std-ref">★Quiz 2</span></a>，<a class="reference internal" href="#l5-q3"><span class="std std-ref">★Quiz 3</span></a>）．</p>
+<p>ではK近傍法を用いて，ラベルの分類器を構築してみよう．
+この例題では<code class="docutils literal notranslate"><span class="pre">K=5</span></code>としてK近傍法を用いる．
+今回はまず<strong>誤った手続き</strong>で分類器を構築・評価してみよう．</p>
+<section id="id3">
+<h3><span class="section-number">5.2.1. </span>誤った手続き1: 交差検証を行わない<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>誤った手続きその1は「交差検証を行わない」である．
+用意したデータセットのサイズが十分に大きい場合，あるいはデータセットの準備の時点で訓練データとテストデータが分けて得られている場合は交差検証にこだわる必要はそれほどないかもしれない．
+そうでない場合は，交差検証をしなければ，分類器の汎化性能および性能評価そのものに問題が生じる．</p>
+<p>以下は交差検証を行わない，誤った教師あり学習の手続きである．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># データ準備</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">scatter_df</span><span class="p">[</span><span class="n">scatter_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">scatter_df</span><span class="p">[</span><span class="n">scatter_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+<span class="c1"># データセットを70:30で訓練データ，評価データに分割</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># K近傍法のモデルの定義</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">knn_model</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span>
+
+<span class="c1"># 学習</span>
+<span class="n">knn_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 推論</span>
+<span class="n">y_predicted</span> <span class="o">=</span> <span class="n">knn_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># 評価</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predicted</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;kNN accuracy: &quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kNN accuracy:  0.8787878787878788
+</pre></div>
+</div>
+</div>
+</div>
+<p>評価指標として精度（accuracy）を用いて，交差検証を行わずに分類器の構築と評価を行っている．
+みなさんの環境では適合率はいくつになっただろうか．
+他の人と比べたり，上記コードを再度実行してみよう．
+適合率が安定しない（変化する）ことに気付くはずだ．</p>
+<p>十分に大きくないデータセットに対して<strong>交差検証を用いない場合，訓練データとテストデータの中身の分布に偏りが生じる</strong>．
+その影響がモデルの構築および性能評価に出て，偶然結果が良くなったり悪くなったりする．
+分割した訓練データと評価データのラベルの分布を確認してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 訓練データの分布</span>
+<span class="n">keys</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Label&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Label 0 = 57
+Label 1 = 18
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># テストデータの分布</span>
+<span class="n">keys</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Label&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Label 0 = 23
+Label 1 = 10
+</pre></div>
+</div>
+</div>
+</div>
+<p>今回は<code class="docutils literal notranslate"><span class="pre">train_test_split</span></code>関数を用いるときにランダムにテストデータを分割している．
+そのため，人によっては訓練データとテストデータのラベルの分布が同じようになったケースもあるかもしれないが，データの分割の仕方で毎回性能評価値が大きく変わったように見えるのはよろしくない．
+信頼できる性能評価を行うためにも，交差検証を行う必要がある．</p>
+<p>さて，上記の「誤った手続き」のコードは，交差検証のやり方以外にも問題がある．
+次の「誤った手続き」で見てみよう．</p>
+</section>
+<section id="id4">
+<h3><span class="section-number">5.2.2. </span>誤った手続き2: 層別化を行わない<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>誤った手続きその2は「層別化を行わない」である．
+今回用意したデータセットのようにラベルの分布に偏りがある場合は，その分布を考慮して訓練データとテストデータを分割しなければ，たまたま都合の良い（あるいは悪い）分類器を構築し，たまたま都合の良い（あるいは悪い）性能評価を行ってしまう．
+そのため，モデルの汎化性能を高めるためにも，信頼できる性能評価を行うためにも，<strong>層別化</strong>を行いながら訓練データとテストデータの分割を行う必要がある．</p>
+<p>以下は層別化を行わない交差検証を行った，誤った教師あり学習の手続きである．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># データセットの準備</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">scatter_df</span><span class="p">[</span><span class="n">scatter_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">scatter_df</span><span class="p">[</span><span class="n">scatter_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+<span class="c1"># 層別化をしない5分割交差検証の準備（乱数を固定）</span>
+<span class="n">k_fold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span>
+
+<span class="c1"># 評価指標（精度）</span>
+<span class="n">score_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span>
+
+<span class="c1"># K近傍法のモデルの定義</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">knn_model</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span>
+
+<span class="c1"># 交差検証をしながら分類器を構築・評価</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">knn_model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">k_fold</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">score_funcs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy list: &quot;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_accuracy&#39;</span><span class="p">])</span>
+
+<span class="c1"># 交差検証の評価スコアを平均としてまとめる</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;kNN accuracy: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_accuracy&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy list:  [0.86363636 0.63636364 0.90909091 0.76190476 0.9047619 ]
+kNN accuracy:  0.8151515151515152
+</pre></div>
+</div>
+</div>
+</div>
+<p>上記コードではデータ分割と交差検証，分類器構築，分類器評価を簡単にまとめて実行できる<code class="docutils literal notranslate"><span class="pre">cross_validate</span></code>関数を使っている．
+5分割交差検証の1回（ラウンド）ごとの精度スコアが<code class="docutils literal notranslate"><span class="pre">scores['test_accuracy']</span></code>に格納されている．
+また，その平均値の計算も行っている．
+一般に，交差検証を用いた性能評価では評価値の平均値を用いる．</p>
+<p>もうお気づきのとおり，適合率のスコアが交差検証のラウンドごとに大きく異なる．
+層別化を行っていないためである．
+交差検証の平均スコアだけを見ていても，スコアが変動することに気付かないだろう．</p>
+<p>このように，交差検証を行って学習と評価を複数回やったとしても，ラベル分布の偏りを考慮しなければ適切な学習，評価はできない．</p>
+</section>
+<section id="id5">
+<h3><span class="section-number">5.2.3. </span>誤った手続き3: 評価指標が適切でない<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>誤った手続きその3は「評価指標が適切でない」である．
+以下は層別化交差検証を行ったが，単純な精度を評価指標に使ってしまった，誤った教師あり学習の手続きである．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># データセットの準備</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">scatter_df</span><span class="p">[</span><span class="n">scatter_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">scatter_df</span><span class="p">[</span><span class="n">scatter_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+<span class="c1"># 「層別化」5分割交差検証の準備（乱数を固定）</span>
+<span class="n">k_fold</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span>
+
+<span class="c1"># 評価指標（精度）</span>
+<span class="n">score_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span>
+
+<span class="c1"># K近傍法のモデルの定義</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">knn_model</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span>
+
+<span class="c1"># 交差検証をしながら分類器を構築・評価</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">knn_model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">k_fold</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">score_funcs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy list: &quot;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_accuracy&#39;</span><span class="p">])</span>
+
+<span class="c1"># 交差検証の評価スコアを平均としてまとめる</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;kNN accuracy: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_accuracy&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy list:  [0.72727273 0.81818182 0.77272727 0.76190476 0.80952381]
+kNN accuracy:  0.7779220779220779
+</pre></div>
+</div>
+</div>
+</div>
+<p>「誤った手続き2」よりも精度のばらつきが小さくなった．
+これで平均値を取れば一見正しい評価をしたような気がするが，この例題の冒頭で解説したラベル分布の話を思い出してほしい．
+このデータセットは，ラベル0のほうがラベル1よりも3倍程度多く含んでいる．．
+極端な話として，分類器の予測結果が常に「ラベル0」を返したとしても，単純な精度は不当に高い値をはじき出してしまう．</p>
+<p>今回用意したデータセットのようにラベルの分布に偏りがある場合は，単純な精度ではなくラベル分布の偏りを考慮した<strong>マクロ精度</strong>や<strong>AUC</strong>，<strong>MCC（マシューズ相関係数）</strong> を用いる必要がある．</p>
+<p>以上を踏まえて，以下に「より妥当な手続き」のコードを記す．</p>
+</section>
+<section id="id6">
+<h3><span class="section-number">5.2.4. </span>より妥当な手続き<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># データセットの準備</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">scatter_df</span><span class="p">[</span><span class="n">scatter_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">scatter_df</span><span class="p">[</span><span class="n">scatter_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+<span class="c1"># 5分割「層別化」交差検証の準備（乱数を固定）</span>
+<span class="n">k_fold</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span>
+
+<span class="c1"># 評価指標（マクロ精度（balanced accuracy），AUC）</span>
+<span class="n">score_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;balanced_accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;roc_auc&#39;</span><span class="p">]</span>
+
+<span class="c1"># K近傍法のモデルの定義</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">knn_model</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span>
+
+<span class="c1"># 交差検証をしながら分類器を構築・評価</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">knn_model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">k_fold</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">score_funcs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Balanced accuracy list: &quot;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_balanced_accuracy&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AUC list: &quot;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_roc_auc&#39;</span><span class="p">])</span>
+
+<span class="c1"># 交差検証の評価スコアを平均としてまとめる</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Balanced accuracy: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_balanced_accuracy&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AUC: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_roc_auc&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Balanced accuracy list:  [0.65625    0.66666667 0.58333333 0.70625    0.66875   ]
+AUC list:  [0.84375    0.765625   0.82291667 0.84375    0.84375   ]
+
+Balanced accuracy:  0.65625
+AUC:  0.8239583333333333
+</pre></div>
+</div>
+</div>
+</div>
+<p>上記はラベルの分布を考慮した，より妥当な分類器の構築と性能評価の手続きである．</p>
+<p>どんな分類器を構築するにしても，一般的には上記のように「層別化によるデータ分割」を「交差検証」を組み合わせたモデル構築と評価を行う（<a class="reference internal" href="#l5-q4"><span class="std std-ref">★Quiz 4</span></a>）．
+より高性能の分類器を構築するには，上記手続きに加え，</p>
+<ul class="simple">
+<li><p>データの変換（スケーリング，one-hotベクトル化）</p></li>
+<li><p>欠損値への対応</p></li>
+<li><p>特徴量選択</p></li>
+<li><p>パラメータチューニング（<a class="reference internal" href="#l5-q5"><span class="std std-ref">★Quiz 5</span></a>）</p></li>
+</ul>
+<p>などが必要となる．</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id7">
+<h2><span class="section-number">5.3. </span>例題3: ある時期のアメリカ合衆国の年収調査データ<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>最後の例題で扱うデータは，<a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/Adult">1994年に作成されたアメリカ合衆国の国勢調査のデータセット（一部）</a>である．
+機械学習の研究分野では著名なデータセットで通称”Adult Dataset”と呼ばれている．
+このデータセットには，</p>
+<ul class="simple">
+<li><p>年齢</p></li>
+<li><p>職業クラス</p></li>
+<li><p>最終学歴</p></li>
+<li><p>教育年数</p></li>
+<li><p>婚姻ステータス</p></li>
+<li><p>職業</p></li>
+<li><p>家族の構成</p></li>
+<li><p>人種</p></li>
+<li><p>性別</p></li>
+<li><p>資産売却益</p></li>
+<li><p>資産売却損</p></li>
+<li><p>週の労働時間</p></li>
+<li><p>母国</p></li>
+<li><p>年収（年5万ドル以上（&gt;=50K） or それ以下（&lt;50K））</p></li>
+</ul>
+<p>に関する情報が含まれている．
+このデータセットを使って，年収以外の情報から年収が年5万ドル以上か未満かを推定するさまざまな分類器を構築してみよう．</p>
+<p>以下のコードを実行すると，不必要なデータ列を削除し，ターゲットとなる年収情報を</p>
+<ul class="simple">
+<li><p>年5万ドル以上なら1</p></li>
+<li><p>年5万ドル未満なら0</p></li>
+</ul>
+<p>に置換したデータセットをデータフレーム変数<code class="docutils literal notranslate"><span class="pre">adult_df</span></code>に読み込む．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adult_dataset_url</span> <span class="o">=</span> <span class="s2">&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data&quot;</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;age&quot;</span><span class="p">,</span>             <span class="c1"># 年齢（数値）</span>
+    <span class="s2">&quot;workclass&quot;</span><span class="p">,</span>       <span class="c1"># 職業クラス（カテゴリカル）</span>
+    <span class="s2">&quot;fnlwgt&quot;</span><span class="p">,</span>          <span class="c1"># 不明</span>
+    <span class="s2">&quot;education&quot;</span><span class="p">,</span>       <span class="c1"># 最終学歴（カテゴリカル）</span>
+    <span class="s2">&quot;education_num&quot;</span><span class="p">,</span>   <span class="c1"># 教育年数（数値）</span>
+    <span class="s2">&quot;marital_status&quot;</span><span class="p">,</span>  <span class="c1"># 婚姻ステータス（カテゴリカル）</span>
+    <span class="s2">&quot;occupation&quot;</span><span class="p">,</span>      <span class="c1"># 職業（カテゴリカル）</span>
+    <span class="s2">&quot;relationship&quot;</span><span class="p">,</span>    <span class="c1"># 家族の構成（カテゴリカル）</span>
+    <span class="s2">&quot;race&quot;</span><span class="p">,</span>            <span class="c1"># 人種（カテゴリカル）</span>
+    <span class="s2">&quot;sex&quot;</span><span class="p">,</span>             <span class="c1"># 性別（カテゴリカル）</span>
+    <span class="s2">&quot;capital_gain&quot;</span><span class="p">,</span>    <span class="c1"># 資産売却益（数値）</span>
+    <span class="s2">&quot;capital_loss&quot;</span><span class="p">,</span>    <span class="c1"># 資産売却損（数値）</span>
+    <span class="s2">&quot;hours_per_week&quot;</span><span class="p">,</span>  <span class="c1"># 週の労働時間？（数値）</span>
+    <span class="s2">&quot;native_country&quot;</span><span class="p">,</span>  <span class="c1"># 母国（カテゴリカル）</span>
+    <span class="s2">&quot;annual_income&quot;</span>    <span class="c1"># 年収（True of False）</span>
+<span class="p">]</span>
+
+<span class="n">adult_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span>
+    <span class="n">adult_dataset_url</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">names</span><span class="o">=</span><span class="n">features</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="s2">&quot;?&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+    <span class="n">has_high_salary</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;annual_income&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s2">&quot;&gt;50K&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;&lt;=50K&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span> <span class="c1"># 不要 or 不明な特徴量を削除</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;fnlwgt&#39;</span><span class="p">,</span> <span class="s1">&#39;annual_income&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>読み込んだ<code class="docutils literal notranslate"><span class="pre">adult_df</span></code>を以下のコードで表示してみよう．
+データは全部で32561レコードあることが分かる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adult_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>workclass</th>
+      <th>education</th>
+      <th>education_num</th>
+      <th>marital_status</th>
+      <th>occupation</th>
+      <th>relationship</th>
+      <th>race</th>
+      <th>sex</th>
+      <th>capital_gain</th>
+      <th>capital_loss</th>
+      <th>hours_per_week</th>
+      <th>native_country</th>
+      <th>has_high_salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>39</td>
+      <td>State-gov</td>
+      <td>Bachelors</td>
+      <td>13</td>
+      <td>Never-married</td>
+      <td>Adm-clerical</td>
+      <td>Not-in-family</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>2174</td>
+      <td>0</td>
+      <td>40</td>
+      <td>United-States</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>50</td>
+      <td>Self-emp-not-inc</td>
+      <td>Bachelors</td>
+      <td>13</td>
+      <td>Married-civ-spouse</td>
+      <td>Exec-managerial</td>
+      <td>Husband</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>0</td>
+      <td>0</td>
+      <td>13</td>
+      <td>United-States</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>38</td>
+      <td>Private</td>
+      <td>HS-grad</td>
+      <td>9</td>
+      <td>Divorced</td>
+      <td>Handlers-cleaners</td>
+      <td>Not-in-family</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>0</td>
+      <td>0</td>
+      <td>40</td>
+      <td>United-States</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>53</td>
+      <td>Private</td>
+      <td>11th</td>
+      <td>7</td>
+      <td>Married-civ-spouse</td>
+      <td>Handlers-cleaners</td>
+      <td>Husband</td>
+      <td>Black</td>
+      <td>Male</td>
+      <td>0</td>
+      <td>0</td>
+      <td>40</td>
+      <td>United-States</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>28</td>
+      <td>Private</td>
+      <td>Bachelors</td>
+      <td>13</td>
+      <td>Married-civ-spouse</td>
+      <td>Prof-specialty</td>
+      <td>Wife</td>
+      <td>Black</td>
+      <td>Female</td>
+      <td>0</td>
+      <td>0</td>
+      <td>40</td>
+      <td>Cuba</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>32556</th>
+      <td>27</td>
+      <td>Private</td>
+      <td>Assoc-acdm</td>
+      <td>12</td>
+      <td>Married-civ-spouse</td>
+      <td>Tech-support</td>
+      <td>Wife</td>
+      <td>White</td>
+      <td>Female</td>
+      <td>0</td>
+      <td>0</td>
+      <td>38</td>
+      <td>United-States</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>32557</th>
+      <td>40</td>
+      <td>Private</td>
+      <td>HS-grad</td>
+      <td>9</td>
+      <td>Married-civ-spouse</td>
+      <td>Machine-op-inspct</td>
+      <td>Husband</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>0</td>
+      <td>0</td>
+      <td>40</td>
+      <td>United-States</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>32558</th>
+      <td>58</td>
+      <td>Private</td>
+      <td>HS-grad</td>
+      <td>9</td>
+      <td>Widowed</td>
+      <td>Adm-clerical</td>
+      <td>Unmarried</td>
+      <td>White</td>
+      <td>Female</td>
+      <td>0</td>
+      <td>0</td>
+      <td>40</td>
+      <td>United-States</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>32559</th>
+      <td>22</td>
+      <td>Private</td>
+      <td>HS-grad</td>
+      <td>9</td>
+      <td>Never-married</td>
+      <td>Adm-clerical</td>
+      <td>Own-child</td>
+      <td>White</td>
+      <td>Male</td>
+      <td>0</td>
+      <td>0</td>
+      <td>20</td>
+      <td>United-States</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>32560</th>
+      <td>52</td>
+      <td>Self-emp-inc</td>
+      <td>HS-grad</td>
+      <td>9</td>
+      <td>Married-civ-spouse</td>
+      <td>Exec-managerial</td>
+      <td>Wife</td>
+      <td>White</td>
+      <td>Female</td>
+      <td>15024</td>
+      <td>0</td>
+      <td>40</td>
+      <td>United-States</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+<p>32561 rows × 14 columns</p>
+</div></div></div>
+</div>
+<p>今回の分類対象となる年収の分布を確認しておこう．
+下記コードを実行し，<code class="docutils literal notranslate"><span class="pre">adult_df</span></code>中の<code class="docutils literal notranslate"><span class="pre">has_high_salary</span></code>の値の分布を調べてみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keys</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">adult_df</span><span class="p">[</span><span class="s2">&quot;has_high_salary&quot;</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+    <span class="n">ratio</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">adult_df</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="s2">&quot;(</span><span class="si">{:.1f}</span><span class="s2">%)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ratio</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>False : 24720 (75.9%)
+True : 7841 (24.1%)
+</pre></div>
+</div>
+</div>
+</div>
+<p>年収が5万ドル以上のレコードと5万ドル未満のレコードの比は約1:3のようである．
+データに偏りがあるので，この点を意識して分類器の構築・評価を行う必要がある．</p>
+<p>では，先に進もう．
+分類器を構築するためには，データセットを特徴データとラベルデータに分ける必要があった．
+以下のコードを実行して，特徴量に関するデータを変数<code class="docutils literal notranslate"><span class="pre">X</span></code>に，ラベルデータを変数<code class="docutils literal notranslate"><span class="pre">y</span></code>に格納する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 最後の列の&quot;has_high_salary&quot;以外が特徴データ列</span>
+<span class="n">target_features</span> <span class="o">=</span> <span class="n">adult_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">adult_df</span><span class="p">[</span><span class="n">target_features</span><span class="p">]</span> 
+
+<span class="c1"># ターゲットラベルは&quot;has_high_salary&quot;</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">adult_df</span><span class="p">[</span><span class="s2">&quot;has_high_salary&quot;</span><span class="p">]</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>さて，<code class="docutils literal notranslate"><span class="pre">adult_df</span></code>を表示してお気づきのとおり，今回のデータセットには「年齢」「教育年数」「週の労働時間」のような<strong>数値データ</strong>もあれば，「職業クラス」「婚姻ステータス」「人種」のような<strong>カテゴリカルデータ（質的データ）</strong> も含まれてる．
+カテゴリカルデータは数値ではないので，そのままでは数値処理を行うのが難しい．
+そのため，機械学習を行うときにはカテゴリカルデータを<strong>one-hotベクトル（one-hot表現，ダミー変数と呼ばれることもある）</strong> に置き換える．</p>
+<p>例えば，</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>ID</p></th>
+<th class="head"><p>年齢</p></th>
+<th class="head"><p>最終学歴</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>38</p></td>
+<td><p>大学</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>58</p></td>
+<td><p>高校</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>27</p></td>
+<td><p>大学院</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>のようなデータセットがあった場合，最終学歴がカテゴリカルデータに相当する．
+このデータセットをOne-hotベクトル化すると，以下のようになる．</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>ID</p></th>
+<th class="head"><p>年齢</p></th>
+<th class="head"><p>最終学歴_大学</p></th>
+<th class="head"><p>最終学歴_高校</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>38</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>58</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>27</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>今回のデータセットもone-hotベクトル化してみよう．
+<code class="docutils literal notranslate"><span class="pre">pandas</span></code>ライブラリには，データフレームの中で指定した列をone-hotベクトルに変換してくれる便利な関数<code class="docutils literal notranslate"><span class="pre">get_dummies</span></code>がある．
+以下のコードを実行して，特徴データ<code class="docutils literal notranslate"><span class="pre">X</span></code>をone-hotベクトル化してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ターゲットとなるカテゴリカルデータの特徴名（列名）</span>
+<span class="n">categorical_features</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;workclass&quot;</span><span class="p">,</span>       <span class="c1"># 職業クラス（カテゴリカル）</span>
+    <span class="s2">&quot;education&quot;</span><span class="p">,</span>       <span class="c1"># 最終学歴（カテゴリカル）</span>
+    <span class="s2">&quot;marital_status&quot;</span><span class="p">,</span>  <span class="c1"># 婚姻ステータス（カテゴリカル）</span>
+    <span class="s2">&quot;occupation&quot;</span><span class="p">,</span>      <span class="c1"># 職業（カテゴリカル）</span>
+    <span class="s2">&quot;relationship&quot;</span><span class="p">,</span>    <span class="c1"># 家族の構成（カテゴリカル）</span>
+    <span class="s2">&quot;race&quot;</span><span class="p">,</span>            <span class="c1"># 人種（カテゴリカル）</span>
+    <span class="s2">&quot;sex&quot;</span><span class="p">,</span>             <span class="c1"># 性別（カテゴリカル）</span>
+    <span class="s2">&quot;native_country&quot;</span><span class="p">,</span>  <span class="c1"># 母国（カテゴリカル）    </span>
+<span class="p">]</span>
+
+<span class="c1"># Xのカテゴリカルデータ列をone-hotベクトル化</span>
+<span class="n">X_</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">categorical_features</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># 最初の10件を表示</span>
+<span class="n">X_</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>education_num</th>
+      <th>capital_gain</th>
+      <th>capital_loss</th>
+      <th>hours_per_week</th>
+      <th>workclass_Local-gov</th>
+      <th>workclass_Never-worked</th>
+      <th>workclass_Private</th>
+      <th>workclass_Self-emp-inc</th>
+      <th>workclass_Self-emp-not-inc</th>
+      <th>...</th>
+      <th>native_country_Portugal</th>
+      <th>native_country_Puerto-Rico</th>
+      <th>native_country_Scotland</th>
+      <th>native_country_South</th>
+      <th>native_country_Taiwan</th>
+      <th>native_country_Thailand</th>
+      <th>native_country_Trinadad&amp;Tobago</th>
+      <th>native_country_United-States</th>
+      <th>native_country_Vietnam</th>
+      <th>native_country_Yugoslavia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>39</td>
+      <td>13</td>
+      <td>2174</td>
+      <td>0</td>
+      <td>40</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>50</td>
+      <td>13</td>
+      <td>0</td>
+      <td>0</td>
+      <td>13</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>38</td>
+      <td>9</td>
+      <td>0</td>
+      <td>0</td>
+      <td>40</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>53</td>
+      <td>7</td>
+      <td>0</td>
+      <td>0</td>
+      <td>40</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>28</td>
+      <td>13</td>
+      <td>0</td>
+      <td>0</td>
+      <td>40</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 96 columns</p>
+</div></div></div>
+</div>
+<p>新たに得られたデータフレーム<code class="docutils literal notranslate"><span class="pre">X_</span></code>の<code class="docutils literal notranslate"><span class="pre">workclass</span></code>に関連する列に着目しよう．
+元々は列<code class="docutils literal notranslate"><span class="pre">workclass</span></code>の値として”Local-gov”や”Never_worked”があったが，one-hotベクトル化されたデータフレーム<code class="docutils literal notranslate"><span class="pre">X_</span></code>では<code class="docutils literal notranslate"><span class="pre">workclass_Local-gov</span></code>などの列が新たに生成されていることが分かる．</p>
+<p>カテゴリカルデータに対する前処理が終ったが，まだ分類器を構築することはできない．
+データの正規化を行う必要がある．</p>
+<p>One-hotベクトルは1もしくは0の値を取る．
+一方で，データフレーム<code class="docutils literal notranslate"><span class="pre">X_</span></code>には「年齢」「週の勤務時間」「資産売却益」など，連続値を取る特徴量もある．
+これらの特徴量はとり得る値の範囲やデータの分布，単位が特徴量ごとに大きく異なるため，特徴量（列）間の比較が難しくなり，機械学習の性能に悪影響が出る可能性がある．
+このような問題に対処するために，データの<strong>スケーリング</strong>を行おう．</p>
+<p>一般に，スケーリングの方法には</p>
+<ul class="simple">
+<li><p>正規化: 最小値-最大値でスケーリングする方法</p></li>
+<li><p>標準化: データの分布が平均0，標準偏差1になるようスケーリングする方法</p></li>
+</ul>
+<p>の2種類がよく用いられる．
+ここでは簡単のため，連続値データ列もone-hotベクトルデータ列もすべて標準化することにしよう．
+以下のコードでデータを標準化する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 標準化のための変換器を用意</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">()</span>
+
+<span class="c1"># 標準化</span>
+<span class="n">X_</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">X_</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>データフレーム<code class="docutils literal notranslate"><span class="pre">X_</span></code>のデータが標準化された．</p>
+<p>前処理が終わったので，K近傍法（K=5）を用いて分類器を構築してみよう．
+分類器の性能評価は，5分割の層別化交差検証，評価指標は「マクロ精度（balanced accuracy）」「適合率（precision）」の2つを用いることにする．</p>
+<p>やや長いが，下記コードを実行し，交差検証を用いて分類器の構築，性能評価をしてみよう</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 時間計測に使う</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1"># 評価スコアを入れる場所</span>
+<span class="n">accuracy_scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">precision_scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="c1"># 5分割層別化交差検証</span>
+<span class="n">kfold</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">kfold</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="c1"># train_idx, test_idxには，データフレーム中の何番目のデータを用いるかのリストが入っている．</span>
+    <span class="c1"># 3つの分類器に対して同じデータを用いて評価すること．</span>
+    <span class="n">X_train</span> <span class="o">=</span> <span class="n">X_</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">]</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">]</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+    
+    <span class="c1"># 学習</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    
+    <span class="c1"># 推論</span>
+    <span class="n">y_predicted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    
+    <span class="c1"># 評価スコアの計算</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predicted</span><span class="p">)</span>
+    <span class="n">precision_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">precision</span><span class="p">)</span>          
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">balanced_accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predicted</span><span class="p">)</span>
+    <span class="n">accuracy_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>
+    
+    
+<span class="c1"># 交差検証の結果を平均して，最終の性能評価を算出</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">==== Precision =====&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">precision_scores</span><span class="p">))</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">==== Balanced accuracy =====&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">accuracy_scores</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==== Precision =====
+0.6478086618557175
+
+==== Balanced accuracy =====
+0.7379965967294305
+</pre></div>
+</div>
+</div>
+</div>
+<p>評価に用いたデータには年収の分布に偏りがあったため，どのカテゴリにも満遍なく予測ができるかを確認したいのであれば，適合率よりもマクロ精度をより重視した方がよい．
+今回のHands-onコードでは，単純な手法であるK近傍法もそこまで悪くない性能を示している．
+ハイパーパラメータの調整はしなかったので，どの分類器ももう少し性能改善の余地はあるだろう．</p>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="id8">
+<h1><span class="section-number">6. </span>クイズ<a class="headerlink" href="#id8" title="Link to this heading">#</a></h1>
+<p>※ 以下のクイズの回答にGoogle Colaboratoryを使いたい方は<a class="reference external" href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/knn-and-ml-flow.ipynb">コチラ</a>をクリック．</p>
+<section id="q1">
+<span id="l5-q1"></span><h2><span class="section-number">6.1. </span>Q1: 崩し字データのダウンロード<a class="headerlink" href="#q1" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://github.com/rois-codh/kmnist">Kuzushiji-MNIST</a>は，<a class="reference external" href="https://codh.rois.ac.jp/index.html.ja">ROIS-DS人文学オープンデータ共同利用センター</a>が公開している日本語<a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%81%8F%E3%81%9A%E3%81%97%E5%AD%97">くずし字</a>の画像データセットである（画像出典:<a class="reference external" href="https://github.com/rois-codh/kmnist">GitHubのkmnistレポジトリより参照</a>）．</p>
+<p><img alt="Kuzushiji MNIST" src="https://github.com/rois-codh/kmnist/raw/master/images/kmnist_examples.png" /></p>
+<p>クイズに取り組むに先だって以下のコードを実行し，下記4つのデータファイルをダウンロードしなさい．</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">k49-test-imgs.npz</span></code>: （評価用）画像データ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k49-test-labels.npz</span></code>: （評価用）ラベルデータ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k49_classmap.csv</span></code>: ラベル数字と文字の対応関係に関するCSVファイル</p></li>
+</ul>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>curl<span class="w"> </span>-o<span class="w"> </span>data/k49/k49-test-imgs.npz<span class="w"> </span>--create-dirs<span class="w"> </span>https://codh.rois.ac.jp/kmnist/dataset/k49/k49-test-imgs.npz
+<span class="o">!</span>curl<span class="w"> </span>-o<span class="w"> </span>data/k49/k49-test-labels.npz<span class="w"> </span>--create-dirs<span class="w"> </span>https://codh.rois.ac.jp/kmnist/dataset/k49/k49-test-labels.npz
+<span class="o">!</span>curl<span class="w"> </span>-o<span class="w"> </span>data/k49/k49_classmap.csv<span class="w"> </span>--create-dirs<span class="w"> </span>http://codh.rois.ac.jp/kmnist/dataset/k49/k49_classmap.csv
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>curl<span class="w"> </span>-o<span class="w"> </span>data/kmnist/kmnist-test-imgs.npz<span class="w"> </span>--create-dirs<span class="w"> </span>https://codh.rois.ac.jp/kmnist/dataset/kmnist/kmnist-test-imgs.npz
+<span class="o">!</span>curl<span class="w"> </span>-o<span class="w"> </span>data/kmnist/kmnist-test-labels.npz<span class="w"> </span>--create-dirs<span class="w"> </span>https://codh.rois.ac.jp/kmnist/dataset/kmnist/kmnist-test-labels.npz
+<span class="o">!</span>curl<span class="w"> </span>-o<span class="w"> </span>data/kmnist/kmnist_classmap.csv<span class="w"> </span>--create-dirs<span class="w"> </span>https://codh.rois.ac.jp/kmnist/dataset/kmnist/kmnist_classmap.csv
+</pre></div>
+</div>
+</div>
+</div>
+<p>ファイルのダウンロード後，下記コードを実行し，変数<code class="docutils literal notranslate"><span class="pre">X</span></code>に画像データ，変数<code class="docutils literal notranslate"><span class="pre">y</span></code>にラベルデータを格納しなさい．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;data/k49/k49-test-imgs.npz&#39;</span><span class="p">)[</span><span class="s1">&#39;arr_0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;data/k49/k49-test-labels.npz&#39;</span><span class="p">)[</span><span class="s1">&#39;arr_0&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="q2">
+<span id="l5-q2"></span><h2><span class="section-number">6.2. </span>Q2: データの確認<a class="headerlink" href="#q2" title="Link to this heading">#</a></h2>
+<p>変数<code class="docutils literal notranslate"><span class="pre">X</span></code>に格納された2025番目のくずし字を28行28列の行列形式，画像形式のそれぞれで表示せよ．</p>
+</section>
+<section id="q3">
+<span id="l5-q3"></span><h2><span class="section-number">6.3. </span>Q3: ラベルデータの分布<a class="headerlink" href="#q3" title="Link to this heading">#</a></h2>
+<p>変数<code class="docutils literal notranslate"><span class="pre">y</span></code>に格納された各ラベルについて，その出現頻度を求めなさい．
+なお，<code class="docutils literal notranslate"><span class="pre">y</span></code>のラベルはラベル番号であるため，可能なら<code class="docutils literal notranslate"><span class="pre">k49_classmap.csv</span></code>を用いてラベル番号を文字に置き換えること．</p>
+</section>
+<section id="q4-k">
+<span id="l5-q4"></span><h2><span class="section-number">6.4. </span>Q4: くずし字画像分類に対するK近傍法の瀬能<a class="headerlink" href="#q4-k" title="Link to this heading">#</a></h2>
+<p>変数<code class="docutils literal notranslate"><span class="pre">X</span></code>，<code class="docutils literal notranslate"><span class="pre">y</span></code>とK近傍法を用いて，くずし字画像の分類器を構築し，交差検証によって分類性能を評価しなさい．
+なお，K近傍法のパラメータ<code class="docutils literal notranslate"><span class="pre">K</span></code>は5，交差検証時のデータ分割数は<code class="docutils literal notranslate"><span class="pre">5</span></code>としなさい．</p>
+</section>
+<section id="q5">
+<span id="l5-q5"></span><h2><span class="section-number">6.5. </span>Q5: 最適パラメータの探索<a class="headerlink" href="#q5" title="Link to this heading">#</a></h2>
+<p>Q4で構築したくずし字画像分類器について，K近傍法のパラメータ<code class="docutils literal notranslate"><span class="pre">K</span></code>を2から9までひとつずつ変化させながら分類性能を評価し，最適なパラメータ<code class="docutils literal notranslate"><span class="pre">K</span></code>を求めなさい．</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="dbscan-and-others.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>DBSCAN &amp; クラスタリングの実用上の問題</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5. K近傍法 &amp; 教師あり学習のお作法</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist">5.1. 例題1: MNIST手書き数字データ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">5.1.1. 学習</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">5.2. 例題2: 人工的に作られたある2次元データ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">5.2.1. 誤った手続き1: 交差検証を行わない</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">5.2.2. 誤った手続き2: 層別化を行わない</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">5.2.3. 誤った手続き3: 評価指標が適切でない</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">5.2.4. より妥当な手続き</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5.3. 例題3: ある時期のアメリカ合衆国の年収調査データ</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. クイズ</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">6.1. Q1: 崩し字データのダウンロード</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">6.2. Q2: データの確認</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q3">6.3. Q3: ラベルデータの分布</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q4-k">6.4. Q4: くずし字画像分類に対するK近傍法の瀬能</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q5">6.5. Q5: 最適パラメータの探索</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025- by Yusuke Yamamoto.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
