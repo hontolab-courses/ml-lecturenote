@@ -1039,35 +1039,35 @@ Predicted label: Sandal
 </div>
 <p>散布図を見る限り，データは直線的に分布しているようである．
 そこで，「このデータセットは直線</p>
-<div class="amsmath math notranslate nohighlight" id="equation-024bb392-24d5-4ec3-9eb8-f874c4775f2b">
-<span class="eqno">(8.1)<a class="headerlink" href="#equation-024bb392-24d5-4ec3-9eb8-f874c4775f2b" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f7e30515-edf1-4792-9623-a553caae571c">
+<span class="eqno">(8.1)<a class="headerlink" href="#equation-f7e30515-edf1-4792-9623-a553caae571c" title="Permalink to this equation">#</a></span>\[\begin{align}
 y=&amp;f(x)\\
 　=&amp;wx - 1.59
 \end{align}\]</div>
 <p>に従って発生したもの」と仮定し，直線のパラメータ<span class="math notranslate nohighlight">\(w\)</span>（傾き）を勾配法を用いて推定することにしよう（なぜ切片が-1.59かというと，データ作成者である山本はこの直線が何かを知っている…）．</p>
 <p>さて，直線のパラメータはどのように求めるか．わたしたちはこの直線に従って発生したと思われるデータ集合<span class="math notranslate nohighlight">\(D=\{(x_1, y_1),...,(x_{1000}, y_{1000})\}\)</span>を持っている．
 ここでは，予想される直線（<span class="math notranslate nohighlight">\(y=f(x)\)</span>）から推測される<span class="math notranslate nohighlight">\(y\)</span>と実際の<span class="math notranslate nohighlight">\(y\)</span>の値の2乗誤差の総和を損失関数と見なし，その損失関数を最小化するパラメータ<span class="math notranslate nohighlight">\(w\)</span>を見つける戦略を採る（いわゆる<a class="reference external" href="https://ja.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%97%E6%B3%95">最小二乗法</a>）．つまり，以下の関数<span class="math notranslate nohighlight">\(L\)</span>を最小化するパラメータ<span class="math notranslate nohighlight">\(w\)</span>を見つけることにする（<span class="math notranslate nohighlight">\(L\)</span>は<span class="math notranslate nohighlight">\(w\)</span>に関する2次関数）．</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6396d117-ef11-435f-be01-11fe8ef871f2">
-<span class="eqno">(8.2)<a class="headerlink" href="#equation-6396d117-ef11-435f-be01-11fe8ef871f2" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6bb49563-0258-4d6d-87b4-1d6018b9ce2f">
+<span class="eqno">(8.2)<a class="headerlink" href="#equation-6bb49563-0258-4d6d-87b4-1d6018b9ce2f" title="Permalink to this equation">#</a></span>\[\begin{align}
 L=&amp; \sum_{i=1}^{1000}(y_i - f(x_i))^2 \\
  =&amp; \sum_{i=1}^{1000}(y_i - wx_i + 1.59)^2
 \end{align}\]</div>
 <p>計算機で関数を微分最小化するには，勾配法を用いるのが定番である．
 今回は勾配法の中でも<strong>最急降下法</strong>を用いる．
 関数<span class="math notranslate nohighlight">\(L(w)\)</span>を最急降下法で微分最小化するには，適当な<span class="math notranslate nohighlight">\(w^{(0)}\)</span>からスタートして，</p>
-<div class="amsmath math notranslate nohighlight" id="equation-edf47719-b3c4-41c0-9a6b-2be3cbb98376">
-<span class="eqno">(8.3)<a class="headerlink" href="#equation-edf47719-b3c4-41c0-9a6b-2be3cbb98376" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-74c6368b-5ab7-4b86-b58a-b0db0110567d">
+<span class="eqno">(8.3)<a class="headerlink" href="#equation-74c6368b-5ab7-4b86-b58a-b0db0110567d" title="Permalink to this equation">#</a></span>\[\begin{align}
 w^{(k+1)} = w^{(k)} - \alpha \frac{dL}{dw}
 \end{align}\]</div>
 <p>のルールを繰り返し適応しながら<span class="math notranslate nohighlight">\(w\)</span>を更新していく．
 ここで関数<span class="math notranslate nohighlight">\(L(w)\)</span>の<span class="math notranslate nohighlight">\(w\)</span>に関する導関数（勾配）は</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5ba6e824-de7d-4aff-9c95-7f841a6999d9">
-<span class="eqno">(8.4)<a class="headerlink" href="#equation-5ba6e824-de7d-4aff-9c95-7f841a6999d9" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-18199892-104c-4569-be29-ddaaf7829993">
+<span class="eqno">(8.4)<a class="headerlink" href="#equation-18199892-104c-4569-be29-ddaaf7829993" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{dL}{dw} =&amp; \sum_{i=1}^{1000}2(-x_i)(y_i - wx_i + 1.59)
 \end{align}\]</div>
 <p>となるので，パラメータ<span class="math notranslate nohighlight">\(w\)</span>の更新式は</p>
-<div class="amsmath math notranslate nohighlight" id="equation-09ca6eff-6000-48ef-a61a-101cfc0396f2">
-<span class="eqno">(8.5)<a class="headerlink" href="#equation-09ca6eff-6000-48ef-a61a-101cfc0396f2" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4b5bcb80-9b1b-4843-8807-bfdc559303ae">
+<span class="eqno">(8.5)<a class="headerlink" href="#equation-4b5bcb80-9b1b-4843-8807-bfdc559303ae" title="Permalink to this equation">#</a></span>\[\begin{align}
 w^{k+1} = w^{k} - \alpha \sum_{i=1}^{1000}2x_i(wx_i - 1.59 - y_i)
 \end{align}\]</div>
 <p>となる．</p>
