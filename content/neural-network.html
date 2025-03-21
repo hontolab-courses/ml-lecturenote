@@ -1,0 +1,1318 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>8. ニューラルネットワーク入門 &#8212; 機械学習入門の講義ノート</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-DK1T0PB7LS"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-DK1T0PB7LS');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-DK1T0PB7LS');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/neural-network';</script>
+    <link rel="canonical" href="https://mlnote.hontolab.org/content/neural-network.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="7. サポートベクターマシン" href="svm.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">機械学習入門の講義ノート</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">はじめに</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction-to-pandas.html">1. pandas入門</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction-to-ml.html">2. 決定木から始める機械学習</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">クラスタリング</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="kmeans-and-hierarchical-clustering.html">3. K-means &amp; 階層的クラスタリング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dbscan-and-others.html">4. DBSCAN &amp; クラスタリングの実用上の問題</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">分類</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="knn-and-ml-flow.html">5. K近傍法 &amp; 教師あり学習のお作法</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="svm.html">7. サポートベクターマシン</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. ニューラルネットワーク入門</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://datahub.ds.nagoya-cu.ac.jp/hub/user-redirect/git-pull?repo=https%3A//github.com/hontolab-courses/ml-lecturenote&urlpath=lab/tree/ml-lecturenote/content/neural-network.ipynb&branch=main" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on JupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="JupyterHub logo" src="../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/neural-network.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/content/neural-network.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ニューラルネットワーク入門</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fashion-mnist">8.1. 例題1: Fashion-MNIST - ファッション商品写真の画像データ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">8.1.1. データセットの準備</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">8.1.1.1. データセットを小分けにして取り出せるようにする</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">8.1.2. ニューラルネットワークの定義</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">8.1.3. 学習</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1">8.1.3.1. Step 1: ニューラルネットワークのインスタンスの生成</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-3">8.1.3.2. Step 2 &amp; 3: 損失関数と最適化条件の設定</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-6">8.1.3.3. Step 4-6: 学習と評価</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">8.1.4. 深層学習をやってみる</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">8.1.4.1. 畳み込みニューラルネットワークの定義（一例）</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">8.1.4.2. 学習と評価</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">8.1.4.3. 推論テスト</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8.2. 例題2: 勾配法</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1><span class="section-number">8. </span>ニューラルネットワーク入門<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>このHands-onでは，下記のデータを用いてニューラルネットワークによる分類器構築と勾配法の動作確認を体験する．</p>
+<ul class="simple">
+<li><p>ファッション商品写真の画像データ</p></li>
+<li><p>人工的に作られたある2次元データ</p></li>
+</ul>
+<p>Hands-onに先立って，必要なライブラリを読み込んでおこう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ニューラルネットワーク構築の基礎となるPyTorchライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optim</span>
+
+<span class="c1"># PyTorchが提供しているデータセットおよびそれを扱うライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision.transforms</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">transforms</span>
+
+<span class="c1"># 乱数を扱うライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+<span class="c1"># グラフ描画ライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># グラフ描画のためのおまじない</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;ticks&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<section id="fashion-mnist">
+<h2><span class="section-number">8.1. </span>例題1: Fashion-MNIST - ファッション商品写真の画像データ<a class="headerlink" href="#fashion-mnist" title="Link to this heading">#</a></h2>
+<p>例題1では，ファッション商品写真の分類を行うニューラルネットワークの構築を体験する．
+用いるデータは，手書き数字画像データセットのファッション商品版である<a class="reference external" href="https://github.com/zalandoresearch/fashion-mnist">Fashion-MNISTデータセット</a>である．
+Fashion-MNISTは，下記10種類のファッション商品に関する画像とそのラベルが収められたデータセットである：</p>
+<ul class="simple">
+<li><p>Tシャツ/トップス（ラベル0）</p></li>
+<li><p>ズボン（ラベル1）</p></li>
+<li><p>セーター（ラベル2）</p></li>
+<li><p>ドレス（ラベル3）</p></li>
+<li><p>コート（ラベル4）</p></li>
+<li><p>サンダル（ラベル5）</p></li>
+<li><p>シャツ（ラベル6）</p></li>
+<li><p>スニーカー（ラベル7）</p></li>
+<li><p>バッグ（ラベル8）</p></li>
+<li><p>ブーツ（ラベル9）</p></li>
+</ul>
+<p>データセットは，6万枚の学習用データと1万枚の評価用データで構成されている（それぞれデータは画像とラベルのペアで構成）．
+また，各画像は28x28ピクセルのグレースケール画像（0-255の数値で濃淡を表現）となっている．
+以下は，<a class="reference external" href="https://github.com/zalandoresearch/fashion-mnist">公式サイト</a>に掲載されているFashion-MNIST中のファッション商品画像の例である．</p>
+<p><img alt="Fashion-MNIST" src="https://github.com/zalandoresearch/fashion-mnist/raw/master/doc/img/fashion-mnist-sprite.png" /></p>
+<p>今回はこのデータセットを使って，ファッション商品画像データから商品ラベルを推定するニューラルネットワークを構築してみよう．</p>
+<section id="id2">
+<h3><span class="section-number">8.1.1. </span>データセットの準備<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>まずは以下のコードを実行して，データセットを準備しよう．
+学習用データと評価用データが<code class="docutils literal notranslate"><span class="pre">data</span></code>ディレクトリにダウンロードされる．</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 学習用データ</span>
+<span class="n">dataset_train</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
+                    <span class="n">root</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span>
+                    <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># 評価用データ</span>
+<span class="n">dataset_test</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
+                    <span class="n">root</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span>
+                    <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>今回用いるデータセットはあらかじめ学習用データと評価用データが分かれているので，自分で評価データを作成することなく分類器の性能評価が行える．
+そのため今回は</p>
+<ul class="simple">
+<li><p>学習用データ全体をニューラルネットワークの学習，</p></li>
+<li><p>評価用データ全体をニューラルネットワークの評価</p></li>
+</ul>
+<p>に使うことにしよう．</p>
+<p>さて，データセット中では，商品ラベルは数値で表現されている．
+推定結果を分かりやすくするために，以下を実行して，数値ラベルと商品ラベルを対応づけをするための準備をしておこう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">id2label</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;T-shirt/Top&quot;</span><span class="p">,</span> <span class="c1"># Tシャツ/トップス</span>
+     <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Trouser&quot;</span><span class="p">,</span>     <span class="c1"># ズボン</span>
+     <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Pullover&quot;</span><span class="p">,</span>    <span class="c1"># セーター</span>
+     <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Dress&quot;</span><span class="p">,</span>       <span class="c1"># ドレス</span>
+     <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Coat&quot;</span><span class="p">,</span>        <span class="c1"># コート</span>
+     <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;Sandal&quot;</span><span class="p">,</span>      <span class="c1"># サンダル</span>
+     <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;Shirt&quot;</span><span class="p">,</span>       <span class="c1"># シャツ</span>
+     <span class="mi">7</span><span class="p">:</span> <span class="s2">&quot;Sneaker&quot;</span><span class="p">,</span>     <span class="c1"># スニーカー</span>
+     <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;Bag&quot;</span><span class="p">,</span>         <span class="c1"># バッグ</span>
+     <span class="mi">9</span><span class="p">:</span> <span class="s2">&quot;Ankle Boot&quot;</span>   <span class="c1"># ブーツ</span>
+<span class="p">}</span>
+
+<span class="c1"># クラス数（ラベル数）</span>
+<span class="n">num_classes</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id3">
+<h4><span class="section-number">8.1.1.1. </span>データセットを小分けにして取り出せるようにする<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<p>深層学習を含め，ニューラルネットワークの学習では大規模なデータセットを扱う．
+今回はそれほど大きなデータセットではないが，それでも学習用データの画像数は6万枚ある．
+通常ニューラルネットワークの学習を行う場合には，データセット全体を一気にネットワークに投入することはせず，データセットを小分け（バッチ化）して学習を行う．
+こうすることで，処理を軽くしたり計算を効率化することができる．</p>
+<p>今回用いるPyTorchライブラリには，データを小分けにしながら学習を行うための便利クラス<code class="docutils literal notranslate"><span class="pre">DataLoader</span></code>が用意されている．
+これを使うことにしよう．
+今回の学習では，データを256個ずつに小分けしながら処理を行うことにする．
+以下のコードを実行し，小分け処理の準備を行う．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 小分け処理をするデータのサイズを指定</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">256</span>
+
+<span class="c1"># 学習用のデータ小分け機能の定義</span>
+<span class="n">loader_train</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">dataset_train</span><span class="p">,</span>
+                                           <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                                           <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># 評価用のデータ小分け機能の定義</span>
+<span class="n">loader_test</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">dataset_test</span><span class="p">,</span>
+                                          <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                                          <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h3><span class="section-number">8.1.2. </span>ニューラルネットワークの定義<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>ここがニューラルネットワークの本丸である．
+ラベル推定を行うニューラルネットワークを定義しよう．</p>
+<p>今回用いる<a class="reference external" href="https://pytorch.org">PyTorch</a>は，<a class="reference external" href="https://www.tensorflow.org">TensorFlow</a>と双璧をなす深層学習用のライブラリである．
+非常に柔軟にニューラルネットワークを定義・学習・評価することができる．
+PyTorchを使えば「ザ・深層学習」なニューラルネットワークも簡単に構築できる．</p>
+<p>今回の例題では，（入力を除いて）3層しかないシンプルで古典的な多層パーセプトロンを構築する．
+具体は以下の通り：</p>
+<ul class="simple">
+<li><p>0層目：入力層．28x28ピクセルの入力に対応して，784次元のベクトルの入力を受け付ける</p></li>
+<li><p>1層目：隠れ層1．ユニット数（ノード数）は1024</p></li>
+<li><p>2層目：隠れ層2．ユニット数は512</p></li>
+<li><p>3層目：出力層．ユニット数は10（ラベル数に対応）</p></li>
+</ul>
+<p>以下は上記設定を図示したものである：</p>
+<p><img alt="" src="https://raw.githubusercontent.com/hontolab-courses/ml-lecturenote/main/network.png" /></p>
+<p>また，1層目と2層目の活性化関数には<strong>シグモイド関数</strong>を，出力層である3層目には<strong>ソフトマックス関数</strong>を用いることにする．
+これらの要件を満たす多層パーセプトロン（Multilayer Perceptron: MLP）は，以下のコードで表現できる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># 1層目の入力は28x28次元，出力は1024次元（fc: fully connected）</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+        <span class="c1"># 2層目の入力は1024次元，出力は512次元</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+        <span class="c1"># 3層目の入力は512次元，出力は10次元（分類ラベル数）</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+
+    <span class="c1"># 順伝播を定義</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>PyTorchではニューラルネットワークを定義するのにいくつかの書き方があるが，上記の書き方は</p>
+<ul class="simple">
+<li><p>MLPという名前のニューラルネットワークをクラスとし，</p></li>
+<li><p>その属性として3層のレイヤーがあることを定義．</p></li>
+<li><p>forwardメソッドで，順伝播の流れを定義する</p></li>
+</ul>
+<p>という作法になっている．
+このネットワークの書き方は一見複雑そうに見えるが，他者が定義したネットワークを見たり，自分でネットワークを定義することを繰り返すことで自然と身に付いていく．
+今の時点では，コードを見て何をしているのかが追えれば十分である．</p>
+</section>
+<section id="id5">
+<h3><span class="section-number">8.1.3. </span>学習<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>多層パーセプトロンの構造が定義できたので，ニューラルネットワークの学習・評価を行う．
+学習と評価のプロセスはどんなニューラルネットワークを用いたとしても，大体次の内容をコードで書くことになる．</p>
+<ol class="arabic simple">
+<li><p>ニューラルネットワークのインスタンスを作る（初期化をする）</p></li>
+<li><p>損失関数を定義する</p></li>
+<li><p>最適化方法（勾配法の種類）を定義する</p></li>
+<li><p>学習用データを使ってニューラルネットワークの学習を行う</p></li>
+<li><p>ステップ4で学習したニューラルネットワークの評価を行う</p></li>
+<li><p>ステップ4-5をエポック数（学習回数）分繰り返す</p></li>
+</ol>
+<p>以下，上の流れに沿ってコードを動かしてみよう．</p>
+<section id="step-1">
+<h4><span class="section-number">8.1.3.1. </span>Step 1: ニューラルネットワークのインスタンスの生成<a class="headerlink" href="#step-1" title="Link to this heading">#</a></h4>
+<p>まず，先ほど定義した多層パーセプトロンのインスタンスを作る．
+具体的には，定義したニューラルネットワークのパラメータにランダムな値を割り当てたものを生成する．
+実践では，このタイミングで<strong>GPUを使って計算するか，CPUを使って計算するか</strong>を指定する．</p>
+<p>ニューラルネットワークは非常に計算量が多いので，GPUの力を借りないと計算に時間がかかる．
+GPU環境がある場合は，以下のコードのように<code class="docutils literal notranslate"><span class="pre">device='cuda'</span></code>と指定することで，GPUを使った計算が可能となる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 計算環境がApple Siliconを使用している場合，Metal を使うようにする</span>
+<span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_built</span><span class="p">():</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;mps&quot;</span>
+<span class="c1"># 計算環境が NVIDIA GPUに対応していればGPUを使うようにする</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 計算環境に応じてニューラルネットワークを初期化する</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-2-3">
+<h4><span class="section-number">8.1.3.2. </span>Step 2 &amp; 3: 損失関数と最適化条件の設定<a class="headerlink" href="#step-2-3" title="Link to this heading">#</a></h4>
+<p>予測値と正解とのズレを評価する「損失関数」と損失関数の微分最小化をするための「勾配法」の種類を定義しよう．</p>
+<p>今回はファッション商品画像から商品のラベルを当てる「分類器」を作ることが目的なので，損失関数として<strong>交差エントロピー</strong>を用いる．
+また，最適化のための勾配法としては，ベーシックな<strong>確率的勾配降下法</strong>を使うことにしよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 損失関数（交差エントロピー）の設定</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+
+<span class="c1"># 最適化手法（確率的勾配降下法）を設定（学習率は0.01を指定）</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-4-6">
+<h4><span class="section-number">8.1.3.3. </span>Step 4-6: 学習と評価<a class="headerlink" href="#step-4-6" title="Link to this heading">#</a></h4>
+<p>いよいよニューラルネットワークの学習と評価を行う．</p>
+<p>ニューラルネットワークの学習では，</p>
+<ol class="arabic simple">
+<li><p>用意された学習データを用いて「学習」を行い，</p></li>
+<li><p>評価データを用いて学習されたネットワークを「評価」する</p></li>
+</ol>
+<p>という作業をエポック数回だけ繰り返すことになる．
+各エポックでは同じデータ，同じ方法を用いてネットワークの「学習」と「評価」を行う．
+そのため，「学習」と「評価」の手続きをあらかじめ定義しておいた方が楽です．それら手続きをコード化しよう．</p>
+<p>以下は「学習フェーズ」のコードである．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+    <span class="c1"># ニューラルネットワークモデルを「学習」フェーズに設定しておく</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    
+    <span class="c1"># 損失関数の値を保存する変数</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="c1"># データ全体を小分け（バッチ）にして学習を行う</span>
+    <span class="k">for</span> <span class="n">batch_num</span><span class="p">,</span> <span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+        <span class="c1"># 画像データとラベルデータをGPUに載せられたら載せる</span>
+        <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">labels</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        
+        <span class="c1"># 勾配をリセット</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="c1"># 順伝播</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+        <span class="c1"># lossを計算（CrossEntropyLossの内部でSoftmaxが実装されているので，Softmax関数をかまさなくてOK）</span>
+        <span class="n">_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="c1"># 誤差逆伝播</span>
+        <span class="n">_loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="c1"># 重みの更新</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="c1"># lossのミニバッチ分を加算</span>
+        <span class="n">loss</span> <span class="o">+=</span> <span class="n">_loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+   
+    <span class="c1"># 損失の平均</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">loss</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>複雑に見えるかもしれないが，上記コードがやっていることは</p>
+<ol class="arabic simple">
+<li><p>データを小分けにする</p></li>
+<li><p>各小分けデータをニューラルネットワークに入力し損失関数の値を計算する</p></li>
+<li><p>誤差を逆伝播させる</p></li>
+<li><p>伝播された誤差と勾配情報から重みを更新する</p></li>
+</ol>
+<p>という操作を行っている．</p>
+<p>以下は「評価」フェーズのコードである．
+今回は分類問題を扱っているので，評価尺度として**Accuracy（精度）**を計算する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+    <span class="c1">#  ニューラルネットワークモデルを「評価」フェーズに設定しておく</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    
+    <span class="c1"># 損失関数の値や精度を保持しておく変数</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_num</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">correct_label_num</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="c1"># 評価するとき勾配を計算しないように加える</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="c1"># データ全体を小分け（バッチ）にして評価を行う</span>
+        <span class="k">for</span> <span class="n">batch_num</span><span class="p">,</span> <span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+            <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">labels</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            
+            <span class="c1"># 順伝播</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+            
+            <span class="c1"># 評価用データに対する推論</span>
+            <span class="n">labels_predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            
+            <span class="c1"># 推論の正答数を控えておく</span>
+            <span class="n">correct_label_num</span> <span class="o">+=</span> <span class="p">(</span><span class="n">labels_predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">total_num</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+            
+            <span class="c1"># 損失関数の値の計算</span>
+            <span class="n">_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">+=</span> <span class="n">_loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>            
+        
+        <span class="c1"># 損失関数の値のまとめ（平均値）</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+        <span class="c1"># 精度の計算</span>
+        <span class="n">accuracy</span> <span class="o">=</span> <span class="n">correct_label_num</span> <span class="o">/</span> <span class="n">total_num</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>学習と評価を行うための準備が整った．
+エポック数回だけ学習と評価を行ってみよう．
+今回はエポック数を50に設定する．
+つまり，同じデータを使ってニューラルネットワークの学習と評価を50回繰り返す．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># エポック数の設定</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="c1"># 学習用データに対する推論の損失関数の値と評価データに対するそれを保持する変数</span>
+<span class="n">loss_train_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">loss_test_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># エポック回数分，学習と評価を行う</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="c1"># 学習フェーズ</span>
+    <span class="n">loss_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">loader_train</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+    
+    <span class="c1"># 評価フェーズ</span>
+    <span class="n">loss_test</span><span class="p">,</span> <span class="n">accuracy_test</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">loader_test</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+    <span class="n">loss_train_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_train</span><span class="p">)</span>
+    <span class="n">loss_test_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_test</span><span class="p">)</span>
+    
+    <span class="c1"># 途中経過の表示</span>
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">epoch</span> <span class="o">==</span> <span class="mi">49</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s1">], Loss_train : </span><span class="si">{</span><span class="n">loss_train</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, Loss_test : </span><span class="si">{</span><span class="n">loss_test</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, Accuracy_test : </span><span class="si">{</span><span class="n">accuracy_test</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [1/50], Loss_train : 0.0090, Loss_test : 0.0092, Accuracy_test : 0.100
+Epoch [11/50], Loss_train : 0.0073, Loss_test : 0.0072, Accuracy_test : 0.417
+Epoch [21/50], Loss_train : 0.0045, Loss_test : 0.0045, Accuracy_test : 0.606
+Epoch [31/50], Loss_train : 0.0037, Loss_test : 0.0038, Accuracy_test : 0.642
+Epoch [41/50], Loss_train : 0.0033, Loss_test : 0.0034, Accuracy_test : 0.699
+Epoch [50/50], Loss_train : 0.0030, Loss_test : 0.0031, Accuracy_test : 0.730
+</pre></div>
+</div>
+</div>
+</div>
+<p>上記コードを走らせると，じわりじわりと学習が進む．
+ニューラルネットワークの学習は非常に時間がかかるため，しばらく計算機を放置しておこう．
+途中，学習の状況が表示されますが，<code class="docutils literal notranslate"><span class="pre">loss_train</span></code>（学習データに対する損失関数値）と<code class="docutils literal notranslate"><span class="pre">loss_test</span></code>（評価データに対する損失関数値）の双方が順調に下がっていれば問題ない．</p>
+<p>以前の講義でも話したように，学習回数が多すぎると過学習する恐れがある．
+学習データに対する損失関数値が下がり続けている一方，評価データに対する損失関数値が上がり始めた場合は過学習が起こり始めた可能性がある．
+もし過学習が起き始めたら，そのタイミングで学習を終了させるのが良い．</p>
+<p>今回はエポック数が50あたりで学習を終了させよう．
+エポック数が50の時の<strong>Accuracy</strong>は72−75%程度か？</p>
+</section>
+</section>
+<section id="id6">
+<h3><span class="section-number">8.1.4. </span>深層学習をやってみる<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>講義では解説していないが，深層学習でFashion-MNISTの分類問題にアタックしてみよう．
+ここでは，画像系の深層学習でよく用いられる<a class="reference external" href="https://ja.wikipedia.org/wiki/%E7%95%B3%E3%81%BF%E8%BE%BC%E3%81%BF%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF">畳み込みニューラルネットワークモデル</a>を使ってみる．
+詳細は説明しませんので，興味のない人はコードの実行結果だけ見て，上で行ったシンプルな3層の多層パーセプトロンの結果と比較してみよう．</p>
+<p>以下，今回用いる畳み込みニューラルネットワークの定義と学習・評価の実行結果である．</p>
+<section id="id7">
+<h4><span class="section-number">8.1.4.1. </span>畳み込みニューラルネットワークの定義（一例）<a class="headerlink" href="#id7" title="Link to this heading">#</a></h4>
+<p>ネットワークとしては，畳み込み→ReLU→Max Pooling→畳み込み→ReLU→Max Pooling→アフィン変換→ReLU→アフィン変換という操作をしている（途中，ドロップアウトという一定の確率でユニットを無視するテクニックも使っている）．</p>
+<p>勾配法としては，深層学習ではよく用いられる<a class="reference external" href="https://ja.wikipedia.org/wiki/%E7%A2%BA%E7%8E%87%E7%9A%84%E5%8B%BE%E9%85%8D%E9%99%8D%E4%B8%8B%E6%B3%95#Adam">Adam</a>という最適化手法を用いている．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">64</span><span class="o">*</span><span class="mi">7</span><span class="o">*</span><span class="mi">7</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># conv 1</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># conv 2</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># fc layer</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="o">*</span><span class="mi">7</span><span class="o">*</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># Output layer</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># output</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cnn_model</span> <span class="o">=</span> <span class="n">CNN</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># 損失関数（交差エントロピー）の設定</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+
+<span class="c1"># 最適化手法を設定（Adam）</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">cnn_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id8">
+<h4><span class="section-number">8.1.4.2. </span>学習と評価<a class="headerlink" href="#id8" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 学習用のデータ小分け機能の定義</span>
+<span class="n">loader_train</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">dataset_train</span><span class="p">,</span>
+                                           <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                                           <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># 評価用のデータ小分け機能の定義</span>
+<span class="n">loader_test</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">dataset_test</span><span class="p">,</span>
+                                          <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                                          <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># エポック数の設定</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="c1"># 学習用データに対する推論の損失関数の値と評価データに対するそれを保持する変数</span>
+<span class="n">loss_train_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">loss_test_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># エポック回数分，学習と評価を行う</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="c1"># 学習フェーズ</span>
+    <span class="n">loss_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">cnn_model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">loader_train</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+    
+    <span class="c1"># 評価フェーズ</span>
+    <span class="n">loss_test</span><span class="p">,</span> <span class="n">accuracy_test</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">cnn_model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">loader_test</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+    <span class="n">loss_train_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_train</span><span class="p">)</span>
+    <span class="n">loss_test_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_test</span><span class="p">)</span>
+    
+    <span class="c1"># 途中経過の表示</span>
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">epoch</span> <span class="o">==</span> <span class="mi">49</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s1">], Loss_train : </span><span class="si">{</span><span class="n">loss_train</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, Loss_test : </span><span class="si">{</span><span class="n">loss_test</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, Accuracy_test : </span><span class="si">{</span><span class="n">accuracy_test</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [1/50], Loss_train : 0.0027, Loss_test : 0.0020, Accuracy_test : 0.820
+Epoch [11/50], Loss_train : 0.0010, Loss_test : 0.0012, Accuracy_test : 0.890
+Epoch [21/50], Loss_train : 0.0008, Loss_test : 0.0012, Accuracy_test : 0.901
+Epoch [31/50], Loss_train : 0.0007, Loss_test : 0.0011, Accuracy_test : 0.908
+Epoch [41/50], Loss_train : 0.0006, Loss_test : 0.0012, Accuracy_test : 0.904
+Epoch [50/50], Loss_train : 0.0006, Loss_test : 0.0012, Accuracy_test : 0.908
+</pre></div>
+</div>
+</div>
+</div>
+<p>先ほど構築した3層パーセプトロンよりも随分と時間がかかるが，効果は抜群だ．
+畳み込みニューラルネットワークモデルが最適化手法Adamによって効率よく学習された．
+エポック数50における<strong>Accuracy</strong>が90%程度なので，3層パーセプトロンより大幅に性能が改善されたことになる．</p>
+</section>
+<section id="id9">
+<h4><span class="section-number">8.1.4.3. </span>推論テスト<a class="headerlink" href="#id9" title="Link to this heading">#</a></h4>
+<p>せっかくなので，学習させた畳み込みニューラルネットワークで未知のファッション商品画像のラベル推定をやってみよう．
+以下のコードでは評価用データからランダムにデータを1つ取り出し，それに対して分類器による推論を行っている．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># datasetからサンプルを一つ取り出す</span>
+<span class="n">image</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">dataset_test</span><span class="p">)</span>
+
+<span class="c1"># 学習済みモデルを使ってラベルを推論</span>
+<span class="c1"># 下記コードでは，畳み込みニューラルネットワークの出力値が最も高いラベルを取得している</span>
+<span class="n">label_predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;True label:&quot;</span><span class="p">,</span> <span class="n">id2label</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted label:&quot;</span><span class="p">,</span> <span class="n">id2label</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">label_predicted</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/43e297dff8895969783a6b720be0bc20f92b2d4f8107f59269d819ab61d27095.png" src="../_images/43e297dff8895969783a6b720be0bc20f92b2d4f8107f59269d819ab61d27095.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True label: Dress
+Predicted label: Dress
+</pre></div>
+</div>
+</div>
+</div>
+<p>何回か推論を行ってみよう．大体当たっている？</p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id10">
+<h2><span class="section-number">8.2. </span>例題2: 勾配法<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
+<p>最後に，機械学習の基礎となる技術「勾配法」を体験してみよう．
+ニューラルネットワークの損失関数は複雑なので，それを対象として勾配法が関数の微分最小化をどのように行うかを体感するのは難しいかもしれない．
+そこで，この例題では人工的に生成した2次元データを用いて，勾配法による2次関数の最小化問題を体験する．</p>
+<p>まずは以下のコードを実行して，例題で用いるデータを読み込もう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 表データを扱うライブラリ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># データを読み込む</span>
+<span class="n">data_url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/hontolab-courses/dmml-2023/main/dataset/sgd-data.tsv&quot;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">data_url</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 末尾10件のデータを表示</span>
+<span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>995</th>
+      <td>-0.282698</td>
+      <td>-3.453855</td>
+    </tr>
+    <tr>
+      <th>996</th>
+      <td>0.332550</td>
+      <td>-0.592492</td>
+    </tr>
+    <tr>
+      <th>997</th>
+      <td>1.551304</td>
+      <td>2.760538</td>
+    </tr>
+    <tr>
+      <th>998</th>
+      <td>1.923891</td>
+      <td>6.482983</td>
+    </tr>
+    <tr>
+      <th>999</th>
+      <td>-0.105533</td>
+      <td>-0.388455</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>このデータセットには，上記のような2次元のデータが1000個収められている．
+以下のコードを実行して，データの分布を確認してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 可視化</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/27c7e97745ee53a249c51b1bcdd2030a5c70457db0e10c146b538797be2eaf13.png" src="../_images/27c7e97745ee53a249c51b1bcdd2030a5c70457db0e10c146b538797be2eaf13.png" />
+</div>
+</div>
+<p>散布図を見る限り，データは直線的に分布しているようである．
+そこで，「このデータセットは直線
+$$</p>
+<div class="amsmath math notranslate nohighlight" id="equation-05a061eb-42e2-42d0-8bf1-6b11ee9dac3a">
+<span class="eqno">(8.1)<a class="headerlink" href="#equation-05a061eb-42e2-42d0-8bf1-6b11ee9dac3a" title="Permalink to this equation">#</a></span>\[\begin{align}
+y=&amp;f(x)\\
+　=&amp;wx - 1.59
+\end{align}\]</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}に従って発生したもの」と仮定し，直線のパラメータ$w$（傾き）を勾配法を用いて推定することにしよう（なぜ切片が-1.59かというと，データ作成者である山本はこの直線が何かを知っている…）．\\さて，直線のパラメータはどのように求めるか．わたしたちはこの直線に従って発生したと思われるデータ集合$D=\{(x_1, y_1),...,(x_{1000}, y_{1000})\}$を持っている．
+ここでは，予想される直線（$y=f(x)$）から推測される$y$と実際の$y$の値の2乗誤差の総和を損失関数と見なし，その損失関数を最小化するパラメータ$w$を見つける戦略を採る（いわゆる[最小二乗法](https://ja.wikipedia.org/wiki/最小二乗法)）．つまり，以下の関数$L$を最小化するパラメータ$w$を見つけることにする（$L$は$w$に関する2次関数）．\end{aligned}\end{align} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-36d42d53-4b86-4f69-a6fc-d81292a49205">
+<span class="eqno">(8.2)<a class="headerlink" href="#equation-36d42d53-4b86-4f69-a6fc-d81292a49205" title="Permalink to this equation">#</a></span>\[\begin{align}
+L=&amp; \sum_{i=1}^{1000}(y_i - f(x_i))^2 \\
+ =&amp; \sum_{i=1}^{1000}(y_i - wx_i + 1.59)^2
+\end{align}\]</div>
+<p>$$</p>
+<p>計算機で関数を微分最小化するには，勾配法を用いるのが定番である．
+今回は勾配法の中でも<strong>最急降下法</strong>を用いる．
+関数<span class="math notranslate nohighlight">\(L(w)\)</span>を最急降下法で微分最小化するには，適当な<span class="math notranslate nohighlight">\(w^{(0)}\)</span>からスタートして，</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+w^{(k+1)} = w^{(k)} - \alpha \frac{dL}{dw}
+\end{align}
+\]</div>
+<p>のルールを繰り返し適応しながら<span class="math notranslate nohighlight">\(w\)</span>を更新していく．
+ここで関数<span class="math notranslate nohighlight">\(L(w)\)</span>の<span class="math notranslate nohighlight">\(w\)</span>に関する導関数（勾配）は</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+\frac{dL}{dw} =&amp; \sum_{i=1}^{1000}2(-x_i)(y_i - wx_i + 1.59)
+\end{align}
+\]</div>
+<p>となるので，パラメータ<span class="math notranslate nohighlight">\(w\)</span>の更新式は
+$$</p>
+<div class="amsmath math notranslate nohighlight" id="equation-24defd7a-35e0-465c-a580-8f1024ab5f9c">
+<span class="eqno">(8.3)<a class="headerlink" href="#equation-24defd7a-35e0-465c-a580-8f1024ab5f9c" title="Permalink to this equation">#</a></span>\[\begin{align}
+w^{k+1} = w^{k} - \alpha \sum_{i=1}^{1000}2x_i(wx_i - 1.59 - y_i)
+\end{align}\]</div>
+<p>$$
+となる．</p>
+<p>ということで，この更新式を使って最急降下法による関数の微分最小化および最適なパラメータの推定を行ってみよう．
+最急降下法ではパラメータの更新の細かさを決める学習率<span class="math notranslate nohighlight">\(\alpha\)</span>を設定する必要がある．
+今回は<span class="math notranslate nohighlight">\(\alpha=10^{-4}\)</span>としよう．
+また，パラメータ更新の終了条件は，</p>
+<ul class="simple">
+<li><p>パラメータ<span class="math notranslate nohighlight">\(w\)</span>の更新回数が10000回になったとき</p></li>
+<li><p>パラメータ<span class="math notranslate nohighlight">\(w\)</span>の更新量の絶対値が<span class="math notranslate nohighlight">\(10^{-8}\)</span>未満になったとき（つまりパラメータがほとんど変化しなくなったとき）</p></li>
+</ul>
+<p>としよう．</p>
+<p>前置きが長くなったが，以上のことを踏まえて，コードを書く．
+まずは，関数<span class="math notranslate nohighlight">\(L(w)\)</span>の<span class="math notranslate nohighlight">\(w\)</span>に関する勾配をコードで定義する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">gradient</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span> <span class="n">y_list</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+    <span class="n">grad</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="c1"># データを1個ずつ処理</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span> <span class="n">y_list</span><span class="p">):</span>
+        <span class="n">grad</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">x</span>  <span class="o">-</span> <span class="mf">1.59</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">grad</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>勾配の式が定義できたので，最急降下法のコードを実装する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">gradient_descent</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span> <span class="n">y_list</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">delta_threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">epoch_num</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; alpha: 学習率，</span>
+<span class="sd">        delta_treshold: パラメータの更新量の絶対値に対する閾値</span>
+<span class="sd">        epoch_num: 更新回数の上限</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># パラメータをランダムに初期化</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epoch_num</span><span class="p">):</span>
+        <span class="c1"># パラメータの更新式</span>
+        <span class="n">w_new</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">gradient</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span> <span class="n">y_list</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+
+        <span class="c1"># パラメータの更新量の絶対値</span>
+        <span class="n">w_delta</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">w_new</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">w_delta</span> <span class="o">&lt;</span> <span class="n">delta_threshold</span><span class="p">:</span>
+            <span class="c1"># パラメータがほぼ変化しなくなったら</span>
+            <span class="k">return</span> <span class="n">w_new</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># まだ変化する余地があるなら，引き続きパラメータを更新する</span>
+            <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;更新回数 </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">回目</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">w_new</span>
+            
+    <span class="k">return</span> <span class="n">w_new</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>準備が整ったので，以下のコードを走らせて最急降下法を実行してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># データセット</span>
+<span class="n">x_list</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
+<span class="n">y_list</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+
+<span class="c1"># 最急降下法の実行</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span> <span class="n">y_list</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Optimized w =&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>更新回数 0回目	 0.5874993370344522
+更新回数 5回目	 2.5761995079979485
+更新回数 10回目	 3.0280053942614744
+更新回数 15回目	 3.1306496047074726
+更新回数 20回目	 3.1539689864561584
+更新回数 25回目	 3.159266835821243
+更新回数 30回目	 3.1604704358222033
+更新回数 35回目	 3.1607438775270325
+更新回数 40回目	 3.160805999798451
+更新回数 45回目	 3.1608201131415807
+更新回数 50回目	 3.1608233195029993
+更新回数 55回目	 3.160824047945116
+更新回数 60回目	 3.160824213437351
+
+Optimized w = 3.160824235194694
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\(w\)</span>の値として，3.14付近の値が推定されたのではないだろうか．
+実は今回用いたデータセットは，<span class="math notranslate nohighlight">\(y=3.14x-1.59\)</span>という直線から発生させたものであった．
+直線の傾きは3.14なので，推定されたパラメータ<span class="math notranslate nohighlight">\(w\)</span>はおおよそ当たっていたことになる．</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="svm.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>サポートベクターマシン</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fashion-mnist">8.1. 例題1: Fashion-MNIST - ファッション商品写真の画像データ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">8.1.1. データセットの準備</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">8.1.1.1. データセットを小分けにして取り出せるようにする</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">8.1.2. ニューラルネットワークの定義</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">8.1.3. 学習</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1">8.1.3.1. Step 1: ニューラルネットワークのインスタンスの生成</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-3">8.1.3.2. Step 2 &amp; 3: 損失関数と最適化条件の設定</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-6">8.1.3.3. Step 4-6: 学習と評価</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">8.1.4. 深層学習をやってみる</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">8.1.4.1. 畳み込みニューラルネットワークの定義（一例）</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">8.1.4.2. 学習と評価</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">8.1.4.3. 推論テスト</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8.2. 例題2: 勾配法</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025- by Yusuke Yamamoto.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
