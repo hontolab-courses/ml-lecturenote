@@ -661,7 +661,8 @@ GPU環境がある場合は，以下のコードのように<code class="docutil
 </ol>
 <p>という作業をエポック数回だけ繰り返すことになる．
 各エポックでは同じデータ，同じ方法を用いてネットワークの「学習」と「評価」を行う．
-そのため，「学習」と「評価」の手続きをあらかじめ定義しておいた方が楽です．それら手続きをコード化しよう．</p>
+そのため，「学習」と「評価」の手続きをあらかじめ定義しておいた方が楽である．
+それら手続きをコード化しよう．</p>
 <p>以下は「学習フェーズ」のコードである．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -706,7 +707,7 @@ GPU環境がある場合は，以下のコードのように<code class="docutil
 </ol>
 <p>という操作を行っている．</p>
 <p>以下は「評価」フェーズのコードである．
-今回は分類問題を扱っているので，評価尺度として**Accuracy（精度）**を計算する．</p>
+今回は分類問題を扱っているので，評価尺度として<strong>Accuracy（精度）</strong> を計算する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
@@ -1039,20 +1040,20 @@ Predicted label: Sandal
 <p>散布図を見る限り，データは直線的に分布しているようである．
 そこで，「このデータセットは直線
 $$</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6c69888d-610e-44d1-ada4-bca4dc4b32e5">
-<span class="eqno">(8.1)<a class="headerlink" href="#equation-6c69888d-610e-44d1-ada4-bca4dc4b32e5" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8cb21920-27d9-4a61-90e0-3d2e20a0d5e4">
+<span class="eqno">(8.1)<a class="headerlink" href="#equation-8cb21920-27d9-4a61-90e0-3d2e20a0d5e4" title="Permalink to this equation">#</a></span>\[\begin{align}
 y=&amp;f(x)\\
 　=&amp;wx - 1.59
 \end{align}\]</div>
-<div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}に従って発生したもの」と仮定し，直線のパラメータ$w$（傾き）を勾配法を用いて推定することにしよう（なぜ切片が-1.59かというと，データ作成者である山本はこの直線が何かを知っている…）．\\さて，直線のパラメータはどのように求めるか．わたしたちはこの直線に従って発生したと思われるデータ集合$D=\{(x_1, y_1),...,(x_{1000}, y_{1000})\}$を持っている．
-ここでは，予想される直線（$y=f(x)$）から推測される$y$と実際の$y$の値の2乗誤差の総和を損失関数と見なし，その損失関数を最小化するパラメータ$w$を見つける戦略を採る（いわゆる[最小二乗法](https://ja.wikipedia.org/wiki/最小二乗法)）．つまり，以下の関数$L$を最小化するパラメータ$w$を見つけることにする（$L$は$w$に関する2次関数）．\end{aligned}\end{align} \]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-5dba0e68-402b-4589-8685-f2198dde9664">
-<span class="eqno">(8.2)<a class="headerlink" href="#equation-5dba0e68-402b-4589-8685-f2198dde9664" title="Permalink to this equation">#</a></span>\[\begin{align}
+<p>$$</p>
+<p>に従って発生したもの」と仮定し，直線のパラメータ<span class="math notranslate nohighlight">\(w\)</span>（傾き）を勾配法を用いて推定することにしよう（なぜ切片が-1.59かというと，データ作成者である山本はこの直線が何かを知っている…）．</p>
+<p>さて，直線のパラメータはどのように求めるか．わたしたちはこの直線に従って発生したと思われるデータ集合<span class="math notranslate nohighlight">\(D=\{(x_1, y_1),...,(x_{1000}, y_{1000})\}\)</span>を持っている．
+ここでは，予想される直線（<span class="math notranslate nohighlight">\(y=f(x)\)</span>）から推測される<span class="math notranslate nohighlight">\(y\)</span>と実際の<span class="math notranslate nohighlight">\(y\)</span>の値の2乗誤差の総和を損失関数と見なし，その損失関数を最小化するパラメータ<span class="math notranslate nohighlight">\(w\)</span>を見つける戦略を採る（いわゆる<a class="reference external" href="https://ja.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%97%E6%B3%95">最小二乗法</a>）．つまり，以下の関数<span class="math notranslate nohighlight">\(L\)</span>を最小化するパラメータ<span class="math notranslate nohighlight">\(w\)</span>を見つけることにする（<span class="math notranslate nohighlight">\(L\)</span>は<span class="math notranslate nohighlight">\(w\)</span>に関する2次関数）．</p>
+<div class="amsmath math notranslate nohighlight" id="equation-1210b4f7-f9a4-45b7-b635-dc3e353ccba2">
+<span class="eqno">(8.2)<a class="headerlink" href="#equation-1210b4f7-f9a4-45b7-b635-dc3e353ccba2" title="Permalink to this equation">#</a></span>\[\begin{align}
 L=&amp; \sum_{i=1}^{1000}(y_i - f(x_i))^2 \\
  =&amp; \sum_{i=1}^{1000}(y_i - wx_i + 1.59)^2
 \end{align}\]</div>
-<p>$$</p>
 <p>計算機で関数を微分最小化するには，勾配法を用いるのが定番である．
 今回は勾配法の中でも<strong>最急降下法</strong>を用いる．
 関数<span class="math notranslate nohighlight">\(L(w)\)</span>を最急降下法で微分最小化するには，適当な<span class="math notranslate nohighlight">\(w^{(0)}\)</span>からスタートして，</p>
@@ -1072,8 +1073,8 @@ w^{(k+1)} = w^{(k)} - \alpha \frac{dL}{dw}
 \]</div>
 <p>となるので，パラメータ<span class="math notranslate nohighlight">\(w\)</span>の更新式は
 $$</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fee43c20-8f44-4075-b76d-a5974bded1c8">
-<span class="eqno">(8.3)<a class="headerlink" href="#equation-fee43c20-8f44-4075-b76d-a5974bded1c8" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9886e931-7cd0-4595-be7d-80ef2e25f2d9">
+<span class="eqno">(8.3)<a class="headerlink" href="#equation-9886e931-7cd0-4595-be7d-80ef2e25f2d9" title="Permalink to this equation">#</a></span>\[\begin{align}
 w^{k+1} = w^{k} - \alpha \sum_{i=1}^{1000}2x_i(wx_i - 1.59 - y_i)
 \end{align}\]</div>
 <p>$$
