@@ -1,6 +1,7 @@
-# 機械学習発展（導入編）
+# 機械学習入門
 
-* 開講時期: 3年次 前期-前半
+* 科目名：機械学習発展
+* 開講時期：3年次 前期-前半
 * 日時：月曜4コマ（14:40-16:10）
 * 担当教員：[山本 祐輔](https://hontolab.org/)（名古屋市立大学データサイエンス学部 准教授）
 
@@ -27,14 +28,14 @@ Googleアカウントを持っていない学生は，授業までに取得し�
 ## 授業計画とコンテンツ
 | |  日時  | トピック | スライド資料 | Hands-on | クイズ | クイズ解答 |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| 1 | 04/14 | ガイダンス & pandas入門 |  [Speaker Deck]() | [Here](content/introduction-to-pandas.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-pandas.ipynb) |  |
-| 2 | 04/21 | 機械学習の概要 & はじめての機械学習 |  | [Here](content/introduction-to-ml.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-ml.ipynb) |  |
-| 3 | 04/28 | クラスタリング1: K-means & 階層的クラスタリング |   | [Here](content/kmeans-and-hierarchical-clustering.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/kmeans-and-hierarchical-clustering.ipynb) |  |
-| 4 | 05/12 | クラスタリング2：密度ベースクラスタリング |  | [Here](content/dbscan-and-others.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/dbscan-and-others.ipynb) |  |
-| 5 | 05/19 | 分類1: K近傍法 & 教師あり機械学習のお作法 |  | [Here](content/knn-and-ml-flow.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/knn-and-ml-flow.ipynb) |  |
-| 6 | 05/26 | 分類2: サポートベクターマシン |  | [Here](content/svm.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/svm.ipynb) |  |
-| 7 | 06/02 | 分類3: ニューラルネットワーク入門 |  |  |  |  |
-| 8 | 06/09 | 機械学習演習 |  |  |  |  |
+| 1 | 04/14 | ガイダンス |  [Speaker Deck]() | - | - | - |
+| 2 | 04/21 | pandas入門 |  [Speaker Deck]() | [Here](content/introduction-to-pandas.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-pandas.ipynb) |  |
+| 3 | 04/28 | 機械学習の概要 & はじめての機械学習 |  | [Here](content/introduction-to-ml.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-ml.ipynb) |  |
+| 4 | 05/12 | クラスタリング1: K-means & 階層的クラスタリング |   | [Here](content/kmeans-and-hierarchical-clustering.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/kmeans-and-hierarchical-clustering.ipynb) |  |
+| 5 | 05/19 | クラスタリング2：密度ベースクラスタリング |  | [Here](content/dbscan-and-others.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/dbscan-and-others.ipynb) |  |
+| 6 | 05/26 | 分類1: K近傍法 & 教師あり機械学習のお作法 |  | [Here](content/knn-and-ml-flow.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/knn-and-ml-flow.ipynb) |  |
+| 7 | 06/02 | 分類2: サポートベクターマシン |  | [Here](content/svm.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/svm.ipynb) |  |
+| 8 | 06/09 | 分類3: ニューラルネットワーク入門 |  | [Here](content/neural-network.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/neural-network.ipynv) |  |
 
 
 ## レポート課題
