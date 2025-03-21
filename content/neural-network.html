@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>8. ニューラルネットワーク入門 &#8212; 機械学習入門の講義ノート</title>
+    <title>7. ニューラルネットワーク入門 &#8212; 機械学習入門の講義ノート</title>
   
   
   
@@ -79,7 +79,7 @@
     <link rel="canonical" href="https://mlnote.hontolab.org/content/neural-network.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="7. サポートベクターマシン" href="svm.html" />
+    <link rel="prev" title="6. サポートベクターマシン" href="svm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -182,9 +182,8 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">分類</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="knn-and-ml-flow.html">5. K近傍法 &amp; 教師あり学習のお作法</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="svm.html">7. サポートベクターマシン</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. ニューラルネットワーク入門</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svm.html">6. サポートベクターマシン</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. ニューラルネットワーク入門</a></li>
 </ul>
 
     </div>
@@ -361,30 +360,30 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fashion-mnist">8.1. 例題1: Fashion-MNIST - ファッション商品写真の画像データ</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">8.1.1. データセットの準備</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">8.1.1.1. データセットを小分けにして取り出せるようにする</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fashion-mnist">7.1. 例題1: Fashion-MNIST - ファッション商品写真の画像データ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">7.1.1. データセットの準備</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">7.1.1.1. データセットを小分けにして取り出せるようにする</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">8.1.2. ニューラルネットワークの定義</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">8.1.3. 学習</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1">8.1.3.1. Step 1: ニューラルネットワークのインスタンスの生成</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-3">8.1.3.2. Step 2 &amp; 3: 損失関数と最適化条件の設定</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-6">8.1.3.3. Step 4-6: 学習と評価</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">7.1.2. ニューラルネットワークの定義</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">7.1.3. 学習</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1">7.1.3.1. Step 1: ニューラルネットワークのインスタンスの生成</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-3">7.1.3.2. Step 2 &amp; 3: 損失関数と最適化条件の設定</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-6">7.1.3.3. Step 4-6: 学習と評価</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">8.1.4. 深層学習をやってみる</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">8.1.4.1. 畳み込みニューラルネットワークの定義（一例）</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">8.1.4.2. 学習と評価</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">8.1.4.3. 推論テスト</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">7.1.4. 深層学習をやってみる</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">7.1.4.1. 畳み込みニューラルネットワークの定義（一例）</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">7.1.4.2. 学習と評価</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7.1.4.3. 推論テスト</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l8-s2">8.2. 例題2: 勾配法</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">8.3. クイズ</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1-for">8.3.1. Q1: 最急勾配法 for 複数パラメータ</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">8.3.2. Q2: 確率的勾配法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l8-s2">7.2. 例題2: 勾配法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">7.3. クイズ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1-for">7.3.1. Q1: 最急勾配法 for 複数パラメータ</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">7.3.2. Q2: 確率的勾配法</a></li>
 </ul>
 </li>
 </ul>
@@ -399,7 +398,7 @@
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1><span class="section-number">8. </span>ニューラルネットワーク入門<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">7. </span>ニューラルネットワーク入門<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
 <p>このHands-onでは，下記のデータを用いてニューラルネットワークによる分類器構築と勾配法の動作確認を体験する．</p>
 <ul class="simple">
 <li><p>ファッション商品写真の画像データ</p></li>
@@ -435,7 +434,7 @@
 </div>
 <hr class="docutils" />
 <section id="fashion-mnist">
-<h2><span class="section-number">8.1. </span>例題1: Fashion-MNIST - ファッション商品写真の画像データ<a class="headerlink" href="#fashion-mnist" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">7.1. </span>例題1: Fashion-MNIST - ファッション商品写真の画像データ<a class="headerlink" href="#fashion-mnist" title="Link to this heading">#</a></h2>
 <p>例題1では，ファッション商品写真の分類を行うニューラルネットワークの構築を体験する．
 用いるデータは，手書き数字画像データセットのファッション商品版である<a class="reference external" href="https://github.com/zalandoresearch/fashion-mnist">Fashion-MNISTデータセット</a>である．
 Fashion-MNISTは，下記10種類のファッション商品に関する画像とそのラベルが収められたデータセットである：</p>
@@ -457,7 +456,7 @@ Fashion-MNISTは，下記10種類のファッション商品に関する画像�
 <p><img alt="Fashion-MNIST" src="https://github.com/zalandoresearch/fashion-mnist/raw/master/doc/img/fashion-mnist-sprite.png" /></p>
 <p>今回はこのデータセットを使って，ファッション商品画像データから商品ラベルを推定するニューラルネットワークを構築してみよう．</p>
 <section id="id2">
-<h3><span class="section-number">8.1.1. </span>データセットの準備<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">7.1.1. </span>データセットの準備<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <p>まずは以下のコードを実行して，データセットを準備しよう．
 学習用データと評価用データが<code class="docutils literal notranslate"><span class="pre">data</span></code>ディレクトリにダウンロードされる．</p>
 <div class="cell tag_remove-output docutils container">
@@ -510,7 +509,7 @@ Fashion-MNISTは，下記10種類のファッション商品に関する画像�
 </div>
 </div>
 <section id="id3">
-<h4><span class="section-number">8.1.1.1. </span>データセットを小分けにして取り出せるようにする<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<h4><span class="section-number">7.1.1.1. </span>データセットを小分けにして取り出せるようにする<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
 <p>深層学習を含め，ニューラルネットワークの学習では大規模なデータセットを扱う．
 今回はそれほど大きなデータセットではないが，それでも学習用データの画像数は6万枚ある．
 通常ニューラルネットワークの学習を行う場合には，データセット全体を一気にネットワークに投入することはせず，データセットを小分け（バッチ化）して学習を行う．
@@ -540,7 +539,7 @@ Fashion-MNISTは，下記10種類のファッション商品に関する画像�
 </section>
 </section>
 <section id="id4">
-<h3><span class="section-number">8.1.2. </span>ニューラルネットワークの定義<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">7.1.2. </span>ニューラルネットワークの定義<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
 <p>ここがニューラルネットワークの本丸である．
 ラベル推定を行うニューラルネットワークを定義しよう．</p>
 <p>今回用いる<a class="reference external" href="https://pytorch.org">PyTorch</a>は，<a class="reference external" href="https://www.tensorflow.org">TensorFlow</a>と双璧をなす深層学習用のライブラリである．
@@ -594,7 +593,7 @@ PyTorchを使えば「ザ・深層学習」なニューラルネットワーク�
 今の時点では，コードを見て何をしているのかが追えれば十分である．</p>
 </section>
 <section id="id5">
-<h3><span class="section-number">8.1.3. </span>学習<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">7.1.3. </span>学習<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <p>多層パーセプトロンの構造が定義できたので，ニューラルネットワークの学習・評価を行う．
 学習と評価のプロセスはどんなニューラルネットワークを用いたとしても，大体次の内容をコードで書くことになる．</p>
 <ol class="arabic simple">
@@ -607,7 +606,7 @@ PyTorchを使えば「ザ・深層学習」なニューラルネットワーク�
 </ol>
 <p>以下，上の流れに沿ってコードを動かしてみよう．</p>
 <section id="step-1">
-<h4><span class="section-number">8.1.3.1. </span>Step 1: ニューラルネットワークのインスタンスの生成<a class="headerlink" href="#step-1" title="Link to this heading">#</a></h4>
+<h4><span class="section-number">7.1.3.1. </span>Step 1: ニューラルネットワークのインスタンスの生成<a class="headerlink" href="#step-1" title="Link to this heading">#</a></h4>
 <p>まず，先ほど定義した多層パーセプトロンのインスタンスを作る．
 具体的には，定義したニューラルネットワークのパラメータにランダムな値を割り当てたものを生成する．
 実践では，このタイミングで<strong>GPUを使って計算するか，CPUを使って計算するか</strong>を指定する．</p>
@@ -635,7 +634,7 @@ GPU環境がある場合は，以下のコードのように<code class="docutil
 </div>
 </section>
 <section id="step-2-3">
-<h4><span class="section-number">8.1.3.2. </span>Step 2 &amp; 3: 損失関数と最適化条件の設定<a class="headerlink" href="#step-2-3" title="Link to this heading">#</a></h4>
+<h4><span class="section-number">7.1.3.2. </span>Step 2 &amp; 3: 損失関数と最適化条件の設定<a class="headerlink" href="#step-2-3" title="Link to this heading">#</a></h4>
 <p>予測値と正解とのズレを評価する「損失関数」と損失関数の微分最小化をするための「勾配法」の種類を定義しよう．</p>
 <p>今回はファッション商品画像から商品のラベルを当てる「分類器」を作ることが目的なので，損失関数として<strong>交差エントロピー</strong>を用いる．
 また，最適化のための勾配法としては，ベーシックな<strong>確率的勾配降下法</strong>を使うことにしよう．</p>
@@ -652,7 +651,7 @@ GPU環境がある場合は，以下のコードのように<code class="docutil
 </div>
 </section>
 <section id="step-4-6">
-<h4><span class="section-number">8.1.3.3. </span>Step 4-6: 学習と評価<a class="headerlink" href="#step-4-6" title="Link to this heading">#</a></h4>
+<h4><span class="section-number">7.1.3.3. </span>Step 4-6: 学習と評価<a class="headerlink" href="#step-4-6" title="Link to this heading">#</a></h4>
 <p>いよいよニューラルネットワークの学習と評価を行う．</p>
 <p>ニューラルネットワークの学習では，</p>
 <ol class="arabic simple">
@@ -800,13 +799,13 @@ Epoch [50/50], Loss_train : 0.0030, Loss_test : 0.0031, Accuracy_test : 0.730
 </section>
 </section>
 <section id="id6">
-<h3><span class="section-number">8.1.4. </span>深層学習をやってみる<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">7.1.4. </span>深層学習をやってみる<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <p>講義では解説していないが，深層学習でFashion-MNISTの分類問題にアタックしてみよう．
 ここでは，画像系の深層学習でよく用いられる<a class="reference external" href="https://ja.wikipedia.org/wiki/%E7%95%B3%E3%81%BF%E8%BE%BC%E3%81%BF%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF">畳み込みニューラルネットワークモデル</a>を使ってみる．
 詳細は説明しませんので，興味のない人はコードの実行結果だけ見て，上で行ったシンプルな3層の多層パーセプトロンの結果と比較してみよう．</p>
 <p>以下，今回用いる畳み込みニューラルネットワークの定義と学習・評価の実行結果である．</p>
 <section id="id7">
-<h4><span class="section-number">8.1.4.1. </span>畳み込みニューラルネットワークの定義（一例）<a class="headerlink" href="#id7" title="Link to this heading">#</a></h4>
+<h4><span class="section-number">7.1.4.1. </span>畳み込みニューラルネットワークの定義（一例）<a class="headerlink" href="#id7" title="Link to this heading">#</a></h4>
 <p>ネットワークとしては，畳み込み→ReLU→Max Pooling→畳み込み→ReLU→Max Pooling→アフィン変換→ReLU→アフィン変換という操作をしている（途中，ドロップアウトという一定の確率でユニットを無視するテクニックも使っている）．</p>
 <p>勾配法としては，深層学習ではよく用いられる<a class="reference external" href="https://ja.wikipedia.org/wiki/%E7%A2%BA%E7%8E%87%E7%9A%84%E5%8B%BE%E9%85%8D%E9%99%8D%E4%B8%8B%E6%B3%95#Adam">Adam</a>という最適化手法を用いている．</p>
 <div class="cell docutils container">
@@ -863,7 +862,7 @@ Epoch [50/50], Loss_train : 0.0030, Loss_test : 0.0031, Accuracy_test : 0.730
 </div>
 </section>
 <section id="id8">
-<h4><span class="section-number">8.1.4.2. </span>学習と評価<a class="headerlink" href="#id8" title="Link to this heading">#</a></h4>
+<h4><span class="section-number">7.1.4.2. </span>学習と評価<a class="headerlink" href="#id8" title="Link to this heading">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 学習用のデータ小分け機能の定義</span>
@@ -916,7 +915,7 @@ Epoch [50/50], Loss_train : 0.0006, Loss_test : 0.0012, Accuracy_test : 0.910
 エポック数50における<strong>Accuracy</strong>が90%程度なので，3層パーセプトロンより大幅に性能が改善されたことになる．</p>
 </section>
 <section id="id9">
-<h4><span class="section-number">8.1.4.3. </span>推論テスト<a class="headerlink" href="#id9" title="Link to this heading">#</a></h4>
+<h4><span class="section-number">7.1.4.3. </span>推論テスト<a class="headerlink" href="#id9" title="Link to this heading">#</a></h4>
 <p>せっかくなので，学習させた畳み込みニューラルネットワークで未知のファッション商品画像のラベル推定をやってみよう．
 以下のコードでは評価用データからランダムにデータを1つ取り出し，それに対して分類器による推論を行っている．</p>
 <div class="cell docutils container">
@@ -951,7 +950,7 @@ Predicted label: Sandal
 </section>
 </section>
 <section id="l8-s2">
-<span id="id10"></span><h2><span class="section-number">8.2. </span>例題2: 勾配法<a class="headerlink" href="#l8-s2" title="Link to this heading">#</a></h2>
+<span id="id10"></span><h2><span class="section-number">7.2. </span>例題2: 勾配法<a class="headerlink" href="#l8-s2" title="Link to this heading">#</a></h2>
 <p>最後に，機械学習の基礎となる技術「勾配法」を体験してみよう．
 ニューラルネットワークの損失関数は複雑なので，それを対象として勾配法が関数の微分最小化をどのように行うかを体感するのは難しいかもしれない．
 そこで，この例題では人工的に生成した2次元データを用いて，勾配法による2次関数の最小化問題を体験する．</p>
@@ -1039,35 +1038,35 @@ Predicted label: Sandal
 </div>
 <p>散布図を見る限り，データは直線的に分布しているようである．
 そこで，「このデータセットは直線</p>
-<div class="amsmath math notranslate nohighlight" id="equation-53a94b4d-eb7b-431d-904b-dbf62869770c">
-<span class="eqno">(8.1)<a class="headerlink" href="#equation-53a94b4d-eb7b-431d-904b-dbf62869770c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9e77e84c-87f3-4136-baad-64c358e4cd8f">
+<span class="eqno">(7.1)<a class="headerlink" href="#equation-9e77e84c-87f3-4136-baad-64c358e4cd8f" title="Permalink to this equation">#</a></span>\[\begin{align}
 y=&amp;f(x)\\
 　=&amp;wx - 1.59
 \end{align}\]</div>
 <p>に従って発生したもの」と仮定し，直線のパラメータ<span class="math notranslate nohighlight">\(w\)</span>（傾き）を勾配法を用いて推定することにしよう（なぜ切片が-1.59かというと，データ作成者である山本はこの直線が何かを知っている…）．</p>
 <p>さて，直線のパラメータはどのように求めるか．わたしたちはこの直線に従って発生したと思われるデータ集合<span class="math notranslate nohighlight">\(D=\{(x_1, y_1),...,(x_{1000}, y_{1000})\}\)</span>を持っている．
 ここでは，予想される直線（<span class="math notranslate nohighlight">\(y=f(x)\)</span>）から推測される<span class="math notranslate nohighlight">\(y\)</span>と実際の<span class="math notranslate nohighlight">\(y\)</span>の値の2乗誤差の総和を損失関数と見なし，その損失関数を最小化するパラメータ<span class="math notranslate nohighlight">\(w\)</span>を見つける戦略を採る（いわゆる<a class="reference external" href="https://ja.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%97%E6%B3%95">最小二乗法</a>）．つまり，以下の関数<span class="math notranslate nohighlight">\(L\)</span>を最小化するパラメータ<span class="math notranslate nohighlight">\(w\)</span>を見つけることにする（<span class="math notranslate nohighlight">\(L\)</span>は<span class="math notranslate nohighlight">\(w\)</span>に関する2次関数）．</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f2039e29-eb10-4b8d-9e46-e4985d8881af">
-<span class="eqno">(8.2)<a class="headerlink" href="#equation-f2039e29-eb10-4b8d-9e46-e4985d8881af" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e4ff4280-95ca-46be-9ed2-a4e85f6b9703">
+<span class="eqno">(7.2)<a class="headerlink" href="#equation-e4ff4280-95ca-46be-9ed2-a4e85f6b9703" title="Permalink to this equation">#</a></span>\[\begin{align}
 L=&amp; \sum_{i=1}^{1000}(y_i - f(x_i))^2 \\
  =&amp; \sum_{i=1}^{1000}(y_i - wx_i + 1.59)^2
 \end{align}\]</div>
 <p>計算機で関数を微分最小化するには，勾配法を用いるのが定番である．
 今回は勾配法の中でも<strong>最急降下法</strong>を用いる．
 関数<span class="math notranslate nohighlight">\(L(w)\)</span>を最急降下法で微分最小化するには，適当な<span class="math notranslate nohighlight">\(w^{(0)}\)</span>からスタートして，</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6f224b4e-a6c0-4c19-a6fc-5bb7cc524e74">
-<span class="eqno">(8.3)<a class="headerlink" href="#equation-6f224b4e-a6c0-4c19-a6fc-5bb7cc524e74" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2db4e0ab-ba76-4f30-8e61-8ec587e69c65">
+<span class="eqno">(7.3)<a class="headerlink" href="#equation-2db4e0ab-ba76-4f30-8e61-8ec587e69c65" title="Permalink to this equation">#</a></span>\[\begin{align}
 w^{(k+1)} = w^{(k)} - \alpha \frac{dL}{dw}
 \end{align}\]</div>
 <p>のルールを繰り返し適応しながら<span class="math notranslate nohighlight">\(w\)</span>を更新していく．
 ここで関数<span class="math notranslate nohighlight">\(L(w)\)</span>の<span class="math notranslate nohighlight">\(w\)</span>に関する導関数（勾配）は</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5d2f7e42-984b-4982-86dd-16ca2ad8186c">
-<span class="eqno">(8.4)<a class="headerlink" href="#equation-5d2f7e42-984b-4982-86dd-16ca2ad8186c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ada65051-1b76-4529-a9fe-d45eb5d34a87">
+<span class="eqno">(7.4)<a class="headerlink" href="#equation-ada65051-1b76-4529-a9fe-d45eb5d34a87" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{dL}{dw} =&amp; \sum_{i=1}^{1000}2(-x_i)(y_i - wx_i + 1.59)
 \end{align}\]</div>
 <p>となるので，パラメータ<span class="math notranslate nohighlight">\(w\)</span>の更新式は</p>
-<div class="amsmath math notranslate nohighlight" id="equation-adc9e96d-d8ce-4b79-aa34-d4dc478b5f74">
-<span class="eqno">(8.5)<a class="headerlink" href="#equation-adc9e96d-d8ce-4b79-aa34-d4dc478b5f74" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c39cf792-898b-4da7-9c57-eda7b7b5147c">
+<span class="eqno">(7.5)<a class="headerlink" href="#equation-c39cf792-898b-4da7-9c57-eda7b7b5147c" title="Permalink to this equation">#</a></span>\[\begin{align}
 w^{k+1} = w^{k} - \alpha \sum_{i=1}^{1000}2x_i(wx_i - 1.59 - y_i)
 \end{align}\]</div>
 <p>となる．</p>
@@ -1162,10 +1161,10 @@ Optimized w = 3.160824238738297
 </section>
 <hr class="docutils" />
 <section id="id11">
-<h2><span class="section-number">8.3. </span>クイズ<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">7.3. </span>クイズ<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
 <p>※ 以下のクイズの回答にGoogle Colaboratoryを使いたい方は<a class="reference external" href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/neural-network.ipynb">コチラ</a>をクリック．</p>
 <section id="q1-for">
-<span id="l8-q1"></span><h3><span class="section-number">8.3.1. </span>Q1: 最急勾配法 for 複数パラメータ<a class="headerlink" href="#q1-for" title="Link to this heading">#</a></h3>
+<span id="l8-q1"></span><h3><span class="section-number">7.3.1. </span>Q1: 最急勾配法 for 複数パラメータ<a class="headerlink" href="#q1-for" title="Link to this heading">#</a></h3>
 <p><a class="reference internal" href="#l8-s2"><span class="std std-ref">例題2</span></a>では直線の切片は既知（-1.59）で傾きは未知として，傾き<span class="math notranslate nohighlight">\(w_1\)</span>を最急降下法によって求めた．
 以下のコードは，傾き<span class="math notranslate nohighlight">\(w_1\)</span>，切片<span class="math notranslate nohighlight">\(w_0\)</span>ともに未知とした場合，<span class="math notranslate nohighlight">\(w_1\)</span>と<span class="math notranslate nohighlight">\(w_0\)</span>を最急降下法で求めるコードである．
 コード中の関数<code class="docutils literal notranslate"><span class="pre">gradient_w0</span></code>および<code class="docutils literal notranslate"><span class="pre">gradient_descent_for_two_params</span></code>の未完部分を完成させなさい．</p>
@@ -1250,7 +1249,7 @@ Optimized w = 3.160824238738297
 </div>
 </section>
 <section id="q2">
-<span id="l8-q2"></span><h3><span class="section-number">8.3.2. </span>Q2: 確率的勾配法<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
+<span id="l8-q2"></span><h3><span class="section-number">7.3.2. </span>Q2: 確率的勾配法<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
 <p><a class="reference internal" href="#l8-s2"><span class="std std-ref">例題2</span></a>で用いたコードを修正し，確率的勾配法で直線の傾き<span class="math notranslate nohighlight">\(w\)</span>を求めるコードを書きなさい．
 なお，このクイズでは（Q1とは異なり）切片は既知（1.59）としてよい．</p>
 </section>
@@ -1293,7 +1292,7 @@ Optimized w = 3.160824238738297
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>サポートベクターマシン</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>サポートベクターマシン</p>
       </div>
     </a>
 </div>
@@ -1313,30 +1312,30 @@ Optimized w = 3.160824238738297
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fashion-mnist">8.1. 例題1: Fashion-MNIST - ファッション商品写真の画像データ</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">8.1.1. データセットの準備</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">8.1.1.1. データセットを小分けにして取り出せるようにする</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fashion-mnist">7.1. 例題1: Fashion-MNIST - ファッション商品写真の画像データ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">7.1.1. データセットの準備</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">7.1.1.1. データセットを小分けにして取り出せるようにする</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">8.1.2. ニューラルネットワークの定義</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">8.1.3. 学習</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1">8.1.3.1. Step 1: ニューラルネットワークのインスタンスの生成</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-3">8.1.3.2. Step 2 &amp; 3: 損失関数と最適化条件の設定</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-6">8.1.3.3. Step 4-6: 学習と評価</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">7.1.2. ニューラルネットワークの定義</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">7.1.3. 学習</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1">7.1.3.1. Step 1: ニューラルネットワークのインスタンスの生成</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-3">7.1.3.2. Step 2 &amp; 3: 損失関数と最適化条件の設定</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-6">7.1.3.3. Step 4-6: 学習と評価</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">8.1.4. 深層学習をやってみる</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">8.1.4.1. 畳み込みニューラルネットワークの定義（一例）</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">8.1.4.2. 学習と評価</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">8.1.4.3. 推論テスト</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">7.1.4. 深層学習をやってみる</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">7.1.4.1. 畳み込みニューラルネットワークの定義（一例）</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">7.1.4.2. 学習と評価</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7.1.4.3. 推論テスト</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l8-s2">8.2. 例題2: 勾配法</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">8.3. クイズ</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1-for">8.3.1. Q1: 最急勾配法 for 複数パラメータ</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">8.3.2. Q2: 確率的勾配法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l8-s2">7.2. 例題2: 勾配法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">7.3. クイズ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1-for">7.3.1. Q1: 最急勾配法 for 複数パラメータ</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">7.3.2. Q2: 確率的勾配法</a></li>
 </ul>
 </li>
 </ul>

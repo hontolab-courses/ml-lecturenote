@@ -77,7 +77,7 @@
     <link rel="canonical" href="https://mlnote.hontolab.org/content/knn-and-ml-flow.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7. サポートベクターマシン" href="svm.html" />
+    <link rel="next" title="6. サポートベクターマシン" href="svm.html" />
     <link rel="prev" title="4. DBSCAN &amp; クラスタリングの実用上の問題" href="dbscan-and-others.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -181,9 +181,8 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">分類</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">5. K近傍法 &amp; 教師あり学習のお作法</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="svm.html">7. サポートベクターマシン</a></li>
-<li class="toctree-l1"><a class="reference internal" href="neural-network.html">8. ニューラルネットワーク入門</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svm.html">6. サポートベクターマシン</a></li>
+<li class="toctree-l1"><a class="reference internal" href="neural-network.html">7. ニューラルネットワーク入門</a></li>
 </ul>
 
     </div>
@@ -360,7 +359,6 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5. K近傍法 &amp; 教師あり学習のお作法</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist">5.1. 例題1: MNIST手書き数字データ</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">5.1.1. 学習</a></li>
 </ul>
@@ -373,18 +371,15 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l6-s3">5.3. 例題3: ある時期のアメリカ合衆国の年収調査データ</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">5.4. クイズ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">5.4.1. Q1: 崩し字データのダウンロード</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">5.4.2. Q2: データの確認</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q3">5.4.3. Q3: ラベルデータの分布</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q4-k">5.4.4. Q4: くずし字画像分類に対するK近傍法の瀬能</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q5">5.4.5. Q5: 最適パラメータの探索</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. クイズ</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">6.1. Q1: 崩し字データのダウンロード</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">6.2. Q2: データの確認</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q3">6.3. Q3: ラベルデータの分布</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q4-k">6.4. Q4: くずし字画像分類に対するK近傍法の瀬能</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q5">6.5. Q5: 最適パラメータの探索</a></li>
 </ul>
-</li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -444,7 +439,7 @@
 <section id="mnist">
 <h2><span class="section-number">5.1. </span>例題1: MNIST手書き数字データ<a class="headerlink" href="#mnist" title="Link to this heading">#</a></h2>
 <p>例題1では，K近傍法を用いて手書き数字の識別の体験をする．
-用いるデータは，かの有名な<a class="reference external" href="http://yann.lecun.com/exdb/mnist/">MNISTデータセット</a>である．
+用いるデータは，かの有名な<a class="reference external" href="https://ja.wikipedia.org/wiki/MNIST%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9">MNISTデータセット</a>である．
 今回は，<code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>ライブラリに梱包された8x8ピクセルの領域に描かれた手書き数字のグレースケール画像のデータセットを用いる．
 データセット中の手書き数字は<strong>0から9の数</strong>に対応している．
 また，手書き画像データは<strong>各ピクセルに0から255の数値</strong>が割り当てられており，その数字によって白黒の濃淡がつけられている（0が黒，255が白に対応）．</p>
@@ -2157,13 +2152,12 @@ True : 7841 (24.1%)
 今回のHands-onコードでは，単純な手法であるK近傍法もそこまで悪くない性能を示している．
 ハイパーパラメータの調整はしなかったので，どの分類器ももう少し性能改善の余地はあるだろう．</p>
 </section>
-</section>
 <hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="id8">
-<h1><span class="section-number">6. </span>クイズ<a class="headerlink" href="#id8" title="Link to this heading">#</a></h1>
+<section id="id8">
+<h2><span class="section-number">5.4. </span>クイズ<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
 <p>※ 以下のクイズの回答にGoogle Colaboratoryを使いたい方は<a class="reference external" href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/knn-and-ml-flow.ipynb">コチラ</a>をクリック．</p>
 <section id="q1">
-<span id="l6-q1"></span><h2><span class="section-number">6.1. </span>Q1: 崩し字データのダウンロード<a class="headerlink" href="#q1" title="Link to this heading">#</a></h2>
+<span id="l6-q1"></span><h3><span class="section-number">5.4.1. </span>Q1: 崩し字データのダウンロード<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://github.com/rois-codh/kmnist">Kuzushiji-MNIST</a>は，<a class="reference external" href="https://codh.rois.ac.jp/index.html.ja">ROIS-DS人文学オープンデータ共同利用センター</a>が公開している日本語<a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%81%8F%E3%81%9A%E3%81%97%E5%AD%97">くずし字</a>の画像データセットである（画像出典:<a class="reference external" href="https://github.com/rois-codh/kmnist">GitHubのkmnistレポジトリより参照</a>）．</p>
 <p><img alt="Kuzushiji MNIST" src="https://github.com/rois-codh/kmnist/raw/master/images/kmnist_examples.png" /></p>
 <p>クイズに取り組むに先だって以下のコードを実行し，下記4つのデータファイルをダウンロードしなさい．</p>
@@ -2203,22 +2197,23 @@ True : 7841 (24.1%)
 </div>
 </section>
 <section id="q2">
-<span id="l6-q2"></span><h2><span class="section-number">6.2. </span>Q2: データの確認<a class="headerlink" href="#q2" title="Link to this heading">#</a></h2>
+<span id="l6-q2"></span><h3><span class="section-number">5.4.2. </span>Q2: データの確認<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
 <p>変数<code class="docutils literal notranslate"><span class="pre">X</span></code>に格納された2025番目のくずし字を28行28列の行列形式，画像形式のそれぞれで表示せよ．</p>
 </section>
 <section id="q3">
-<span id="l6-q3"></span><h2><span class="section-number">6.3. </span>Q3: ラベルデータの分布<a class="headerlink" href="#q3" title="Link to this heading">#</a></h2>
+<span id="l6-q3"></span><h3><span class="section-number">5.4.3. </span>Q3: ラベルデータの分布<a class="headerlink" href="#q3" title="Link to this heading">#</a></h3>
 <p>変数<code class="docutils literal notranslate"><span class="pre">y</span></code>に格納された各ラベルについて，その出現頻度を求めなさい．
 なお，<code class="docutils literal notranslate"><span class="pre">y</span></code>のラベルはラベル番号であるため，可能なら<code class="docutils literal notranslate"><span class="pre">k49_classmap.csv</span></code>を用いてラベル番号を文字に置き換えること．</p>
 </section>
 <section id="q4-k">
-<span id="l6-q4"></span><h2><span class="section-number">6.4. </span>Q4: くずし字画像分類に対するK近傍法の瀬能<a class="headerlink" href="#q4-k" title="Link to this heading">#</a></h2>
+<span id="l6-q4"></span><h3><span class="section-number">5.4.4. </span>Q4: くずし字画像分類に対するK近傍法の瀬能<a class="headerlink" href="#q4-k" title="Link to this heading">#</a></h3>
 <p>変数<code class="docutils literal notranslate"><span class="pre">X</span></code>，<code class="docutils literal notranslate"><span class="pre">y</span></code>とK近傍法を用いて，くずし字画像の分類器を構築し，交差検証によって分類性能を評価しなさい．
 なお，K近傍法のパラメータ<code class="docutils literal notranslate"><span class="pre">K</span></code>は5，交差検証時のデータ分割数は<code class="docutils literal notranslate"><span class="pre">5</span></code>としなさい．</p>
 </section>
 <section id="q5">
-<span id="l6-q5"></span><h2><span class="section-number">6.5. </span>Q5: 最適パラメータの探索<a class="headerlink" href="#q5" title="Link to this heading">#</a></h2>
+<span id="l6-q5"></span><h3><span class="section-number">5.4.5. </span>Q5: 最適パラメータの探索<a class="headerlink" href="#q5" title="Link to this heading">#</a></h3>
 <p>Q4で構築したくずし字画像分類器について，K近傍法のパラメータ<code class="docutils literal notranslate"><span class="pre">K</span></code>を2から9までひとつずつ変化させながら分類性能を評価し，最適なパラメータ<code class="docutils literal notranslate"><span class="pre">K</span></code>を求めなさい．</p>
+</section>
 </section>
 </section>
 
@@ -2266,7 +2261,7 @@ True : 7841 (24.1%)
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>サポートベクターマシン</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>サポートベクターマシン</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -2287,7 +2282,6 @@ True : 7841 (24.1%)
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5. K近傍法 &amp; 教師あり学習のお作法</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist">5.1. 例題1: MNIST手書き数字データ</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">5.1.1. 学習</a></li>
 </ul>
@@ -2300,18 +2294,15 @@ True : 7841 (24.1%)
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l6-s3">5.3. 例題3: ある時期のアメリカ合衆国の年収調査データ</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">5.4. クイズ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">5.4.1. Q1: 崩し字データのダウンロード</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">5.4.2. Q2: データの確認</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q3">5.4.3. Q3: ラベルデータの分布</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q4-k">5.4.4. Q4: くずし字画像分類に対するK近傍法の瀬能</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q5">5.4.5. Q5: 最適パラメータの探索</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. クイズ</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">6.1. Q1: 崩し字データのダウンロード</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">6.2. Q2: データの確認</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q3">6.3. Q3: ラベルデータの分布</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q4-k">6.4. Q4: くずし字画像分類に対するK近傍法の瀬能</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q5">6.5. Q5: 最適パラメータの探索</a></li>
 </ul>
-</li>
-</ul>
-
   </nav></div>
 
 </div></div>
