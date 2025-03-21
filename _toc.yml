@@ -18,3 +18,4 @@ parts:
   chapters:
     - file: content/knn-and-ml-flow.ipynb
     - file: content/svm.ipynb
+    - file: content/neural-network.ipynb
