@@ -1,7 +1,7 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: 機械学習発展（導入編）の講義ノート
+title: 機械学習入門の講義ノート
 author: ''
 copyright: "2025- by Yusuke Yamamoto"
 exclude_patterns: [_build, material, pdf, README.md, .DS_Store]
@@ -56,7 +56,7 @@ html:
   use_issues_button         : false  # Whether to add an "open an issue" button
   use_multitoc_numbering    : true   # Continuous numbering across parts/chapters
   #extra_footer              : ""  # Will be displayed underneath the footer.
-  #google_analytics_id       : "G-1GGP5ZEVQL"  # A GA id that can be used to track book views.
+  google_analytics_id       : "G-DK1T0PB7LS"  # A GA id that can be used to track book views.
   home_page_in_navbar       : false  # Whether to include your home page in the left Navigation Bar
   baseurl                   : "https://mlnote.hontolab.org/"  # The base URL where your book will be hosted. Used for creating image previews and social links. e.g.: https://mypage.com/mybook/
   comments:
@@ -94,6 +94,6 @@ sphinx:
 launch_buttons:
   notebook_interface        : "jupyterlab" # The interface interactive links will activate ["classic", "jupyterlab"]
   #binderhub_url             : "https://mybinder.org"  # The URL of the BinderHub (e.g., https://mybinder.org)
-  #jupyterhub_url            : ""  # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
+  jupyterhub_url            : "https://datahub.ds.nagoya-cu.ac.jp"  # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
   #thebe                     : true  # Add a thebe button to pages (requires the repository to run on Binder)
   colab_url                 : "https://colab.research.google.com" # The URL of Google Colab (https://colab.research.google.com)
