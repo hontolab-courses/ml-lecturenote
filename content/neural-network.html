@@ -244,24 +244,6 @@
       
       
       
-      <li><a href="https://datahub.ds.nagoya-cu.ac.jp/hub/user-redirect/git-pull?repo=https%3A//github.com/hontolab-courses/ml-lecturenote&urlpath=lab/tree/ml-lecturenote/content/neural-network.ipynb&branch=main" target="_blank"
-   class="btn btn-sm dropdown-item"
-   title="Launch on JupyterHub"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  
-    <img alt="JupyterHub logo" src="../_static/images/logo_jupyterhub.svg">
-  </span>
-<span class="btn__text-container">JupyterHub</span>
-</a>
-</li>
-      
-      
-      
-      
       <li><a href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/neural-network.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Colab"
@@ -399,7 +381,12 @@
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8.2. 例題2: 勾配法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l8-s2">8.2. 例題2: 勾配法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">8.3. クイズ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1-for">8.3.1. Q1: 最急勾配法 for 複数パラメータ</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">8.3.2. Q2: 確率的勾配法</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -792,10 +779,10 @@ GPU環境がある場合は，以下のコードのように<code class="docutil
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [1/50], Loss_train : 0.0090, Loss_test : 0.0092, Accuracy_test : 0.100
-Epoch [11/50], Loss_train : 0.0073, Loss_test : 0.0072, Accuracy_test : 0.417
-Epoch [21/50], Loss_train : 0.0045, Loss_test : 0.0045, Accuracy_test : 0.606
-Epoch [31/50], Loss_train : 0.0037, Loss_test : 0.0038, Accuracy_test : 0.642
-Epoch [41/50], Loss_train : 0.0033, Loss_test : 0.0034, Accuracy_test : 0.699
+Epoch [11/50], Loss_train : 0.0075, Loss_test : 0.0074, Accuracy_test : 0.485
+Epoch [21/50], Loss_train : 0.0046, Loss_test : 0.0046, Accuracy_test : 0.588
+Epoch [31/50], Loss_train : 0.0038, Loss_test : 0.0039, Accuracy_test : 0.650
+Epoch [41/50], Loss_train : 0.0033, Loss_test : 0.0034, Accuracy_test : 0.687
 Epoch [50/50], Loss_train : 0.0030, Loss_test : 0.0031, Accuracy_test : 0.730
 </pre></div>
 </div>
@@ -913,12 +900,12 @@ Epoch [50/50], Loss_train : 0.0030, Loss_test : 0.0031, Accuracy_test : 0.730
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [1/50], Loss_train : 0.0027, Loss_test : 0.0020, Accuracy_test : 0.820
-Epoch [11/50], Loss_train : 0.0010, Loss_test : 0.0012, Accuracy_test : 0.890
-Epoch [21/50], Loss_train : 0.0008, Loss_test : 0.0012, Accuracy_test : 0.901
-Epoch [31/50], Loss_train : 0.0007, Loss_test : 0.0011, Accuracy_test : 0.908
-Epoch [41/50], Loss_train : 0.0006, Loss_test : 0.0012, Accuracy_test : 0.904
-Epoch [50/50], Loss_train : 0.0006, Loss_test : 0.0012, Accuracy_test : 0.908
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [1/50], Loss_train : 0.0028, Loss_test : 0.0020, Accuracy_test : 0.818
+Epoch [11/50], Loss_train : 0.0011, Loss_test : 0.0013, Accuracy_test : 0.891
+Epoch [21/50], Loss_train : 0.0009, Loss_test : 0.0012, Accuracy_test : 0.904
+Epoch [31/50], Loss_train : 0.0007, Loss_test : 0.0011, Accuracy_test : 0.903
+Epoch [41/50], Loss_train : 0.0007, Loss_test : 0.0011, Accuracy_test : 0.905
+Epoch [50/50], Loss_train : 0.0006, Loss_test : 0.0012, Accuracy_test : 0.910
 </pre></div>
 </div>
 </div>
@@ -950,20 +937,20 @@ Epoch [50/50], Loss_train : 0.0006, Loss_test : 0.0012, Accuracy_test : 0.908
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/43e297dff8895969783a6b720be0bc20f92b2d4f8107f59269d819ab61d27095.png" src="../_images/43e297dff8895969783a6b720be0bc20f92b2d4f8107f59269d819ab61d27095.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True label: Dress
-Predicted label: Dress
+<img alt="../_images/97d80d66aeb1df9ce0dab6328b449d6a600790d7609fd4e4786899ab41a3e94b.png" src="../_images/97d80d66aeb1df9ce0dab6328b449d6a600790d7609fd4e4786899ab41a3e94b.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True label: Sandal
+Predicted label: Sandal
 </pre></div>
 </div>
 </div>
 </div>
 <p>何回か推論を行ってみよう．大体当たっている？</p>
-</section>
-</section>
-</section>
 <hr class="docutils" />
-<section id="id10">
-<h2><span class="section-number">8.2. </span>例題2: 勾配法<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
+</section>
+</section>
+</section>
+<section id="l8-s2">
+<span id="id10"></span><h2><span class="section-number">8.2. </span>例題2: 勾配法<a class="headerlink" href="#l8-s2" title="Link to this heading">#</a></h2>
 <p>最後に，機械学習の基礎となる技術「勾配法」を体験してみよう．
 ニューラルネットワークの損失関数は複雑なので，それを対象として勾配法が関数の微分最小化をどのように行うかを体感するのは難しいかもしれない．
 そこで，この例題では人工的に生成した2次元データを用いて，勾配法による2次関数の最小化問題を体験する．</p>
@@ -974,7 +961,7 @@ Predicted label: Dress
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="c1"># データを読み込む</span>
-<span class="n">data_url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/hontolab-courses/dmml-2023/main/dataset/sgd-data.tsv&quot;</span>
+<span class="n">data_url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/hontolab-courses/ml-lecturenote/main/content/data/sgd-data.tsv&quot;</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">data_url</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="c1"># 末尾10件のデータを表示</span>
@@ -1052,16 +1039,16 @@ Predicted label: Dress
 <p>散布図を見る限り，データは直線的に分布しているようである．
 そこで，「このデータセットは直線
 $$</p>
-<div class="amsmath math notranslate nohighlight" id="equation-05a061eb-42e2-42d0-8bf1-6b11ee9dac3a">
-<span class="eqno">(8.1)<a class="headerlink" href="#equation-05a061eb-42e2-42d0-8bf1-6b11ee9dac3a" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6c69888d-610e-44d1-ada4-bca4dc4b32e5">
+<span class="eqno">(8.1)<a class="headerlink" href="#equation-6c69888d-610e-44d1-ada4-bca4dc4b32e5" title="Permalink to this equation">#</a></span>\[\begin{align}
 y=&amp;f(x)\\
 　=&amp;wx - 1.59
 \end{align}\]</div>
 <div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}に従って発生したもの」と仮定し，直線のパラメータ$w$（傾き）を勾配法を用いて推定することにしよう（なぜ切片が-1.59かというと，データ作成者である山本はこの直線が何かを知っている…）．\\さて，直線のパラメータはどのように求めるか．わたしたちはこの直線に従って発生したと思われるデータ集合$D=\{(x_1, y_1),...,(x_{1000}, y_{1000})\}$を持っている．
 ここでは，予想される直線（$y=f(x)$）から推測される$y$と実際の$y$の値の2乗誤差の総和を損失関数と見なし，その損失関数を最小化するパラメータ$w$を見つける戦略を採る（いわゆる[最小二乗法](https://ja.wikipedia.org/wiki/最小二乗法)）．つまり，以下の関数$L$を最小化するパラメータ$w$を見つけることにする（$L$は$w$に関する2次関数）．\end{aligned}\end{align} \]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-36d42d53-4b86-4f69-a6fc-d81292a49205">
-<span class="eqno">(8.2)<a class="headerlink" href="#equation-36d42d53-4b86-4f69-a6fc-d81292a49205" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5dba0e68-402b-4589-8685-f2198dde9664">
+<span class="eqno">(8.2)<a class="headerlink" href="#equation-5dba0e68-402b-4589-8685-f2198dde9664" title="Permalink to this equation">#</a></span>\[\begin{align}
 L=&amp; \sum_{i=1}^{1000}(y_i - f(x_i))^2 \\
  =&amp; \sum_{i=1}^{1000}(y_i - wx_i + 1.59)^2
 \end{align}\]</div>
@@ -1085,8 +1072,8 @@ w^{(k+1)} = w^{(k)} - \alpha \frac{dL}{dw}
 \]</div>
 <p>となるので，パラメータ<span class="math notranslate nohighlight">\(w\)</span>の更新式は
 $$</p>
-<div class="amsmath math notranslate nohighlight" id="equation-24defd7a-35e0-465c-a580-8f1024ab5f9c">
-<span class="eqno">(8.3)<a class="headerlink" href="#equation-24defd7a-35e0-465c-a580-8f1024ab5f9c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fee43c20-8f44-4075-b76d-a5974bded1c8">
+<span class="eqno">(8.3)<a class="headerlink" href="#equation-fee43c20-8f44-4075-b76d-a5974bded1c8" title="Permalink to this equation">#</a></span>\[\begin{align}
 w^{k+1} = w^{k} - \alpha \sum_{i=1}^{1000}2x_i(wx_i - 1.59 - y_i)
 \end{align}\]</div>
 <p>$$
@@ -1109,7 +1096,7 @@ w^{k+1} = w^{k} - \alpha \sum_{i=1}^{1000}2x_i(wx_i - 1.59 - y_i)
     
     <span class="c1"># データを1個ずつ処理</span>
     <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span> <span class="n">y_list</span><span class="p">):</span>
-        <span class="n">grad</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">x</span>  <span class="o">-</span> <span class="mf">1.59</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">grad</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">w</span> <span class="o">*</span> <span class="n">x</span>  <span class="o">+</span> <span class="mf">1.59</span><span class="p">)</span>
         
     <span class="k">return</span> <span class="n">grad</span>
 </pre></div>
@@ -1135,12 +1122,12 @@ w^{k+1} = w^{k} - \alpha \sum_{i=1}^{1000}2x_i(wx_i - 1.59 - y_i)
         <span class="c1"># パラメータの更新量の絶対値</span>
         <span class="n">w_delta</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">w_new</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">w_delta</span> <span class="o">&lt;</span> <span class="n">delta_threshold</span><span class="p">:</span>
-            <span class="c1"># パラメータがほぼ変化しなくなったら</span>
+            <span class="c1"># パラメータがほぼ変化しなくなったら，更新を終了する</span>
             <span class="k">return</span> <span class="n">w_new</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># まだ変化する余地があるなら，引き続きパラメータを更新する</span>
-            <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;更新回数 </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">回目</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;更新回数 </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">回目</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
             <span class="n">w</span> <span class="o">=</span> <span class="n">w_new</span>
             
     <span class="k">return</span> <span class="n">w_new</span>
@@ -1163,28 +1150,117 @@ w^{k+1} = w^{k} - \alpha \sum_{i=1}^{1000}2x_i(wx_i - 1.59 - y_i)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>更新回数 0回目	 0.5874993370344522
-更新回数 5回目	 2.5761995079979485
-更新回数 10回目	 3.0280053942614744
-更新回数 15回目	 3.1306496047074726
-更新回数 20回目	 3.1539689864561584
-更新回数 25回目	 3.159266835821243
-更新回数 30回目	 3.1604704358222033
-更新回数 35回目	 3.1607438775270325
-更新回数 40回目	 3.160805999798451
-更新回数 45回目	 3.1608201131415807
-更新回数 50回目	 3.1608233195029993
-更新回数 55回目	 3.160824047945116
-更新回数 60回目	 3.160824213437351
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>更新回数 1回目	 0.155755451999103
+更新回数 11回目	 3.005721486993105
+更新回数 21回目	 3.1528188311433514
+更新回数 31回目	 3.160411072029865
+更新回数 41回目	 3.160802935812395
+更新回数 51回目	 3.160823161359286
+更新回数 61回目	 3.160824205274966
 
-Optimized w = 3.160824235194694
+Optimized w = 3.160824238738297
 </pre></div>
 </div>
 </div>
 </div>
 <p><span class="math notranslate nohighlight">\(w\)</span>の値として，3.14付近の値が推定されたのではないだろうか．
 実は今回用いたデータセットは，<span class="math notranslate nohighlight">\(y=3.14x-1.59\)</span>という直線から発生させたものであった．
-直線の傾きは3.14なので，推定されたパラメータ<span class="math notranslate nohighlight">\(w\)</span>はおおよそ当たっていたことになる．</p>
+直線の傾きは3.14なので，推定されたパラメータ<span class="math notranslate nohighlight">\(w\)</span>はおおよそ当たっていたことになる（<a class="reference internal" href="#l8-q1"><span class="std std-ref">★Quiz 1</span></a>，<a class="reference internal" href="#l8-q2"><span class="std std-ref">★Quiz 2</span></a>）．</p>
+</section>
+<hr class="docutils" />
+<section id="id11">
+<h2><span class="section-number">8.3. </span>クイズ<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
+<p>※ 以下のクイズの回答にGoogle Colaboratoryを使いたい方は<a class="reference external" href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/neural-network.ipynb">コチラ</a>をクリック．</p>
+<section id="q1-for">
+<span id="l8-q1"></span><h3><span class="section-number">8.3.1. </span>Q1: 最急勾配法 for 複数パラメータ<a class="headerlink" href="#q1-for" title="Link to this heading">#</a></h3>
+<p><a class="reference internal" href="#l8-s2"><span class="std std-ref">例題2</span></a>では直線の切片は既知（-1.59）で傾きは未知として，傾き<span class="math notranslate nohighlight">\(w_1\)</span>を最急降下法によって求めた．
+以下のコードは，傾き<span class="math notranslate nohighlight">\(w_1\)</span>，切片<span class="math notranslate nohighlight">\(w_0\)</span>ともに未知とした場合，<span class="math notranslate nohighlight">\(w_1\)</span>と<span class="math notranslate nohighlight">\(w_0\)</span>を最急降下法で求めるコードである．
+コード中の関数<code class="docutils literal notranslate"><span class="pre">gradient_w0</span></code>および<code class="docutils literal notranslate"><span class="pre">gradient_descent_for_two_params</span></code>の未完部分を完成させなさい．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 傾きw_1の勾配</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gradient_w1</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span> <span class="n">y_list</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w0</span><span class="p">):</span>
+    <span class="n">grad_w1</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="c1"># データを1個ずつ処理</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span> <span class="n">y_list</span><span class="p">):</span>
+        <span class="n">grad_w1</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">w1</span> <span class="o">*</span> <span class="n">x</span>  <span class="o">+</span> <span class="n">w0</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">grad_w1</span>
+
+
+<span class="c1"># 切片w_0の勾配</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gradient_w0</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span> <span class="n">y_list</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w0</span><span class="p">):</span>
+    <span class="n">grad_w0</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="c1"># データを1個ずつ処理</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span> <span class="n">y_list</span><span class="p">):</span>
+        <span class="c1"># ------------------</span>
+        <span class="c1"># 以下，コードを完成させる</span>
+        
+        
+        <span class="c1"># ここまで</span>
+        <span class="c1"># ------------------</span>
+        
+    <span class="k">return</span> <span class="n">grad_w0</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">gradient_descent_for_two_params</span><span class="p">(</span>
+    <span class="n">x_list</span><span class="p">,</span> <span class="n">y_list</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">delta_threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">epoch_num</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; alpha: 学習率，</span>
+<span class="sd">        delta_treshold: パラメータの更新量の絶対値に対する閾値</span>
+<span class="sd">        epoch_num: 更新回数の上限</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># パラメータをランダムに初期化</span>
+    <span class="n">w1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    <span class="n">w0</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epoch_num</span><span class="p">):</span>
+        <span class="c1"># パラメータの更新式</span>
+        <span class="c1"># ---------------------</span>
+        <span class="c1"># 以下，コードを完成させる</span>
+
+        
+        <span class="c1"># ここまで</span>
+        <span class="c1"># ---------------------</span>
+
+        <span class="c1"># パラメータの更新量の絶対値</span>
+        <span class="n">w1_delta</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">w1_new</span> <span class="o">-</span> <span class="n">w1</span><span class="p">)</span>
+        <span class="n">w0_delta</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">w0_new</span> <span class="o">-</span> <span class="n">w0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">w1_delta</span> <span class="o">&lt;</span> <span class="n">delta_threshold</span> <span class="ow">and</span> <span class="n">w0_delta</span> <span class="o">&lt;</span> <span class="n">delta_threshold</span><span class="p">:</span>
+            <span class="c1"># パラメータがほぼ変化しなくなったら，更新を終了する</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">w1_new</span><span class="p">,</span> <span class="n">w0_new</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># まだ変化する余地があるなら，引き続きパラメータを更新する</span>
+            <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;更新回数 </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">回目</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w0</span><span class="p">)</span>
+            <span class="n">w1</span> <span class="o">=</span> <span class="n">w1_new</span>
+            <span class="n">w0</span> <span class="o">=</span> <span class="n">w0_new</span>
+            
+    <span class="k">return</span> <span class="p">(</span><span class="n">w1_new</span><span class="p">,</span> <span class="n">w0_new</span><span class="p">)</span>
+
+
+<span class="c1"># データセット</span>
+<span class="n">x_list</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
+<span class="n">y_list</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+
+<span class="c1"># 最急降下法の実行</span>
+<span class="n">w1</span><span class="p">,</span> <span class="n">w0</span> <span class="o">=</span> <span class="n">gradient_descent_for_two_params</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span> <span class="n">y_list</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Optimized w1 =&quot;</span><span class="p">,</span> <span class="n">w1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Optimized w0 =&quot;</span><span class="p">,</span> <span class="n">w0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="q2">
+<span id="l8-q2"></span><h3><span class="section-number">8.3.2. </span>Q2: 確率的勾配法<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
+<p><a class="reference internal" href="#l8-s2"><span class="std std-ref">例題2</span></a>で用いたコードを修正し，確率的勾配法で直線の傾き<span class="math notranslate nohighlight">\(w\)</span>を求めるコードを書きなさい．
+なお，このクイズでは（Q1とは異なり）切片は既知（1.59）としてよい．</p>
+</section>
 </section>
 </section>
 
@@ -1264,7 +1340,12 @@ Optimized w = 3.160824235194694
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8.2. 例題2: 勾配法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l8-s2">8.2. 例題2: 勾配法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">8.3. クイズ</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1-for">8.3.1. Q1: 最急勾配法 for 複数パラメータ</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">8.3.2. Q2: 確率的勾配法</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
