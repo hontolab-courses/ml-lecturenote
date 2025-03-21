@@ -1714,18 +1714,6 @@ Accuracyは予測結果のうち，<strong>実際に生存した乗客を予測�
 <span class="c1"># ---------------------</span>
 <span class="c1"># ここから必要なコードを埋める</span>
 
-<span class="c1"># 予測に用いる年収情報以外のすべての指標をX_trainに</span>
-<span class="n">X_train</span> <span class="o">=</span> <span class="n">income_train_df</span><span class="p">[</span><span class="n">target_features</span><span class="p">]</span>
-
-<span class="c1"># カテゴリ変数を数値情報に変換</span>
-<span class="n">X_train</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-
-<span class="c1"># y_trainは年収クラスをあらわす指標</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="n">income_train_df</span><span class="o">.</span><span class="n">income</span>
-
-<span class="c1"># 学習器の定義（決定木を使う）</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;entropy&#39;</span><span class="p">,</span>
-                               <span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
 <span class="c1"># ここまで必要なコードを埋める</span>
 <span class="c1"># ---------------------</span>
