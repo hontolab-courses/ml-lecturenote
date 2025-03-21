@@ -370,7 +370,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">5.2.4. より妥当な手続き</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l6-s3">5.3. 例題3: ある時期のアメリカ合衆国の年収調査データ</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c5-s3">5.3. 例題3: ある時期のアメリカ合衆国の年収調査データ</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">5.4. クイズ</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">5.4.1. Q1: 崩し字データのダウンロード</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">5.4.2. Q2: データの確認</a></li>
@@ -1255,7 +1255,7 @@ Label 1 = 28
 </div>
 </div>
 </div>
-<p>ラベル1のデータがラベル0の3分の1程度しかなく，データの分布が偏っていることが分かる（<a class="reference internal" href="#l6-q1"><span class="std std-ref">★Quiz 1</span></a>，<a class="reference internal" href="#l6-q2"><span class="std std-ref">★Quiz 2</span></a>，<a class="reference internal" href="#l6-q3"><span class="std std-ref">★Quiz 3</span></a>）．</p>
+<p>ラベル1のデータがラベル0の3分の1程度しかなく，データの分布が偏っていることが分かる（<a class="reference internal" href="#c5-q1"><span class="std std-ref">★Quiz 1</span></a>，<a class="reference internal" href="#c5-q2"><span class="std std-ref">★Quiz 2</span></a>，<a class="reference internal" href="#c5-q3"><span class="std std-ref">★Quiz 3</span></a>）．</p>
 <p>ではK近傍法を用いて，ラベルの分類器を構築してみよう．
 この例題では<code class="docutils literal notranslate"><span class="pre">K=5</span></code>としてK近傍法を用いる．
 今回はまず<strong>誤った手続き</strong>で分類器を構築・評価してみよう．</p>
@@ -1473,20 +1473,20 @@ AUC:  0.8239583333333333
 </div>
 </div>
 <p>上記はラベルの分布を考慮した，より妥当な分類器の構築と性能評価の手続きである．</p>
-<p>どんな分類器を構築するにしても，一般的には上記のように「層別化によるデータ分割」を「交差検証」を組み合わせたモデル構築と評価を行う（<a class="reference internal" href="#l6-q4"><span class="std std-ref">★Quiz 4</span></a>）．
+<p>どんな分類器を構築するにしても，一般的には上記のように「層別化によるデータ分割」を「交差検証」を組み合わせたモデル構築と評価を行う（<a class="reference internal" href="#c5-q4"><span class="std std-ref">★Quiz 4</span></a>）．
 より高性能の分類器を構築するには，上記手続きに加え，</p>
 <ul class="simple">
 <li><p>データの変換（スケーリング，one-hotベクトル化）</p></li>
 <li><p>欠損値への対応</p></li>
 <li><p>特徴量選択</p></li>
-<li><p>パラメータチューニング（<a class="reference internal" href="#l6-q5"><span class="std std-ref">★Quiz 5</span></a>）</p></li>
+<li><p>パラメータチューニング（<a class="reference internal" href="#c5-q5"><span class="std std-ref">★Quiz 5</span></a>）</p></li>
 </ul>
 <p>などが必要となる．</p>
 <hr class="docutils" />
 </section>
 </section>
-<section id="l6-s3">
-<span id="id7"></span><h2><span class="section-number">5.3. </span>例題3: ある時期のアメリカ合衆国の年収調査データ<a class="headerlink" href="#l6-s3" title="Link to this heading">#</a></h2>
+<section id="c5-s3">
+<span id="id7"></span><h2><span class="section-number">5.3. </span>例題3: ある時期のアメリカ合衆国の年収調査データ<a class="headerlink" href="#c5-s3" title="Link to this heading">#</a></h2>
 <p>最後の例題で扱うデータは，<a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/Adult">1994年に作成されたアメリカ合衆国の国勢調査のデータセット（一部）</a>である．
 機械学習の研究分野では著名なデータセットで通称”Adult Dataset”と呼ばれている．
 このデータセットには，</p>
@@ -2157,7 +2157,7 @@ True : 7841 (24.1%)
 <h2><span class="section-number">5.4. </span>クイズ<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
 <p>※ 以下のクイズの回答にGoogle Colaboratoryを使いたい方は<a class="reference external" href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/knn-and-ml-flow.ipynb">コチラ</a>をクリック．</p>
 <section id="q1">
-<span id="l6-q1"></span><h3><span class="section-number">5.4.1. </span>Q1: 崩し字データのダウンロード<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
+<span id="c5-q1"></span><h3><span class="section-number">5.4.1. </span>Q1: 崩し字データのダウンロード<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://github.com/rois-codh/kmnist">Kuzushiji-MNIST</a>は，<a class="reference external" href="https://codh.rois.ac.jp/index.html.ja">ROIS-DS人文学オープンデータ共同利用センター</a>が公開している日本語<a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%81%8F%E3%81%9A%E3%81%97%E5%AD%97">くずし字</a>の画像データセットである（画像出典:<a class="reference external" href="https://github.com/rois-codh/kmnist">GitHubのkmnistレポジトリより参照</a>）．</p>
 <p><img alt="Kuzushiji MNIST" src="https://github.com/rois-codh/kmnist/raw/master/images/kmnist_examples.png" /></p>
 <p>クイズに取り組むに先だって以下のコードを実行し，下記4つのデータファイルをダウンロードしなさい．</p>
@@ -2197,21 +2197,21 @@ True : 7841 (24.1%)
 </div>
 </section>
 <section id="q2">
-<span id="l6-q2"></span><h3><span class="section-number">5.4.2. </span>Q2: データの確認<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
+<span id="c5-q2"></span><h3><span class="section-number">5.4.2. </span>Q2: データの確認<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
 <p>変数<code class="docutils literal notranslate"><span class="pre">X</span></code>に格納された2025番目のくずし字を28行28列の行列形式，画像形式のそれぞれで表示せよ．</p>
 </section>
 <section id="q3">
-<span id="l6-q3"></span><h3><span class="section-number">5.4.3. </span>Q3: ラベルデータの分布<a class="headerlink" href="#q3" title="Link to this heading">#</a></h3>
+<span id="c5-q3"></span><h3><span class="section-number">5.4.3. </span>Q3: ラベルデータの分布<a class="headerlink" href="#q3" title="Link to this heading">#</a></h3>
 <p>変数<code class="docutils literal notranslate"><span class="pre">y</span></code>に格納された各ラベルについて，その出現頻度を求めなさい．
 なお，<code class="docutils literal notranslate"><span class="pre">y</span></code>のラベルはラベル番号であるため，可能なら<code class="docutils literal notranslate"><span class="pre">k49_classmap.csv</span></code>を用いてラベル番号を文字に置き換えること．</p>
 </section>
 <section id="q4-k">
-<span id="l6-q4"></span><h3><span class="section-number">5.4.4. </span>Q4: くずし字画像分類に対するK近傍法の瀬能<a class="headerlink" href="#q4-k" title="Link to this heading">#</a></h3>
+<span id="c5-q4"></span><h3><span class="section-number">5.4.4. </span>Q4: くずし字画像分類に対するK近傍法の瀬能<a class="headerlink" href="#q4-k" title="Link to this heading">#</a></h3>
 <p>変数<code class="docutils literal notranslate"><span class="pre">X</span></code>，<code class="docutils literal notranslate"><span class="pre">y</span></code>とK近傍法を用いて，くずし字画像の分類器を構築し，交差検証によって分類性能を評価しなさい．
 なお，K近傍法のパラメータ<code class="docutils literal notranslate"><span class="pre">K</span></code>は5，交差検証時のデータ分割数は<code class="docutils literal notranslate"><span class="pre">5</span></code>としなさい．</p>
 </section>
 <section id="q5">
-<span id="l6-q5"></span><h3><span class="section-number">5.4.5. </span>Q5: 最適パラメータの探索<a class="headerlink" href="#q5" title="Link to this heading">#</a></h3>
+<span id="c5-q5"></span><h3><span class="section-number">5.4.5. </span>Q5: 最適パラメータの探索<a class="headerlink" href="#q5" title="Link to this heading">#</a></h3>
 <p>Q4で構築したくずし字画像分類器について，K近傍法のパラメータ<code class="docutils literal notranslate"><span class="pre">K</span></code>を2から9までひとつずつ変化させながら分類性能を評価し，最適なパラメータ<code class="docutils literal notranslate"><span class="pre">K</span></code>を求めなさい．</p>
 </section>
 </section>
@@ -2293,7 +2293,7 @@ True : 7841 (24.1%)
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">5.2.4. より妥当な手続き</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l6-s3">5.3. 例題3: ある時期のアメリカ合衆国の年収調査データ</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c5-s3">5.3. 例題3: ある時期のアメリカ合衆国の年収調査データ</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">5.4. クイズ</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">5.4.1. Q1: 崩し字データのダウンロード</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">5.4.2. Q2: データの確認</a></li>

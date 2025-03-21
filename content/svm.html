@@ -362,7 +362,7 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist">6.1. 例題1: MNIST手書き数字データ</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l7-sec2">6.2. 例題2: 線形分離不可能なデータに対するサポートベクターマシン</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c6-sec2">6.2. 例題2: 線形分離不可能なデータに対するサポートベクターマシン</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">6.3. クイズ</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">6.3.1. Q1: 実行時間の計測</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">6.3.2. Q2: 年収カテゴリ分類の性能比較</a></li>
@@ -428,7 +428,7 @@
 </div>
 <hr class="docutils" />
 <section id="mnist">
-<span id="l7-s1"></span><h2><span class="section-number">6.1. </span>例題1: MNIST手書き数字データ<a class="headerlink" href="#mnist" title="Link to this heading">#</a></h2>
+<span id="c6-s1"></span><h2><span class="section-number">6.1. </span>例題1: MNIST手書き数字データ<a class="headerlink" href="#mnist" title="Link to this heading">#</a></h2>
 <p>例題1では，K近傍法のHands-onで用いた<a class="reference external" href="https://ja.wikipedia.org/wiki/MNIST%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9">MNISTデータセット</a>を用いて，手書き数字の識別するサポートベクターマシン分類器を構築しよう．
 データセットの詳細は<a class="reference internal" href="knn-and-ml-flow.html"><span class="std std-doc">前回のHands-on</span></a>を参照のこと．</p>
 <p>それでは，以下のコードを実行してMNISTデータセットを読み込もう．</p>
@@ -514,8 +514,8 @@ K近傍法でも十分な分類性能を発揮することが分かる．</p>
 MNISTデータセットの分類問題に関しては，サポートベクターマシンとK近傍法の性能は同程度のようだ．</p>
 <hr class="docutils" />
 </section>
-<section id="l7-sec2">
-<span id="id2"></span><h2><span class="section-number">6.2. </span>例題2: 線形分離不可能なデータに対するサポートベクターマシン<a class="headerlink" href="#l7-sec2" title="Link to this heading">#</a></h2>
+<section id="c6-sec2">
+<span id="id2"></span><h2><span class="section-number">6.2. </span>例題2: 線形分離不可能なデータに対するサポートベクターマシン<a class="headerlink" href="#c6-sec2" title="Link to this heading">#</a></h2>
 <p>次の例題では，人工的な2次元データの分類問題を扱う．
 まずは以下のコードを実行して，今回の例題で用いるデータを読み込もう．</p>
 <div class="cell docutils container">
@@ -659,14 +659,14 @@ Recall:  0.9633333333333335
 <h2><span class="section-number">6.3. </span>クイズ<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
 <p>※ 以下のクイズの回答にGoogle Colaboratoryを使いたい方は<a class="reference external" href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/svm.ipynb">コチラ</a>をクリック．</p>
 <section id="q1">
-<span id="l7-q1"></span><h3><span class="section-number">6.3.1. </span>Q1: 実行時間の計測<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
+<span id="c6-q1"></span><h3><span class="section-number">6.3.1. </span>Q1: 実行時間の計測<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
 <p>機械学習モデルの交差検証を簡単に行ってくれる<code class="docutils literal notranslate"><span class="pre">sklearn</span></code>ライブラリの<code class="docutils literal notranslate"><span class="pre">cross_validate</span></code>関数は，その返値（辞書）には</p>
 <ul class="simple">
 <li><p>学習の所要時間（<code class="docutils literal notranslate"><span class="pre">fit_time</span></code>）</p></li>
 <li><p>評価（推論）の所要時間（<code class="docutils literal notranslate"><span class="pre">score_time</span></code>）</p></li>
 </ul>
 <p>に関する情報が格納されている（<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_validate.html">参考</a>）．</p>
-<p>この情報を用いて，<a class="reference internal" href="#l7-s1"><span class="std std-ref">例題1</span></a>におけるMNIST分類器を</p>
+<p>この情報を用いて，<a class="reference internal" href="#c6-s1"><span class="std std-ref">例題1</span></a>におけるMNIST分類器を</p>
 <ol class="arabic simple">
 <li><p>多項式カーネル（<code class="docutils literal notranslate"><span class="pre">kernel='poly'</span></code>）を用いたサポートベクターマシン</p></li>
 <li><p>K近傍法（<code class="docutils literal notranslate"><span class="pre">K=5</span></code>）</p></li>
@@ -681,8 +681,8 @@ Recall:  0.9633333333333335
 <p>について比較を行いなさい．</p>
 </section>
 <section id="q2">
-<span id="l7-q2"></span><h3><span class="section-number">6.3.2. </span>Q2: 年収カテゴリ分類の性能比較<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
-<p>Q1で行った同様の比較を，<a class="reference internal" href="knn-and-ml-flow.html"><span class="std std-doc">第6章</span></a>のクイズで取り組んだ<a class="reference internal" href="knn-and-ml-flow.html#l6-s3"><span class="std std-ref">年収カテゴリ分類問題</span></a>に対して行いなさい．</p>
+<span id="c6-q2"></span><h3><span class="section-number">6.3.2. </span>Q2: 年収カテゴリ分類の性能比較<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
+<p>Q1で行った同様の比較を，<a class="reference internal" href="knn-and-ml-flow.html"><span class="std std-doc">第6章</span></a>のクイズで取り組んだ<a class="reference internal" href="knn-and-ml-flow.html#c5-s3"><span class="std std-ref">年収カテゴリ分類問題</span></a>に対して行いなさい．</p>
 </section>
 </section>
 </section>
@@ -753,7 +753,7 @@ Recall:  0.9633333333333335
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist">6.1. 例題1: MNIST手書き数字データ</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l7-sec2">6.2. 例題2: 線形分離不可能なデータに対するサポートベクターマシン</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c6-sec2">6.2. 例題2: 線形分離不可能なデータに対するサポートベクターマシン</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">6.3. クイズ</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">6.3.1. Q1: 実行時間の計測</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">6.3.2. Q2: 年収カテゴリ分類の性能比較</a></li>

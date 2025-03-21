@@ -571,7 +571,7 @@
 <p>K-meansクラスタリングの結果を踏まえて，散布図を色分けしてみよう．
 今回の分析ではクラスタの数が15と多いので，下記のコードを実行して色分けのための準備を行う．</p>
 <p>下記コードを実行して，散布図を15のグループごとに色分けを行ってみよう．
-K-meansクラスタリングは，目論見どおりにデータを分割できていただろうか？（<a class="reference internal" href="#l4-q3"><span class="std std-ref">★Quiz 3</span></a>，<a class="reference internal" href="#l4-q4"><span class="std std-ref">★Quiz 4</span></a>）</p>
+K-meansクラスタリングは，目論見どおりにデータを分割できていただろうか？（<a class="reference internal" href="#c3-q3"><span class="std std-ref">★Quiz 3</span></a>，<a class="reference internal" href="#c3-q4"><span class="std std-ref">★Quiz 4</span></a>）</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
@@ -715,7 +715,7 @@ K-meansクラスタリングは，目論見どおりにデータを分割でき�
 では，距離の情報を用意しよう．</p>
 <p>正攻法でやるならば，100行ある<code class="docutils literal notranslate"><span class="pre">e_commerce_df</span></code>の顧客データのすべての組み合わせを比較して，各顧客ベクトルの距離を計算する必要がある．
 <code class="docutils literal notranslate"><span class="pre">scipy</span></code>ライブラリはそれを簡単に実行してくれる便利な関数<code class="docutils literal notranslate"><span class="pre">distance.pdist</span></code>を提供している．</p>
-<p>以下のコードを実行してベクトル間の距離を計算してみよう（<a class="reference internal" href="#l4-q1"><span class="std std-ref">★Quiz 1</span></a>，<a class="reference internal" href="#l4-q2"><span class="std std-ref">★Quiz 2</span></a>）．</p>
+<p>以下のコードを実行してベクトル間の距離を計算してみよう（<a class="reference internal" href="#c3-q1"><span class="std std-ref">★Quiz 1</span></a>，<a class="reference internal" href="#c3-q2"><span class="std std-ref">★Quiz 2</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pdist関数を使い，全ベクトル間の距離を計算．距離の定義にはユークリッド距離を用いる</span>
@@ -1080,7 +1080,7 @@ K-meansクラスタリングは，目論見どおりにデータを分割でき�
 <img alt="../_images/b670550ad3f381cf552381bdc278b453e06b48c20f9e15e45a6706218a66ec34.png" src="../_images/b670550ad3f381cf552381bdc278b453e06b48c20f9e15e45a6706218a66ec34.png" />
 </div>
 </div>
-<p>デンドログラムが表示されると，階層的クラスタリングを実行したという気分になる（<a class="reference internal" href="#l4-q6"><span class="std std-ref">★Quiz 6</span></a>）．</p>
+<p>デンドログラムが表示されると，階層的クラスタリングを実行したという気分になる（<a class="reference internal" href="#c3-q6"><span class="std std-ref">★Quiz 6</span></a>）．</p>
 <p>今回は顧客の一人一人について私たちは特に知識がないため，この図を眺めてもよく分からない．
 そこで，適当な深さでデンドログラムの枝を切って，各要素をクラスタに分けてみよう．
 その上で，各クラスタに入っている要素がどのような性質を持っているかを分析してみよう．</p>
@@ -1280,7 +1280,7 @@ K-meansクラスタリングは，目論見どおりにデータを分割でき�
 </div></div></div>
 </div>
 <p>クラスタ毎に書籍，衣類，化粧品，食料品，飲料の平均購買数が求まった．
-ユーザの購買傾向がクラスタ毎に少しずつ異なることが確認できる（<a class="reference internal" href="#l4-q5"><span class="std std-ref">★Quiz 5</span></a>）．</p>
+ユーザの購買傾向がクラスタ毎に少しずつ異なることが確認できる（<a class="reference internal" href="#c3-q5"><span class="std std-ref">★Quiz 5</span></a>）．</p>
 </section>
 </section>
 <hr class="docutils" />
@@ -1288,7 +1288,7 @@ K-meansクラスタリングは，目論見どおりにデータを分割でき�
 <h2><span class="section-number">3.3. </span>クイズ<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
 <p>※ 以下のクイズの回答にGoogle Colaboratoryを使いたい方は<a class="reference external" href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/kmeans-and-hierarchical-clustering.ipynb">コチラ</a>をクリック．</p>
 <section id="q1">
-<span id="l4-q1"></span><h3><span class="section-number">3.3.1. </span>Q1: ユークリッド距離とコサイン類似度<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
+<span id="c3-q1"></span><h3><span class="section-number">3.3.1. </span>Q1: ユークリッド距離とコサイン類似度<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
 <p>以下の図のように，2次元のユークリッド空間上に，13個のデータ点が図のように分布している状況を考える（各点の座標については，下記コードのリスト<code class="docutils literal notranslate"><span class="pre">data</span></code>に収められている）．</p>
 <p>N次元空間上の任意の点<span class="math notranslate nohighlight">\(v_1\)</span>，<span class="math notranslate nohighlight">\(v_2\)</span>が与えられたとき，<span class="math notranslate nohighlight">\(v_1\)</span>と<span class="math notranslate nohighlight">\(v_2\)</span>のユークリッド距離を求める関数<code class="docutils literal notranslate"><span class="pre">calc_euclidean_dist(v1,</span> <span class="pre">v2)</span></code>，コサイン類似度を求める関数<code class="docutils literal notranslate"><span class="pre">calc_cosine_sim(v1,</span> <span class="pre">v2)</span></code>を実装しなさい．
 さらに，下図の13つの点のすべての組み合わせについて，そのユークリッド距離とコサイン類似度を求めなさい．</p>
@@ -1327,7 +1327,7 @@ K-meansクラスタリングは，目論見どおりにデータを分割でき�
 </div>
 </section>
 <section id="q2">
-<span id="l4-q2"></span><h3><span class="section-number">3.3.2. </span>Q2: 距離/類似度の解釈<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
+<span id="c3-q2"></span><h3><span class="section-number">3.3.2. </span>Q2: 距離/類似度の解釈<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
 <p>Q1で扱ったデータ集合において，点<span class="math notranslate nohighlight">\(v=(11, 4)\)</span>との最も類似する点（最近傍点）を求めたい．
 ユークリッド空間の各次元の意味，最近傍点の定義が下記のような設定である場合，点の類似性を評価する関数としてユークリッド距離，コサイン類似度のどちらを用いるのが適切か考察しながら，最近傍点を求めなさい．</p>
 <ol class="arabic simple">
@@ -1336,21 +1336,21 @@ K-meansクラスタリングは，目論見どおりにデータを分割でき�
 </ol>
 </section>
 <section id="q3">
-<span id="l4-q3"></span><h3><span class="section-number">3.3.3. </span>Q3: ポケモンデータ再び<a class="headerlink" href="#q3" title="Link to this heading">#</a></h3>
+<span id="c3-q3"></span><h3><span class="section-number">3.3.3. </span>Q3: ポケモンデータ再び<a class="headerlink" href="#q3" title="Link to this heading">#</a></h3>
 <p><a class="reference internal" href="#content/introduction-to-pandas.ipynb"><span class="xref myst">第1章pandas入門</span></a>のクイズ課題で用いたデータセット<a class="reference external" href="https://github.com/lgreski/pokemonData">pokemonData</a>を再度ダウンロードし，その内容をpandasデータフレームに変換して変数<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>に代入しなさい．</p>
 <p>その上で，データフレーム<code class="docutils literal notranslate"><span class="pre">pokemon_df</span></code>から属性<code class="docutils literal notranslate"><span class="pre">HP</span></code>，<code class="docutils literal notranslate"><span class="pre">Attack</span></code>，<code class="docutils literal notranslate"><span class="pre">Defense</span></code>，<code class="docutils literal notranslate"><span class="pre">Sp.</span> <span class="pre">Atk</span></code>，<code class="docutils literal notranslate"><span class="pre">Sp.</span> <span class="pre">Def</span></code>，<code class="docutils literal notranslate"><span class="pre">Speed</span></code>の値だけを抽出し，データフレームの最初の5件だけを表示しなさい．</p>
 </section>
 <section id="q4-k-means">
-<span id="l4-q4"></span><h3><span class="section-number">3.3.4. </span>Q4: K-means<a class="headerlink" href="#q4-k-means" title="Link to this heading">#</a></h3>
+<span id="c3-q4"></span><h3><span class="section-number">3.3.4. </span>Q4: K-means<a class="headerlink" href="#q4-k-means" title="Link to this heading">#</a></h3>
 <p>Q3で準備したデータフレーム<code class="docutils literal notranslate"><span class="pre">pokenmon_df</span></code>とK-meansクラスタリング手法を用いて，第1世代ポケモンを7グループに分けたい．
 属性<code class="docutils literal notranslate"><span class="pre">HP</span></code>，<code class="docutils literal notranslate"><span class="pre">Attack</span></code>，<code class="docutils literal notranslate"><span class="pre">Defense</span></code>，<code class="docutils literal notranslate"><span class="pre">Sp.</span> <span class="pre">Atk</span></code>，<code class="docutils literal notranslate"><span class="pre">Sp.</span> <span class="pre">Def</span></code>，<code class="docutils literal notranslate"><span class="pre">Speed</span></code>のみに注目して，第1世代ポケモンデータにK-meansクラスタリングを適用しなさい．</p>
 </section>
 <section id="q5">
-<span id="l4-q5"></span><h3><span class="section-number">3.3.5. </span>Q5: クラスタの特徴<a class="headerlink" href="#q5" title="Link to this heading">#</a></h3>
+<span id="c3-q5"></span><h3><span class="section-number">3.3.5. </span>Q5: クラスタの特徴<a class="headerlink" href="#q5" title="Link to this heading">#</a></h3>
 <p>Q4で求めた各クラスタに含まれるポケモンデータの<code class="docutils literal notranslate"><span class="pre">HP</span></code>，<code class="docutils literal notranslate"><span class="pre">Attack</span></code>，<code class="docutils literal notranslate"><span class="pre">Defense</span></code>，<code class="docutils literal notranslate"><span class="pre">Sp.</span> <span class="pre">Atk</span></code>，<code class="docutils literal notranslate"><span class="pre">Sp.</span> <span class="pre">Def</span></code>，<code class="docutils literal notranslate"><span class="pre">Speed</span></code>の平均値を求めなさい．</p>
 </section>
 <section id="q6">
-<span id="l4-q6"></span><h3><span class="section-number">3.3.6. </span>Q6: 階層的クラスタリング結果の比較<a class="headerlink" href="#q6" title="Link to this heading">#</a></h3>
+<span id="c3-q6"></span><h3><span class="section-number">3.3.6. </span>Q6: 階層的クラスタリング結果の比較<a class="headerlink" href="#q6" title="Link to this heading">#</a></h3>
 <p>Q1で扱った13個のデータ点について，階層的クラスタリング法を用いて段階的にクラスタに分割したい．</p>
 <p><code class="docutils literal notranslate"><span class="pre">scipy.cluster.hierarchy</span></code>ライブラリの<code class="docutils literal notranslate"><span class="pre">linkage</span></code>関数および<code class="docutils literal notranslate"><span class="pre">dendrogram</span></code>関数を用いて，Q1で扱ったデータに階層的クラスタリングを適用しなさい．
 その際，階層的クラスタリングのクラスタ生成手法として下記3つの方法を用いて，クラスタの生成過程を結果を比較しなさい：</p>

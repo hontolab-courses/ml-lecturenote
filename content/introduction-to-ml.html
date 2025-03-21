@@ -750,7 +750,7 @@ Google Colaboratory（もしくはJupyter）に</p>
 タイタニックとその事故は映画化されるなど世界的に有名である．</p>
 <p>乗船者に関する情報が残っていたために，事故後，多くの人が事故に関する分析を行った．
 私たちもタイタニック号の乗船者情報を用いて，生死を分けた条件について分析を行ってみよう．
-以下のコードを実行して，タイタニック号の乗船者（の一部）のデータを読み込もう（<a class="reference internal" href="#l3-q1"><span class="std std-ref">★Quiz 1</span></a>）．</p>
+以下のコードを実行して，タイタニック号の乗船者（の一部）のデータを読み込もう（<a class="reference internal" href="#c2-q1"><span class="std std-ref">★Quiz 1</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># データの読み込み</span>
@@ -954,7 +954,7 @@ Google Colaboratory（もしくはJupyter）に</p>
 </div>
 <p>分析の結果，どうやら等級が高い（数値が小さい）ほど生き残っている方の割合が大きいようだ．
 等級以外の属性でも同様の分析を行ってみよう．
-例えば，性別（Sex）と生存の有無の関係は以下のコードで得られる（<a class="reference internal" href="#l3-q2"><span class="std std-ref">★Quiz 2</span></a>，<a class="reference internal" href="#l3-q3"><span class="std std-ref">★Quiz 3</span></a>）．</p>
+例えば，性別（Sex）と生存の有無の関係は以下のコードで得られる（<a class="reference internal" href="#c2-q2"><span class="std std-ref">★Quiz 2</span></a>，<a class="reference internal" href="#c2-q3"><span class="std std-ref">★Quiz 3</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">titanic_df</span><span class="p">[</span><span class="s1">&#39;Survived&#39;</span><span class="p">],</span> <span class="n">titanic_df</span><span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
@@ -1074,7 +1074,7 @@ AgeとEmbarkedのみ欠損値を埋めることにしよう．</p>
 </div>
 </div>
 </div>
-<p>変数<code class="docutils literal notranslate"><span class="pre">titanic_test_df</span></code>には生存の有無の情報も含まれているが，予測モデルの性能評価の際には，生存情報が未知であるとして予測を行い，予測結果と（隠しておいた）生存情報を照らし合わせて評価することになる（<a class="reference internal" href="#l3-q4"><span class="std std-ref">★Quiz 4</span></a>）．</p>
+<p>変数<code class="docutils literal notranslate"><span class="pre">titanic_test_df</span></code>には生存の有無の情報も含まれているが，予測モデルの性能評価の際には，生存情報が未知であるとして予測を行い，予測結果と（隠しておいた）生存情報を照らし合わせて評価することになる（<a class="reference internal" href="#c2-q4"><span class="std std-ref">★Quiz 4</span></a>）．</p>
 <p>簡易的な分析を行ってみると，生存の有無を識別するために有効な指標がありそうな気もする．
 しかし実際には，複数の指標が絡み合って生存の有無が決まっていると思われる．
 このような状況で，指標（特徴量）同士の複雑な関係性を考慮しながら，予測のためのルールを抽出するのが<strong>教師あり学習</strong>である．</p>
@@ -1307,7 +1307,7 @@ AgeとEmbarkedのみ欠損値を埋めることにしよう．</p>
 <li><p>性別が女性であり（Sex_male&lt;=0.5: True），乗船クラスが1等もしくは2等クラス（Pclass&lt;=2.5: True）の乗客は95.7%の確率で生存したこと</p></li>
 <li><p>その条件にマッチする乗客は，全体の18.5%存在すること</p></li>
 </ul>
-<p>を示している（<a class="reference internal" href="#l3-q5"><span class="std std-ref">★Quiz 5</span></a>）．</p>
+<p>を示している（<a class="reference internal" href="#c2-q5"><span class="std std-ref">★Quiz 5</span></a>）．</p>
 <p>なんとなく予測ルールは分かったが，各指標が予測にどの程度影響があるかを調べてみよう．
 以下のコードを実行しよう．</p>
 <div class="cell docutils container">
@@ -1332,7 +1332,7 @@ Embarked_Q	0.0
 </div>
 </div>
 </div>
-<p>この結果からも，<strong>性別</strong>や<strong>等級</strong>が生存に大きく影響を与えていたことがうかがえる（<a class="reference internal" href="#l3-q6"><span class="std std-ref">★Quiz 6</span></a>）．</p>
+<p>この結果からも，<strong>性別</strong>や<strong>等級</strong>が生存に大きく影響を与えていたことがうかがえる（<a class="reference internal" href="#c2-q6"><span class="std std-ref">★Quiz 6</span></a>）．</p>
 <p>さて，ここまでやったことは予測のためのルール（モデル）の構築であった．
 構築した予測モデルを使って，未知のデータを予測してみよう．
 この例題の冒頭で，変数<code class="docutils literal notranslate"><span class="pre">titanic_test_df</span></code>に<strong>予測モデルの構築に使われていないデータ</strong>を別途用意していたことを思い出そう．</p>
@@ -1502,7 +1502,7 @@ Embarked_Q	0.0
 </div>
 <p>色々情報が出てきたが，<code class="docutils literal notranslate"><span class="pre">Accuracy</span></code>という数値を見てほしい．
 Accuracyは予測結果のうち，<strong>実際に生存した乗客を予測モデルが「生存」と予測し，死亡した乗客を予測モデルが「死亡」と予測できたケースの割合</strong>を意味する．
-上記結果によると，Accuracyは約76.1%を示しており，そこそこの割合で生存の有無を予測できていることが分かる（<a class="reference internal" href="#l3-q7"><span class="std std-ref">★Quiz 7</span></a>）．</p>
+上記結果によると，Accuracyは約76.1%を示しており，そこそこの割合で生存の有無を予測できていることが分かる（<a class="reference internal" href="#c2-q7"><span class="std std-ref">★Quiz 7</span></a>）．</p>
 </section>
 <hr class="docutils" />
 <section id="id4">
@@ -1674,28 +1674,28 @@ Accuracyは予測結果のうち，<strong>実際に生存した乗客を予測�
 </ul>
 <p>このデータに対して決定木アルゴリズムを適用して，ある人物が年間収入が50Kドル以上か未満かを分類する機械学習モデルを構築したい．</p>
 <section id="q1">
-<span id="l3-q1"></span><h3><span class="section-number">2.3.1. </span>Q1: ヒストグラム<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
+<span id="c2-q1"></span><h3><span class="section-number">2.3.1. </span>Q1: ヒストグラム<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
 <p>機械学習モデルを構築する前に，<code class="docutils literal notranslate"><span class="pre">income_df</span></code>データに含まれる調査対象者の年齢の分布を知りたい．
 年齢に関するヒストグラム（階級数は10）を作成せよ．</p>
 <p>※ ヒント: ヒストグラムの作成には<code class="docutils literal notranslate"><span class="pre">pandas.series.hist</span></code>関数を用いるとよい（<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.hist.html">参考</a>）</p>
 </section>
 <section id="q2">
-<span id="l3-q2"></span><h3><span class="section-number">2.3.2. </span>Q2: 出現頻度<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
+<span id="c2-q2"></span><h3><span class="section-number">2.3.2. </span>Q2: 出現頻度<a class="headerlink" href="#q2" title="Link to this heading">#</a></h3>
 <p>機械学習モデルを構築する前に，<code class="docutils literal notranslate"><span class="pre">income_df</span></code>データに含まれる性別，年収の分布を知りたい．
 性別（男，女），年収（50K以上，50K未満）について，属性値に対応する人数を求めよ．</p>
 <p>※ ヒント: 要素の出現頻度を求めるには<code class="docutils literal notranslate"><span class="pre">pandas.series.value_counts</span></code>メソッドを用いるとよい（<a class="reference external" href="https://note.nkmk.me/python-pandas-value-counts/">参考</a>）</p>
 </section>
 <section id="q3">
-<span id="l3-q3"></span><h3><span class="section-number">2.3.3. </span>Q3: データの集約<a class="headerlink" href="#q3" title="Link to this heading">#</a></h3>
+<span id="c2-q3"></span><h3><span class="section-number">2.3.3. </span>Q3: データの集約<a class="headerlink" href="#q3" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">income_df</span></code>データを集約し，学歴ごとに年間収入クラスの内訳（割合）を調べよ．</p>
 <p>※ ヒント: pandasの<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.crosstab.html">crosstab</a>関数を使う（タイタニックの例でも使ったので，確認してみよう）</p>
 </section>
 <section id="q4">
-<span id="l3-q4"></span><h3><span class="section-number">2.3.4. </span>Q4: 学習のためのデータ分割<a class="headerlink" href="#q4" title="Link to this heading">#</a></h3>
+<span id="c2-q4"></span><h3><span class="section-number">2.3.4. </span>Q4: 学習のためのデータ分割<a class="headerlink" href="#q4" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">income_df</span></code>データに決定木アルゴリズムを適用するために，データを7:3に分割し，7割のデータを学習用データ（<code class="docutils literal notranslate"><span class="pre">income_train_df</span></code>），3割のデータを評価用データ（<code class="docutils literal notranslate"><span class="pre">income_test_df</span></code>）としなさい．</p>
 </section>
 <section id="q5">
-<span id="l3-q5"></span><h3><span class="section-number">2.3.5. </span>Q5: 決定木の構築<a class="headerlink" href="#q5" title="Link to this heading">#</a></h3>
+<span id="c2-q5"></span><h3><span class="section-number">2.3.5. </span>Q5: 決定木の構築<a class="headerlink" href="#q5" title="Link to this heading">#</a></h3>
 <p>以下は，「年齢」「雇用形態」「学歴」「婚姻の有無」「職業」「家族内における役割」「人種」「性別」「週あたりの労働時間」「出身国」の属性に着目して，<code class="docutils literal notranslate"><span class="pre">income_df</span></code>データから年収カテゴリを予測する決定木を構築するコードである．
 <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">----------</span> </code> の間を埋めてコードを完成させなさい．</p>
 <div class="cell docutils container">
@@ -1738,12 +1738,12 @@ Accuracyは予測結果のうち，<strong>実際に生存した乗客を予測�
 </div>
 </section>
 <section id="q6">
-<span id="l3-q6"></span><h3><span class="section-number">2.3.6. </span>Q6: 決定木における各属性の寄与度<a class="headerlink" href="#q6" title="Link to this heading">#</a></h3>
+<span id="c2-q6"></span><h3><span class="section-number">2.3.6. </span>Q6: 決定木における各属性の寄与度<a class="headerlink" href="#q6" title="Link to this heading">#</a></h3>
 <p>構築した決定木モデル（<code class="docutils literal notranslate"><span class="pre">model</span></code>）を用いて，年収（<code class="docutils literal notranslate"><span class="pre">income</span></code>）の分類における各属性（列）の寄与度を表示しなさい．
 なお，寄与度がゼロのものは表示しなくてよい．</p>
 </section>
 <section id="q7">
-<span id="l3-q7"></span><h3><span class="section-number">2.3.7. </span>Q7: 決定木の再構築<a class="headerlink" href="#q7" title="Link to this heading">#</a></h3>
+<span id="c2-q7"></span><h3><span class="section-number">2.3.7. </span>Q7: 決定木の再構築<a class="headerlink" href="#q7" title="Link to this heading">#</a></h3>
 <p>Q6の結果をもとに年収分類に寄与する特徴量を（最大5つ）特定し，その特徴量のみを用いて再度決定木モデルを構築しなさい．
 その際，あまり木が深くならないよう調整し，できる限りシンプルなモデルになるようにすること．</p>
 </section>
