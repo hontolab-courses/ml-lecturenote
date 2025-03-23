@@ -379,17 +379,17 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">1.5.2. 射影</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">1.5.3. データフレームに対する四則演算</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">1.5.4. 任意の行にあるレコードの取得</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">1.5.5. 絞り込み</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">1.5.5. 絞り込み</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">1.6. データフレームの保存</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">1.7. 前処理</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">1.7.1. 列名の変更</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">1.7.2. 新しい列の追加</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">1.6. データフレームの保存</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">1.7. 前処理</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">1.7.1. 列名の変更</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">1.7.2. 新しい列の追加</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy">1.7.3. NumPy行列の取得</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">1.8. クイズ</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">1.8. クイズ</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">1.8.1. Q1: データの読み込み</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">1.8.2. Q2: データの確認</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q3-hp">1.8.3. Q3: HP, 攻撃力, 防御力</a></li>
@@ -748,7 +748,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 先ほどのコードを以下に書き換えると，指定したURL上のファイルを読み込み，データフレームを作成する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/hontolab-courses/dmml-2022/main/dataset/titanic_train.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/hontolab-courses/ml-lecturenote/refs/heads/main/content/data/titanic_train.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -759,6 +759,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 <li><p><code class="docutils literal notranslate"><span class="pre">sep</span></code>: 区切り文字</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">header</span></code>: 指定ファイルの中で見出し項目が格納された行番号（デフォルトは0）</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">encoding</span></code>: ファイルの文字コード</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">index_col</span></code>: インデックス名（表中の各行を識別するための固有の名前）に用い列名</p></li>
 </ul>
 <p>例えば，<a class="reference external" href="https://www.nstac.go.jp/sys/files/SSDSE-E-2024.csv">こちらのURL</a>で公開されている独立行政法人統計センター作成の<a class="reference external" href="https://www.nstac.go.jp/use/literacy/ssdse/#SSDSE-E">教育用標準データセットSSDSE-基本素材（SSDSE-E）</a>の表データを読み込んでみよう．</p>
 <p>このデータはCSVファイルに格納されているが，文字コードとしてSHIFT-JISが用いられている．
@@ -767,7 +768,10 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CSVファイルの1行目をpandasではゼロ行目と読むので，3行目のデータを見出しとして指定する場合はheader=2となる</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;https://www.nstac.go.jp/sys/files/SSDSE-E-2024.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;shift-jis&#39;</span><span class="p">)</span>
+<span class="c1"># 地域コードをインデックス名として指定</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;https://www.nstac.go.jp/sys/files/SSDSE-E-2024.csv&#39;</span><span class="p">,</span>
+                   <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;shift-jis&#39;</span><span class="p">,</span>
+                   <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;地域コード&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -787,7 +791,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(48, 92)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(48, 91)
 </pre></div>
 </div>
 </div>
@@ -820,24 +824,24 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;地域コード&#39;, &#39;都道府県&#39;, &#39;総人口&#39;, &#39;日本人人口&#39;, &#39;15歳未満人口&#39;, &#39;15〜64歳人口&#39;, &#39;65歳以上人口&#39;,
-       &#39;外国人人口&#39;, &#39;出生数&#39;, &#39;合計特殊出生率&#39;, &#39;死亡数&#39;, &#39;転入者数（日本人移動者）&#39;, &#39;転出者数（日本人移動者）&#39;,
-       &#39;一般世帯数&#39;, &#39;一般世帯人員数&#39;, &#39;単独世帯数&#39;, &#39;婚姻件数&#39;, &#39;離婚件数&#39;, &#39;総面積（北方地域及び竹島を除く）&#39;,
-       &#39;可住地面積&#39;, &#39;自然公園面積&#39;, &#39;県内総生産額（平成27年基準）&#39;, &#39;県民所得（平成27年基準）&#39;,
-       &#39;1人当たり県民所得（平成27年基準）&#39;, &#39;事業所数（民営）&#39;, &#39;事業所数（民営）（建設業）&#39;, &#39;事業所数（民営）（製造業）&#39;,
-       &#39;事業所数（民営）（情報通信業）&#39;, &#39;事業所数（民営）（卸売業、小売業）&#39;, &#39;事業所数（民営）（宿泊業、飲食サービス業）&#39;,
-       &#39;事業所数（民営）（生活関連サービス業、娯楽業）&#39;, &#39;事業所数（民営）（医療、福祉）&#39;, &#39;従業者数（民営）&#39;,
-       &#39;従業者数（民営）（建設業）&#39;, &#39;従業者数（民営）（製造業）&#39;, &#39;従業者数（民営）（情報通信業）&#39;,
-       &#39;従業者数（民営）（卸売業、小売業）&#39;, &#39;従業者数（民営）（宿泊業、飲食サービス業）&#39;, &#39;従業者数（民営）（生活関連サービス業、娯楽業）&#39;,
-       &#39;従業者数（民営）（医療、福祉）&#39;, &#39;農家数（販売農家）&#39;, &#39;農家数（自給的農家）&#39;, &#39;耕地面積&#39;, &#39;旅館営業施設数（ホテルを含む）&#39;,
-       &#39;旅館営業施設客室数（ホテルを含む）&#39;, &#39;幼稚園数&#39;, &#39;幼稚園在園者数&#39;, &#39;小学校数&#39;, &#39;小学校児童数&#39;, &#39;中学校数&#39;,
-       &#39;中学校生徒数&#39;, &#39;高等学校数&#39;, &#39;高等学校生徒数&#39;, &#39;短期大学数&#39;, &#39;大学数&#39;, &#39;短期大学学生数&#39;, &#39;大学学生数&#39;,
-       &#39;公民館数&#39;, &#39;図書館数&#39;, &#39;博物館数&#39;, &#39;劇場、音楽堂等数&#39;, &#39;社会体育施設数&#39;, &#39;民間体育施設数&#39;, &#39;映画館数&#39;,
-       &#39;一般旅券発行件数&#39;, &#39;延べ宿泊者数&#39;, &#39;外国人延べ宿泊者数&#39;, &#39;総住宅数&#39;, &#39;空き家数&#39;, &#39;持ち家数&#39;, &#39;一戸建住宅数&#39;,
-       &#39;1住宅当たり延べ面積&#39;, &#39;総人口（非水洗化人口＋水洗化人口）&#39;, &#39;非水洗化人口&#39;, &#39;ごみ総排出量（総量）&#39;,
-       &#39;1人1日当たりの排出量&#39;, &#39;ごみのリサイクル率&#39;, &#39;小売店数&#39;, &#39;飲食店数&#39;, &#39;大型小売店数&#39;, &#39;一般病院数&#39;, &#39;一般診療所数&#39;,
-       &#39;歯科診療所数&#39;, &#39;医師数&#39;, &#39;歯科医師数&#39;, &#39;薬剤師数&#39;, &#39;保育所等数&#39;, &#39;保育所等在所児数&#39;, &#39;消費支出（二人以上の世帯）&#39;,
-       &#39;食料費（二人以上の世帯）&#39;, &#39;住居費（二人以上の世帯）&#39;, &#39;教養娯楽費（二人以上の世帯）&#39;],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;都道府県&#39;, &#39;総人口&#39;, &#39;日本人人口&#39;, &#39;15歳未満人口&#39;, &#39;15〜64歳人口&#39;, &#39;65歳以上人口&#39;, &#39;外国人人口&#39;,
+       &#39;出生数&#39;, &#39;合計特殊出生率&#39;, &#39;死亡数&#39;, &#39;転入者数（日本人移動者）&#39;, &#39;転出者数（日本人移動者）&#39;, &#39;一般世帯数&#39;,
+       &#39;一般世帯人員数&#39;, &#39;単独世帯数&#39;, &#39;婚姻件数&#39;, &#39;離婚件数&#39;, &#39;総面積（北方地域及び竹島を除く）&#39;, &#39;可住地面積&#39;,
+       &#39;自然公園面積&#39;, &#39;県内総生産額（平成27年基準）&#39;, &#39;県民所得（平成27年基準）&#39;, &#39;1人当たり県民所得（平成27年基準）&#39;,
+       &#39;事業所数（民営）&#39;, &#39;事業所数（民営）（建設業）&#39;, &#39;事業所数（民営）（製造業）&#39;, &#39;事業所数（民営）（情報通信業）&#39;,
+       &#39;事業所数（民営）（卸売業、小売業）&#39;, &#39;事業所数（民営）（宿泊業、飲食サービス業）&#39;, &#39;事業所数（民営）（生活関連サービス業、娯楽業）&#39;,
+       &#39;事業所数（民営）（医療、福祉）&#39;, &#39;従業者数（民営）&#39;, &#39;従業者数（民営）（建設業）&#39;, &#39;従業者数（民営）（製造業）&#39;,
+       &#39;従業者数（民営）（情報通信業）&#39;, &#39;従業者数（民営）（卸売業、小売業）&#39;, &#39;従業者数（民営）（宿泊業、飲食サービス業）&#39;,
+       &#39;従業者数（民営）（生活関連サービス業、娯楽業）&#39;, &#39;従業者数（民営）（医療、福祉）&#39;, &#39;農家数（販売農家）&#39;, &#39;農家数（自給的農家）&#39;,
+       &#39;耕地面積&#39;, &#39;旅館営業施設数（ホテルを含む）&#39;, &#39;旅館営業施設客室数（ホテルを含む）&#39;, &#39;幼稚園数&#39;, &#39;幼稚園在園者数&#39;,
+       &#39;小学校数&#39;, &#39;小学校児童数&#39;, &#39;中学校数&#39;, &#39;中学校生徒数&#39;, &#39;高等学校数&#39;, &#39;高等学校生徒数&#39;, &#39;短期大学数&#39;, &#39;大学数&#39;,
+       &#39;短期大学学生数&#39;, &#39;大学学生数&#39;, &#39;公民館数&#39;, &#39;図書館数&#39;, &#39;博物館数&#39;, &#39;劇場、音楽堂等数&#39;, &#39;社会体育施設数&#39;,
+       &#39;民間体育施設数&#39;, &#39;映画館数&#39;, &#39;一般旅券発行件数&#39;, &#39;延べ宿泊者数&#39;, &#39;外国人延べ宿泊者数&#39;, &#39;総住宅数&#39;, &#39;空き家数&#39;,
+       &#39;持ち家数&#39;, &#39;一戸建住宅数&#39;, &#39;1住宅当たり延べ面積&#39;, &#39;総人口（非水洗化人口＋水洗化人口）&#39;, &#39;非水洗化人口&#39;,
+       &#39;ごみ総排出量（総量）&#39;, &#39;1人1日当たりの排出量&#39;, &#39;ごみのリサイクル率&#39;, &#39;小売店数&#39;, &#39;飲食店数&#39;, &#39;大型小売店数&#39;,
+       &#39;一般病院数&#39;, &#39;一般診療所数&#39;, &#39;歯科診療所数&#39;, &#39;医師数&#39;, &#39;歯科医師数&#39;, &#39;薬剤師数&#39;, &#39;保育所等数&#39;,
+       &#39;保育所等在所児数&#39;, &#39;消費支出（二人以上の世帯）&#39;, &#39;食料費（二人以上の世帯）&#39;, &#39;住居費（二人以上の世帯）&#39;,
+       &#39;教養娯楽費（二人以上の世帯）&#39;],
       dtype=&#39;object&#39;)
 </pre></div>
 </div>
@@ -1135,7 +1139,6 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>地域コード</th>
       <th>都道府県</th>
       <th>総人口</th>
       <th>日本人人口</th>
@@ -1145,6 +1148,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <th>外国人人口</th>
       <th>出生数</th>
       <th>合計特殊出生率</th>
+      <th>死亡数</th>
       <th>...</th>
       <th>歯科診療所数</th>
       <th>医師数</th>
@@ -1157,11 +1161,34 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <th>住居費（二人以上の世帯）</th>
       <th>教養娯楽費（二人以上の世帯）</th>
     </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>R00000</td>
+      <th>R00000</th>
       <td>全国</td>
       <td>124947000</td>
       <td>122031000</td>
@@ -1171,6 +1198,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>2402460</td>
       <td>811622</td>
       <td>1.30</td>
+      <td>1439856</td>
       <td>...</td>
       <td>67899</td>
       <td>339623</td>
@@ -1184,8 +1212,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>26642</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>R01000</td>
+      <th>R01000</th>
       <td>北海道</td>
       <td>5140000</td>
       <td>5098000</td>
@@ -1195,6 +1222,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>34321</td>
       <td>28762</td>
       <td>1.20</td>
+      <td>69023</td>
       <td>...</td>
       <td>2818</td>
       <td>13731</td>
@@ -1208,8 +1236,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>27234</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>R02000</td>
+      <th>R02000</th>
       <td>青森県</td>
       <td>1204000</td>
       <td>1198000</td>
@@ -1219,6 +1246,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>5409</td>
       <td>6513</td>
       <td>1.31</td>
+      <td>18785</td>
       <td>...</td>
       <td>505</td>
       <td>2773</td>
@@ -1232,8 +1260,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>20068</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>R03000</td>
+      <th>R03000</th>
       <td>岩手県</td>
       <td>1181000</td>
       <td>1173000</td>
@@ -1243,6 +1270,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>6937</td>
       <td>6472</td>
       <td>1.30</td>
+      <td>17631</td>
       <td>...</td>
       <td>557</td>
       <td>2700</td>
@@ -1256,8 +1284,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>25733</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>R04000</td>
+      <th>R04000</th>
       <td>宮城県</td>
       <td>2280000</td>
       <td>2256000</td>
@@ -1267,6 +1294,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>19453</td>
       <td>13761</td>
       <td>1.15</td>
+      <td>25897</td>
       <td>...</td>
       <td>1051</td>
       <td>5950</td>
@@ -1281,7 +1309,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
     </tr>
   </tbody>
 </table>
-<p>5 rows × 92 columns</p>
+<p>5 rows × 91 columns</p>
 </div></div></div>
 </div>
 <p>DataFrameオブジェクトのメソッド<code class="docutils literal notranslate"><span class="pre">tail</span></code>は，データフレームの末尾<span class="math notranslate nohighlight">\(N\)</span>件のレコードを返す．
@@ -1311,7 +1339,6 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>地域コード</th>
       <th>都道府県</th>
       <th>総人口</th>
       <th>日本人人口</th>
@@ -1321,6 +1348,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <th>外国人人口</th>
       <th>出生数</th>
       <th>合計特殊出生率</th>
+      <th>死亡数</th>
       <th>...</th>
       <th>歯科診療所数</th>
       <th>医師数</th>
@@ -1333,11 +1361,34 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <th>住居費（二人以上の世帯）</th>
       <th>教養娯楽費（二人以上の世帯）</th>
     </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>43</th>
-      <td>R43000</td>
+      <th>R43000</th>
       <td>熊本県</td>
       <td>1718000</td>
       <td>1699000</td>
@@ -1347,6 +1398,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>14591</td>
       <td>12670</td>
       <td>1.59</td>
+      <td>22093</td>
       <td>...</td>
       <td>835</td>
       <td>5415</td>
@@ -1360,8 +1412,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>24428</td>
     </tr>
     <tr>
-      <th>44</th>
-      <td>R44000</td>
+      <th>R44000</th>
       <td>大分県</td>
       <td>1107000</td>
       <td>1092000</td>
@@ -1371,6 +1422,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>10168</td>
       <td>7327</td>
       <td>1.54</td>
+      <td>15104</td>
       <td>...</td>
       <td>530</td>
       <td>3370</td>
@@ -1384,8 +1436,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>28260</td>
     </tr>
     <tr>
-      <th>45</th>
-      <td>R45000</td>
+      <th>R45000</th>
       <td>宮崎県</td>
       <td>1052000</td>
       <td>1044000</td>
@@ -1395,6 +1446,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>6474</td>
       <td>7590</td>
       <td>1.64</td>
+      <td>14520</td>
       <td>...</td>
       <td>493</td>
       <td>2879</td>
@@ -1408,8 +1460,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>21950</td>
     </tr>
     <tr>
-      <th>46</th>
-      <td>R46000</td>
+      <th>R46000</th>
       <td>鹿児島県</td>
       <td>1563000</td>
       <td>1550000</td>
@@ -1419,6 +1470,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>10037</td>
       <td>11618</td>
       <td>1.65</td>
+      <td>21979</td>
       <td>...</td>
       <td>795</td>
       <td>4653</td>
@@ -1432,8 +1484,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>22440</td>
     </tr>
     <tr>
-      <th>47</th>
-      <td>R47000</td>
+      <th>R47000</th>
       <td>沖縄県</td>
       <td>1468000</td>
       <td>1446000</td>
@@ -1443,6 +1494,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
       <td>18157</td>
       <td>14535</td>
       <td>1.80</td>
+      <td>13582</td>
       <td>...</td>
       <td>607</td>
       <td>3887</td>
@@ -1457,7 +1509,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
     </tr>
   </tbody>
 </table>
-<p>5 rows × 92 columns</p>
+<p>5 rows × 91 columns</p>
 </div></div></div>
 </div>
 </section>
@@ -1474,17 +1526,18 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     124947000
-1       5140000
-2       1204000
-3       1181000
-4       2280000
-        ...    
-43      1718000
-44      1107000
-45      1052000
-46      1563000
-47      1468000
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>地域コード
+R00000    124947000
+R01000      5140000
+R02000      1204000
+R03000      1181000
+R04000      2280000
+            ...    
+R43000      1718000
+R44000      1107000
+R45000      1052000
+R46000      1563000
+R47000      1468000
 Name: 総人口, Length: 48, dtype: int64
 </pre></div>
 </div>
@@ -1500,17 +1553,18 @@ Name: 総人口, Length: 48, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     124947000
-1       5140000
-2       1204000
-3       1181000
-4       2280000
-        ...    
-43      1718000
-44      1107000
-45      1052000
-46      1563000
-47      1468000
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>地域コード
+R00000    124947000
+R01000      5140000
+R02000      1204000
+R03000      1181000
+R04000      2280000
+            ...    
+R43000      1718000
+R44000      1107000
+R45000      1052000
+R46000      1563000
+R47000      1468000
 Name: 総人口, Length: 48, dtype: int64
 </pre></div>
 </div>
@@ -1518,14 +1572,14 @@ Name: 総人口, Length: 48, dtype: int64
 </div>
 <p>ドットを用いる方法は簡便であるが，列項目を複数指定して射影できない．
 中括弧を用いる射影方法では，中括弧の中に文字列のリストを与えることで，複数の列項目に注目してデータを抽出できる．
-以下は，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>から「地域コード」「都道府県」「総人口」の列のデータを抽出するコードである（<a class="reference internal" href="#c1-q3"><span class="std std-ref">★Quiz Q3</span></a>）．</p>
+以下は，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>から「都道府県」「総人口」の列のデータを抽出するコードである（<a class="reference internal" href="#c1-q3"><span class="std std-ref">★Quiz Q3</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;地域コード&#39;</span><span class="p">,</span> <span class="s1">&#39;都道府県&#39;</span><span class="p">,</span> <span class="s1">&#39;総人口&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;都道府県&#39;</span><span class="p">,</span> <span class="s1">&#39;総人口&#39;</span><span class="p">]</span>
 <span class="n">df</span><span class="p">[</span><span class="n">target_columns</span><span class="p">]</span>
 
 <span class="c1"># 以下のように書いても問題ない</span>
-<span class="c1"># df[&#39;地域コード&#39;, &#39;都道府県&#39;, &#39;総人口&#39;]</span>
+<span class="c1"># df[&#39;都道府県&#39;, &#39;総人口&#39;]</span>
 </pre></div>
 </div>
 </div>
@@ -1548,39 +1602,38 @@ Name: 総人口, Length: 48, dtype: int64
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>地域コード</th>
       <th>都道府県</th>
       <th>総人口</th>
+    </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>R00000</td>
+      <th>R00000</th>
       <td>全国</td>
       <td>124947000</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>R01000</td>
+      <th>R01000</th>
       <td>北海道</td>
       <td>5140000</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>R02000</td>
+      <th>R02000</th>
       <td>青森県</td>
       <td>1204000</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>R03000</td>
+      <th>R03000</th>
       <td>岩手県</td>
       <td>1181000</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>R04000</td>
+      <th>R04000</th>
       <td>宮城県</td>
       <td>2280000</td>
     </tr>
@@ -1588,41 +1641,35 @@ Name: 総人口, Length: 48, dtype: int64
       <th>...</th>
       <td>...</td>
       <td>...</td>
-      <td>...</td>
     </tr>
     <tr>
-      <th>43</th>
-      <td>R43000</td>
+      <th>R43000</th>
       <td>熊本県</td>
       <td>1718000</td>
     </tr>
     <tr>
-      <th>44</th>
-      <td>R44000</td>
+      <th>R44000</th>
       <td>大分県</td>
       <td>1107000</td>
     </tr>
     <tr>
-      <th>45</th>
-      <td>R45000</td>
+      <th>R45000</th>
       <td>宮崎県</td>
       <td>1052000</td>
     </tr>
     <tr>
-      <th>46</th>
-      <td>R46000</td>
+      <th>R46000</th>
       <td>鹿児島県</td>
       <td>1563000</td>
     </tr>
     <tr>
-      <th>47</th>
-      <td>R47000</td>
+      <th>R47000</th>
       <td>沖縄県</td>
       <td>1468000</td>
     </tr>
   </tbody>
 </table>
-<p>48 rows × 3 columns</p>
+<p>48 rows × 2 columns</p>
 </div></div></div>
 </div>
 </section>
@@ -1638,17 +1685,18 @@ Name: 総人口, Length: 48, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     124947100
-1       5140100
-2       1204100
-3       1181100
-4       2280100
-        ...    
-43      1718100
-44      1107100
-45      1052100
-46      1563100
-47      1468100
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>地域コード
+R00000    124947100
+R01000      5140100
+R02000      1204100
+R03000      1181100
+R04000      2280100
+            ...    
+R43000      1718100
+R44000      1107100
+R45000      1052100
+R46000      1563100
+R47000      1468100
 Name: 総人口, Length: 48, dtype: int64
 </pre></div>
 </div>
@@ -1664,17 +1712,18 @@ Name: 総人口, Length: 48, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     0.976662
-1     0.991829
-2     0.995017
-3     0.993226
-4     0.989474
-        ...   
-43    0.988941
-44    0.986450
-45    0.992395
-46    0.991683
-47    0.985014
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>地域コード
+R00000    0.976662
+R01000    0.991829
+R02000    0.995017
+R03000    0.993226
+R04000    0.989474
+            ...   
+R43000    0.988941
+R44000    0.986450
+R45000    0.992395
+R46000    0.991683
+R47000    0.985014
 Length: 48, dtype: float64
 </pre></div>
 </div>
@@ -1684,10 +1733,10 @@ Length: 48, dtype: float64
 <section id="id13">
 <h3><span class="section-number">1.5.4. </span>任意の行にあるレコードの取得<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">df[i:j]</span></code>と書くと，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>の<code class="docutils literal notranslate"><span class="pre">i</span></code>件目（ゼロを起点）から<code class="docutils literal notranslate"><span class="pre">j-1</span></code>件目のレコードを取得できる．
-以下はデータフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>の2件目から3件目まで（4件目は含まれない）のレコードを取得するコードである．</p>
+以下はデータフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>の2件目から4件目まで（5件目は含まれない）のレコードを取得するコードである．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1710,7 +1759,6 @@ Length: 48, dtype: float64
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>地域コード</th>
       <th>都道府県</th>
       <th>総人口</th>
       <th>日本人人口</th>
@@ -1720,6 +1768,7 @@ Length: 48, dtype: float64
       <th>外国人人口</th>
       <th>出生数</th>
       <th>合計特殊出生率</th>
+      <th>死亡数</th>
       <th>...</th>
       <th>歯科診療所数</th>
       <th>医師数</th>
@@ -1732,11 +1781,34 @@ Length: 48, dtype: float64
       <th>住居費（二人以上の世帯）</th>
       <th>教養娯楽費（二人以上の世帯）</th>
     </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>2</th>
-      <td>R02000</td>
+      <th>R02000</th>
       <td>青森県</td>
       <td>1204000</td>
       <td>1198000</td>
@@ -1746,6 +1818,7 @@ Length: 48, dtype: float64
       <td>5409</td>
       <td>6513</td>
       <td>1.31</td>
+      <td>18785</td>
       <td>...</td>
       <td>505</td>
       <td>2773</td>
@@ -1759,8 +1832,7 @@ Length: 48, dtype: float64
       <td>20068</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>R03000</td>
+      <th>R03000</th>
       <td>岩手県</td>
       <td>1181000</td>
       <td>1173000</td>
@@ -1770,221 +1842,7 @@ Length: 48, dtype: float64
       <td>6937</td>
       <td>6472</td>
       <td>1.30</td>
-      <td>...</td>
-      <td>557</td>
-      <td>2700</td>
-      <td>1016</td>
-      <td>2536</td>
-      <td>393</td>
-      <td>28580</td>
-      <td>285815</td>
-      <td>77251</td>
-      <td>18814</td>
-      <td>25733</td>
-    </tr>
-  </tbody>
-</table>
-<p>2 rows × 92 columns</p>
-</div></div></div>
-</div>
-<p>DataFrameオブジェクトの<code class="docutils literal notranslate"><span class="pre">loc</span></code>メソッドを用いると，任意の行にある任意の列の値を取得することができる．
-以下はデータフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>の2件目から3件目のレコードについて，「地域コード」「都道府県」「総人口」の列の値だけ抽出（射影）するコードである．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;地域コード&#39;</span><span class="p">,</span> <span class="s1">&#39;都道府県&#39;</span><span class="p">,</span> <span class="s1">&#39;総人口&#39;</span><span class="p">]</span>
-<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="n">target_columns</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>地域コード</th>
-      <th>都道府県</th>
-      <th>総人口</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2</th>
-      <td>R02000</td>
-      <td>青森県</td>
-      <td>1204000</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>R03000</td>
-      <td>岩手県</td>
-      <td>1181000</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>R04000</td>
-      <td>宮城県</td>
-      <td>2280000</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<p>上記コードは，以下と同じ（射影後に取得行を絞る）．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;地域コード&#39;</span><span class="p">,</span> <span class="s1">&#39;都道府県&#39;</span><span class="p">,</span> <span class="s1">&#39;総人口&#39;</span><span class="p">]</span>
-<span class="n">df</span><span class="p">[</span><span class="n">target_columns</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>地域コード</th>
-      <th>都道府県</th>
-      <th>総人口</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2</th>
-      <td>R02000</td>
-      <td>青森県</td>
-      <td>1204000</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>R03000</td>
-      <td>岩手県</td>
-      <td>1181000</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>R04000</td>
-      <td>宮城県</td>
-      <td>2280000</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<p>以下のように<code class="docutils literal notranslate"><span class="pre">loc</span></code>を書くと，すべての列の値を取得することができる．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># データフレーム`df`の2件目から3件目のレコードについて，すべての列の値を抽出（射影）する</span>
-<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="p">:]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>地域コード</th>
-      <th>都道府県</th>
-      <th>総人口</th>
-      <th>日本人人口</th>
-      <th>15歳未満人口</th>
-      <th>15〜64歳人口</th>
-      <th>65歳以上人口</th>
-      <th>外国人人口</th>
-      <th>出生数</th>
-      <th>合計特殊出生率</th>
-      <th>...</th>
-      <th>歯科診療所数</th>
-      <th>医師数</th>
-      <th>歯科医師数</th>
-      <th>薬剤師数</th>
-      <th>保育所等数</th>
-      <th>保育所等在所児数</th>
-      <th>消費支出（二人以上の世帯）</th>
-      <th>食料費（二人以上の世帯）</th>
-      <th>住居費（二人以上の世帯）</th>
-      <th>教養娯楽費（二人以上の世帯）</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2</th>
-      <td>R02000</td>
-      <td>青森県</td>
-      <td>1204000</td>
-      <td>1198000</td>
-      <td>123000</td>
-      <td>663000</td>
-      <td>419000</td>
-      <td>5409</td>
-      <td>6513</td>
-      <td>1.31</td>
-      <td>...</td>
-      <td>505</td>
-      <td>2773</td>
-      <td>735</td>
-      <td>2345</td>
-      <td>472</td>
-      <td>30738</td>
-      <td>249660</td>
-      <td>73725</td>
-      <td>10541</td>
-      <td>20068</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>R03000</td>
-      <td>岩手県</td>
-      <td>1181000</td>
-      <td>1173000</td>
-      <td>125000</td>
-      <td>648000</td>
-      <td>408000</td>
-      <td>6937</td>
-      <td>6472</td>
-      <td>1.30</td>
+      <td>17631</td>
       <td>...</td>
       <td>557</td>
       <td>2700</td>
@@ -1998,8 +1856,7 @@ Length: 48, dtype: float64
       <td>25733</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>R04000</td>
+      <th>R04000</th>
       <td>宮城県</td>
       <td>2280000</td>
       <td>2256000</td>
@@ -2009,6 +1866,7 @@ Length: 48, dtype: float64
       <td>19453</td>
       <td>13761</td>
       <td>1.15</td>
+      <td>25897</td>
       <td>...</td>
       <td>1051</td>
       <td>5950</td>
@@ -2023,18 +1881,29 @@ Length: 48, dtype: float64
     </tr>
   </tbody>
 </table>
-<p>3 rows × 92 columns</p>
+<p>3 rows × 91 columns</p>
 </div></div></div>
 </div>
-<p>上の例では<code class="docutils literal notranslate"><span class="pre">i</span></code>件目から<code class="docutils literal notranslate"><span class="pre">j</span></code>件目までのように連続するレコードを取得していたが，<code class="docutils literal notranslate"><span class="pre">loc</span></code>メソッドでは具体的なレコードの行番号を指定してレコードを取得することもできる．
-以下は，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>の1件目と11件目と21件目のレコードを抽出（射影）するコードである．</p>
+<p>DataFrameオブジェクトの<code class="docutils literal notranslate"><span class="pre">loc</span></code>，<code class="docutils literal notranslate"><span class="pre">iloc</span></code>メソッドを用いると，任意の行にある任意の列の値を取得することができる．</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">loc</span></code>メソッドは任意の行<strong>名</strong>（インデックス名），列<strong>名</strong>で</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iloc</span></code>メソッドは任意の行<strong>番号</strong>，列<strong>番号</strong>で</p></li>
+</ul>
+<p>値を取得するという違いがある．</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p class="rubric" id="id14">インデックス名</p>
+<p>DataFrameオブジェクトにおけるインデックス名とは，各行に付けられた行の名前である．
+pandasでCSVファイルやTSVファイルをデータフレームとして読み込む際，インデックスを指定しない場合，行番号（先頭から数えて何番目の行かを表す数字）がインデックス名となる．
+インデックス名が指定されていると，インデックス名と行番号が同じにならないこともある．</p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">loc</span></code>メソッドを用いると，行名，列名でレコードを取得できる．
+以下はデータフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>のインデックス名が任意の値をもつレコード（つまり全てのレコード）について，「都道府県」「総人口」の列の値だけ抽出（射影）するコードである．
+ここで，コロン（”）は<strong>すべて</strong>を意味する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_rows</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">21</span><span class="p">]</span>
-<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">target_rows</span><span class="p">,</span> <span class="p">:]</span>
-
-<span class="c1"># 以下のように書いても問題ない</span>
-<span class="c1"># df.loc[[1, 11, 21], :]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;都道府県&#39;</span><span class="p">,</span> <span class="s1">&#39;総人口&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">target_columns</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -2057,7 +1926,327 @@ Length: 48, dtype: float64
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>都道府県</th>
+      <th>総人口</th>
+    </tr>
+    <tr>
       <th>地域コード</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>R00000</th>
+      <td>全国</td>
+      <td>124947000</td>
+    </tr>
+    <tr>
+      <th>R01000</th>
+      <td>北海道</td>
+      <td>5140000</td>
+    </tr>
+    <tr>
+      <th>R02000</th>
+      <td>青森県</td>
+      <td>1204000</td>
+    </tr>
+    <tr>
+      <th>R03000</th>
+      <td>岩手県</td>
+      <td>1181000</td>
+    </tr>
+    <tr>
+      <th>R04000</th>
+      <td>宮城県</td>
+      <td>2280000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>R43000</th>
+      <td>熊本県</td>
+      <td>1718000</td>
+    </tr>
+    <tr>
+      <th>R44000</th>
+      <td>大分県</td>
+      <td>1107000</td>
+    </tr>
+    <tr>
+      <th>R45000</th>
+      <td>宮崎県</td>
+      <td>1052000</td>
+    </tr>
+    <tr>
+      <th>R46000</th>
+      <td>鹿児島県</td>
+      <td>1563000</td>
+    </tr>
+    <tr>
+      <th>R47000</th>
+      <td>沖縄県</td>
+      <td>1468000</td>
+    </tr>
+  </tbody>
+</table>
+<p>48 rows × 2 columns</p>
+</div></div></div>
+</div>
+<p>上記コードは，以下と同じ（射影後に取得行を絞る）．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;都道府県&#39;</span><span class="p">,</span> <span class="s1">&#39;総人口&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="n">target_columns</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>都道府県</th>
+      <th>総人口</th>
+    </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>R00000</th>
+      <td>全国</td>
+      <td>124947000</td>
+    </tr>
+    <tr>
+      <th>R01000</th>
+      <td>北海道</td>
+      <td>5140000</td>
+    </tr>
+    <tr>
+      <th>R02000</th>
+      <td>青森県</td>
+      <td>1204000</td>
+    </tr>
+    <tr>
+      <th>R03000</th>
+      <td>岩手県</td>
+      <td>1181000</td>
+    </tr>
+    <tr>
+      <th>R04000</th>
+      <td>宮城県</td>
+      <td>2280000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>R43000</th>
+      <td>熊本県</td>
+      <td>1718000</td>
+    </tr>
+    <tr>
+      <th>R44000</th>
+      <td>大分県</td>
+      <td>1107000</td>
+    </tr>
+    <tr>
+      <th>R45000</th>
+      <td>宮崎県</td>
+      <td>1052000</td>
+    </tr>
+    <tr>
+      <th>R46000</th>
+      <td>鹿児島県</td>
+      <td>1563000</td>
+    </tr>
+    <tr>
+      <th>R47000</th>
+      <td>沖縄県</td>
+      <td>1468000</td>
+    </tr>
+  </tbody>
+</table>
+<p>48 rows × 2 columns</p>
+</div></div></div>
+</div>
+<p>以下のように<code class="docutils literal notranslate"><span class="pre">loc</span></code>メソッドの引数を指定すると，インデックス名と列名の両方でDataFrameオブジェクトを絞り込むことができる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;都道府県&#39;</span><span class="p">,</span> <span class="s1">&#39;総人口&#39;</span><span class="p">]</span>
+<span class="n">target_indices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;R13000&#39;</span><span class="p">,</span> <span class="s1">&#39;R26000&#39;</span><span class="p">,</span> <span class="s1">&#39;R27000&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">target_indices</span><span class="p">,</span> <span class="n">target_columns</span><span class="p">]</span>
+
+<span class="c1"># 上記は以下のようにも書ける</span>
+<span class="c1"># df.loc[[&#39;都道府県&#39;, &#39;総人口&#39;], [&#39;R13000&#39;, &#39;R26000&#39;, &#39;R27000&#39;]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>都道府県</th>
+      <th>総人口</th>
+    </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>R13000</th>
+      <td>東京都</td>
+      <td>14038000</td>
+    </tr>
+    <tr>
+      <th>R26000</th>
+      <td>京都府</td>
+      <td>2550000</td>
+    </tr>
+    <tr>
+      <th>R27000</th>
+      <td>大阪府</td>
+      <td>8782000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">iloc</span></code>メソッドを用いると，行番号，列番号でレコードを取得できる．
+以下はデータフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>の行番号が2から4までのレコードについて，列番号が0から3までの列の値を抽出（射影）するコードである．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># データフレーム`df`の2件目から4件目（5件目未満）のレコードについて，</span>
+<span class="c1"># 列番号が0から3までの列（つまり，「都道府県」「総人口」「日本人人口」）の列の値を抽出（射影）する</span>
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>都道府県</th>
+      <th>総人口</th>
+      <th>日本人人口</th>
+    </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>R02000</th>
+      <td>青森県</td>
+      <td>1204000</td>
+      <td>1198000</td>
+    </tr>
+    <tr>
+      <th>R03000</th>
+      <td>岩手県</td>
+      <td>1181000</td>
+      <td>1173000</td>
+    </tr>
+    <tr>
+      <th>R04000</th>
+      <td>宮城県</td>
+      <td>2280000</td>
+      <td>2256000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>上の例では<code class="docutils literal notranslate"><span class="pre">2</span></code>件目から<code class="docutils literal notranslate"><span class="pre">4</span></code>件目までのように連続するレコードを取得していたが，<code class="docutils literal notranslate"><span class="pre">iloc</span></code>メソッドでは具体的なレコードの行番号をリストで指定してレコードを取得することもできる．
+以下は，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>の1件目と11件目と21件目のレコードを抽出（射影）するコードである．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_rows</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">21</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">target_rows</span><span class="p">,</span> <span class="p">:]</span>
+
+<span class="c1"># 以下のように書いても問題ない</span>
+<span class="c1"># df.iloc[[1, 11, 21], :]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
       <th>都道府県</th>
       <th>総人口</th>
       <th>日本人人口</th>
@@ -2067,6 +2256,7 @@ Length: 48, dtype: float64
       <th>外国人人口</th>
       <th>出生数</th>
       <th>合計特殊出生率</th>
+      <th>死亡数</th>
       <th>...</th>
       <th>歯科診療所数</th>
       <th>医師数</th>
@@ -2079,11 +2269,34 @@ Length: 48, dtype: float64
       <th>住居費（二人以上の世帯）</th>
       <th>教養娯楽費（二人以上の世帯）</th>
     </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>1</th>
-      <td>R01000</td>
+      <th>R01000</th>
       <td>北海道</td>
       <td>5140000</td>
       <td>5098000</td>
@@ -2093,6 +2306,7 @@ Length: 48, dtype: float64
       <td>34321</td>
       <td>28762</td>
       <td>1.20</td>
+      <td>69023</td>
       <td>...</td>
       <td>2818</td>
       <td>13731</td>
@@ -2106,8 +2320,7 @@ Length: 48, dtype: float64
       <td>27234</td>
     </tr>
     <tr>
-      <th>11</th>
-      <td>R11000</td>
+      <th>R11000</th>
       <td>埼玉県</td>
       <td>7337000</td>
       <td>7136000</td>
@@ -2117,6 +2330,7 @@ Length: 48, dtype: float64
       <td>161439</td>
       <td>45424</td>
       <td>1.22</td>
+      <td>75164</td>
       <td>...</td>
       <td>3550</td>
       <td>13604</td>
@@ -2130,8 +2344,7 @@ Length: 48, dtype: float64
       <td>35050</td>
     </tr>
     <tr>
-      <th>21</th>
-      <td>R21000</td>
+      <th>R21000</th>
       <td>岐阜県</td>
       <td>1946000</td>
       <td>1888000</td>
@@ -2141,6 +2354,7 @@ Length: 48, dtype: float64
       <td>48979</td>
       <td>11730</td>
       <td>1.40</td>
+      <td>24126</td>
       <td>...</td>
       <td>959</td>
       <td>4580</td>
@@ -2155,12 +2369,12 @@ Length: 48, dtype: float64
     </tr>
   </tbody>
 </table>
-<p>3 rows × 92 columns</p>
+<p>3 rows × 91 columns</p>
 </div></div></div>
 </div>
 </section>
-<section id="id14">
-<h3><span class="section-number">1.5.5. </span>絞り込み<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<section id="id15">
+<h3><span class="section-number">1.5.5. </span>絞り込み<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
 <p>DataFrameオブジェクトから特定の条件を満たすレコードのみを取得するには2種類の方法がある：</p>
 <ul class="simple">
 <li><p>中括弧の中で条件を指定する方法</p></li>
@@ -2197,7 +2411,6 @@ Length: 48, dtype: float64
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>地域コード</th>
       <th>都道府県</th>
       <th>総人口</th>
       <th>日本人人口</th>
@@ -2207,6 +2420,7 @@ Length: 48, dtype: float64
       <th>外国人人口</th>
       <th>出生数</th>
       <th>合計特殊出生率</th>
+      <th>死亡数</th>
       <th>...</th>
       <th>歯科診療所数</th>
       <th>医師数</th>
@@ -2219,11 +2433,34 @@ Length: 48, dtype: float64
       <th>住居費（二人以上の世帯）</th>
       <th>教養娯楽費（二人以上の世帯）</th>
     </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>R00000</td>
+      <th>R00000</th>
       <td>全国</td>
       <td>124947000</td>
       <td>122031000</td>
@@ -2233,6 +2470,7 @@ Length: 48, dtype: float64
       <td>2402460</td>
       <td>811622</td>
       <td>1.30</td>
+      <td>1439856</td>
       <td>...</td>
       <td>67899</td>
       <td>339623</td>
@@ -2246,8 +2484,7 @@ Length: 48, dtype: float64
       <td>26642</td>
     </tr>
     <tr>
-      <th>11</th>
-      <td>R11000</td>
+      <th>R11000</th>
       <td>埼玉県</td>
       <td>7337000</td>
       <td>7136000</td>
@@ -2257,6 +2494,7 @@ Length: 48, dtype: float64
       <td>161439</td>
       <td>45424</td>
       <td>1.22</td>
+      <td>75164</td>
       <td>...</td>
       <td>3550</td>
       <td>13604</td>
@@ -2270,8 +2508,7 @@ Length: 48, dtype: float64
       <td>35050</td>
     </tr>
     <tr>
-      <th>13</th>
-      <td>R13000</td>
+      <th>R13000</th>
       <td>東京都</td>
       <td>14038000</td>
       <td>13443000</td>
@@ -2281,6 +2518,7 @@ Length: 48, dtype: float64
       <td>483372</td>
       <td>95404</td>
       <td>1.08</td>
+      <td>127649</td>
       <td>...</td>
       <td>10678</td>
       <td>48072</td>
@@ -2294,8 +2532,7 @@ Length: 48, dtype: float64
       <td>33099</td>
     </tr>
     <tr>
-      <th>14</th>
-      <td>R14000</td>
+      <th>R14000</th>
       <td>神奈川県</td>
       <td>9232000</td>
       <td>8991000</td>
@@ -2305,6 +2542,7 @@ Length: 48, dtype: float64
       <td>195535</td>
       <td>58836</td>
       <td>1.22</td>
+      <td>89701</td>
       <td>...</td>
       <td>4984</td>
       <td>21377</td>
@@ -2318,8 +2556,7 @@ Length: 48, dtype: float64
       <td>29394</td>
     </tr>
     <tr>
-      <th>23</th>
-      <td>R23000</td>
+      <th>R23000</th>
       <td>愛知県</td>
       <td>7495000</td>
       <td>7228000</td>
@@ -2329,6 +2566,7 @@ Length: 48, dtype: float64
       <td>231369</td>
       <td>53918</td>
       <td>1.41</td>
+      <td>73769</td>
       <td>...</td>
       <td>3718</td>
       <td>17842</td>
@@ -2342,8 +2580,7 @@ Length: 48, dtype: float64
       <td>30894</td>
     </tr>
     <tr>
-      <th>27</th>
-      <td>R27000</td>
+      <th>R27000</th>
       <td>大阪府</td>
       <td>8782000</td>
       <td>8524000</td>
@@ -2353,6 +2590,7 @@ Length: 48, dtype: float64
       <td>208681</td>
       <td>59780</td>
       <td>1.27</td>
+      <td>97282</td>
       <td>...</td>
       <td>5442</td>
       <td>26431</td>
@@ -2367,7 +2605,7 @@ Length: 48, dtype: float64
     </tr>
   </tbody>
 </table>
-<p>6 rows × 92 columns</p>
+<p>6 rows × 91 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -2395,7 +2633,6 @@ Length: 48, dtype: float64
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>地域コード</th>
       <th>都道府県</th>
       <th>総人口</th>
       <th>日本人人口</th>
@@ -2405,6 +2642,7 @@ Length: 48, dtype: float64
       <th>外国人人口</th>
       <th>出生数</th>
       <th>合計特殊出生率</th>
+      <th>死亡数</th>
       <th>...</th>
       <th>歯科診療所数</th>
       <th>医師数</th>
@@ -2417,11 +2655,34 @@ Length: 48, dtype: float64
       <th>住居費（二人以上の世帯）</th>
       <th>教養娯楽費（二人以上の世帯）</th>
     </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>R00000</td>
+      <th>R00000</th>
       <td>全国</td>
       <td>124947000</td>
       <td>122031000</td>
@@ -2431,6 +2692,7 @@ Length: 48, dtype: float64
       <td>2402460</td>
       <td>811622</td>
       <td>1.30</td>
+      <td>1439856</td>
       <td>...</td>
       <td>67899</td>
       <td>339623</td>
@@ -2444,8 +2706,7 @@ Length: 48, dtype: float64
       <td>26642</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>R02000</td>
+      <th>R02000</th>
       <td>青森県</td>
       <td>1204000</td>
       <td>1198000</td>
@@ -2455,6 +2716,7 @@ Length: 48, dtype: float64
       <td>5409</td>
       <td>6513</td>
       <td>1.31</td>
+      <td>18785</td>
       <td>...</td>
       <td>505</td>
       <td>2773</td>
@@ -2468,8 +2730,7 @@ Length: 48, dtype: float64
       <td>20068</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>R04000</td>
+      <th>R04000</th>
       <td>宮城県</td>
       <td>2280000</td>
       <td>2256000</td>
@@ -2479,6 +2740,7 @@ Length: 48, dtype: float64
       <td>19453</td>
       <td>13761</td>
       <td>1.15</td>
+      <td>25897</td>
       <td>...</td>
       <td>1051</td>
       <td>5950</td>
@@ -2492,8 +2754,7 @@ Length: 48, dtype: float64
       <td>26516</td>
     </tr>
     <tr>
-      <th>6</th>
-      <td>R06000</td>
+      <th>R06000</th>
       <td>山形県</td>
       <td>1041000</td>
       <td>1033000</td>
@@ -2503,6 +2764,7 @@ Length: 48, dtype: float64
       <td>7149</td>
       <td>5898</td>
       <td>1.32</td>
+      <td>15753</td>
       <td>...</td>
       <td>473</td>
       <td>2608</td>
@@ -2516,8 +2778,7 @@ Length: 48, dtype: float64
       <td>22348</td>
     </tr>
     <tr>
-      <th>8</th>
-      <td>R08000</td>
+      <th>R08000</th>
       <td>茨城県</td>
       <td>2840000</td>
       <td>2767000</td>
@@ -2527,6 +2788,7 @@ Length: 48, dtype: float64
       <td>57819</td>
       <td>16502</td>
       <td>1.30</td>
+      <td>33814</td>
       <td>...</td>
       <td>1378</td>
       <td>5838</td>
@@ -2564,8 +2826,7 @@ Length: 48, dtype: float64
       <td>...</td>
     </tr>
     <tr>
-      <th>38</th>
-      <td>R38000</td>
+      <th>R38000</th>
       <td>愛媛県</td>
       <td>1306000</td>
       <td>1294000</td>
@@ -2575,6 +2836,7 @@ Length: 48, dtype: float64
       <td>11159</td>
       <td>8011</td>
       <td>1.40</td>
+      <td>18770</td>
       <td>...</td>
       <td>658</td>
       <td>3847</td>
@@ -2588,8 +2850,7 @@ Length: 48, dtype: float64
       <td>22447</td>
     </tr>
     <tr>
-      <th>40</th>
-      <td>R40000</td>
+      <th>R40000</th>
       <td>福岡県</td>
       <td>5116000</td>
       <td>5030000</td>
@@ -2599,6 +2860,7 @@ Length: 48, dtype: float64
       <td>66699</td>
       <td>37540</td>
       <td>1.37</td>
+      <td>56410</td>
       <td>...</td>
       <td>3068</td>
       <td>16784</td>
@@ -2612,8 +2874,7 @@ Length: 48, dtype: float64
       <td>28318</td>
     </tr>
     <tr>
-      <th>42</th>
-      <td>R42000</td>
+      <th>R42000</th>
       <td>長崎県</td>
       <td>1283000</td>
       <td>1272000</td>
@@ -2623,6 +2884,7 @@ Length: 48, dtype: float64
       <td>8316</td>
       <td>8862</td>
       <td>1.60</td>
+      <td>18248</td>
       <td>...</td>
       <td>709</td>
       <td>4399</td>
@@ -2636,8 +2898,7 @@ Length: 48, dtype: float64
       <td>17601</td>
     </tr>
     <tr>
-      <th>44</th>
-      <td>R44000</td>
+      <th>R44000</th>
       <td>大分県</td>
       <td>1107000</td>
       <td>1092000</td>
@@ -2647,6 +2908,7 @@ Length: 48, dtype: float64
       <td>10168</td>
       <td>7327</td>
       <td>1.54</td>
+      <td>15104</td>
       <td>...</td>
       <td>530</td>
       <td>3370</td>
@@ -2660,8 +2922,7 @@ Length: 48, dtype: float64
       <td>28260</td>
     </tr>
     <tr>
-      <th>46</th>
-      <td>R46000</td>
+      <th>R46000</th>
       <td>鹿児島県</td>
       <td>1563000</td>
       <td>1550000</td>
@@ -2671,6 +2932,7 @@ Length: 48, dtype: float64
       <td>10037</td>
       <td>11618</td>
       <td>1.65</td>
+      <td>21979</td>
       <td>...</td>
       <td>795</td>
       <td>4653</td>
@@ -2685,7 +2947,7 @@ Length: 48, dtype: float64
     </tr>
   </tbody>
 </table>
-<p>24 rows × 92 columns</p>
+<p>24 rows × 91 columns</p>
 </div></div></div>
 </div>
 <div class="admonition note">
@@ -2722,7 +2984,6 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>地域コード</th>
       <th>都道府県</th>
       <th>総人口</th>
       <th>日本人人口</th>
@@ -2732,6 +2993,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <th>外国人人口</th>
       <th>出生数</th>
       <th>合計特殊出生率</th>
+      <th>死亡数</th>
       <th>...</th>
       <th>歯科診療所数</th>
       <th>医師数</th>
@@ -2744,11 +3006,34 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <th>住居費（二人以上の世帯）</th>
       <th>教養娯楽費（二人以上の世帯）</th>
     </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>R00000</td>
+      <th>R00000</th>
       <td>全国</td>
       <td>124947000</td>
       <td>122031000</td>
@@ -2758,6 +3043,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>2402460</td>
       <td>811622</td>
       <td>1.30</td>
+      <td>1439856</td>
       <td>...</td>
       <td>67899</td>
       <td>339623</td>
@@ -2771,8 +3057,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>26642</td>
     </tr>
     <tr>
-      <th>11</th>
-      <td>R11000</td>
+      <th>R11000</th>
       <td>埼玉県</td>
       <td>7337000</td>
       <td>7136000</td>
@@ -2782,6 +3067,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>161439</td>
       <td>45424</td>
       <td>1.22</td>
+      <td>75164</td>
       <td>...</td>
       <td>3550</td>
       <td>13604</td>
@@ -2795,8 +3081,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>35050</td>
     </tr>
     <tr>
-      <th>13</th>
-      <td>R13000</td>
+      <th>R13000</th>
       <td>東京都</td>
       <td>14038000</td>
       <td>13443000</td>
@@ -2806,6 +3091,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>483372</td>
       <td>95404</td>
       <td>1.08</td>
+      <td>127649</td>
       <td>...</td>
       <td>10678</td>
       <td>48072</td>
@@ -2819,8 +3105,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>33099</td>
     </tr>
     <tr>
-      <th>14</th>
-      <td>R14000</td>
+      <th>R14000</th>
       <td>神奈川県</td>
       <td>9232000</td>
       <td>8991000</td>
@@ -2830,6 +3115,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>195535</td>
       <td>58836</td>
       <td>1.22</td>
+      <td>89701</td>
       <td>...</td>
       <td>4984</td>
       <td>21377</td>
@@ -2843,8 +3129,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>29394</td>
     </tr>
     <tr>
-      <th>23</th>
-      <td>R23000</td>
+      <th>R23000</th>
       <td>愛知県</td>
       <td>7495000</td>
       <td>7228000</td>
@@ -2854,6 +3139,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>231369</td>
       <td>53918</td>
       <td>1.41</td>
+      <td>73769</td>
       <td>...</td>
       <td>3718</td>
       <td>17842</td>
@@ -2867,8 +3153,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>30894</td>
     </tr>
     <tr>
-      <th>27</th>
-      <td>R27000</td>
+      <th>R27000</th>
       <td>大阪府</td>
       <td>8782000</td>
       <td>8524000</td>
@@ -2878,6 +3163,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>208681</td>
       <td>59780</td>
       <td>1.27</td>
+      <td>97282</td>
       <td>...</td>
       <td>5442</td>
       <td>26431</td>
@@ -2892,7 +3178,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
     </tr>
   </tbody>
 </table>
-<p>6 rows × 92 columns</p>
+<p>6 rows × 91 columns</p>
 </div></div></div>
 </div>
 <p>絞り込み条件は複数書くこともできる．
@@ -2926,7 +3212,6 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>地域コード</th>
       <th>都道府県</th>
       <th>総人口</th>
       <th>日本人人口</th>
@@ -2936,6 +3221,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <th>外国人人口</th>
       <th>出生数</th>
       <th>合計特殊出生率</th>
+      <th>死亡数</th>
       <th>...</th>
       <th>歯科診療所数</th>
       <th>医師数</th>
@@ -2948,11 +3234,34 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <th>住居費（二人以上の世帯）</th>
       <th>教養娯楽費（二人以上の世帯）</th>
     </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>11</th>
-      <td>R11000</td>
+      <th>R11000</th>
       <td>埼玉県</td>
       <td>7337000</td>
       <td>7136000</td>
@@ -2962,6 +3271,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>161439</td>
       <td>45424</td>
       <td>1.22</td>
+      <td>75164</td>
       <td>...</td>
       <td>3550</td>
       <td>13604</td>
@@ -2975,8 +3285,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>35050</td>
     </tr>
     <tr>
-      <th>13</th>
-      <td>R13000</td>
+      <th>R13000</th>
       <td>東京都</td>
       <td>14038000</td>
       <td>13443000</td>
@@ -2986,6 +3295,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>483372</td>
       <td>95404</td>
       <td>1.08</td>
+      <td>127649</td>
       <td>...</td>
       <td>10678</td>
       <td>48072</td>
@@ -2999,8 +3309,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>33099</td>
     </tr>
     <tr>
-      <th>14</th>
-      <td>R14000</td>
+      <th>R14000</th>
       <td>神奈川県</td>
       <td>9232000</td>
       <td>8991000</td>
@@ -3010,6 +3319,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>195535</td>
       <td>58836</td>
       <td>1.22</td>
+      <td>89701</td>
       <td>...</td>
       <td>4984</td>
       <td>21377</td>
@@ -3023,8 +3333,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>29394</td>
     </tr>
     <tr>
-      <th>23</th>
-      <td>R23000</td>
+      <th>R23000</th>
       <td>愛知県</td>
       <td>7495000</td>
       <td>7228000</td>
@@ -3034,6 +3343,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>231369</td>
       <td>53918</td>
       <td>1.41</td>
+      <td>73769</td>
       <td>...</td>
       <td>3718</td>
       <td>17842</td>
@@ -3047,8 +3357,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>30894</td>
     </tr>
     <tr>
-      <th>27</th>
-      <td>R27000</td>
+      <th>R27000</th>
       <td>大阪府</td>
       <td>8782000</td>
       <td>8524000</td>
@@ -3058,6 +3367,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>208681</td>
       <td>59780</td>
       <td>1.27</td>
+      <td>97282</td>
       <td>...</td>
       <td>5442</td>
       <td>26431</td>
@@ -3072,7 +3382,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
     </tr>
   </tbody>
 </table>
-<p>5 rows × 92 columns</p>
+<p>5 rows × 91 columns</p>
 </div></div></div>
 </div>
 <p>以下はOR条件の例．OR条件は<code class="docutils literal notranslate"><span class="pre">|</span></code>（パイプ）で繋ぐ．
@@ -3107,7 +3417,6 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>地域コード</th>
       <th>都道府県</th>
       <th>総人口</th>
       <th>日本人人口</th>
@@ -3117,6 +3426,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <th>外国人人口</th>
       <th>出生数</th>
       <th>合計特殊出生率</th>
+      <th>死亡数</th>
       <th>...</th>
       <th>歯科診療所数</th>
       <th>医師数</th>
@@ -3129,11 +3439,34 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <th>住居費（二人以上の世帯）</th>
       <th>教養娯楽費（二人以上の世帯）</th>
     </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>13</th>
-      <td>R13000</td>
+      <th>R13000</th>
       <td>東京都</td>
       <td>14038000</td>
       <td>13443000</td>
@@ -3143,6 +3476,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>483372</td>
       <td>95404</td>
       <td>1.08</td>
+      <td>127649</td>
       <td>...</td>
       <td>10678</td>
       <td>48072</td>
@@ -3156,8 +3490,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>33099</td>
     </tr>
     <tr>
-      <th>47</th>
-      <td>R47000</td>
+      <th>R47000</th>
       <td>沖縄県</td>
       <td>1468000</td>
       <td>1446000</td>
@@ -3167,6 +3500,7 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
       <td>18157</td>
       <td>14535</td>
       <td>1.80</td>
+      <td>13582</td>
       <td>...</td>
       <td>607</td>
       <td>3887</td>
@@ -3181,13 +3515,13 @@ pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils l
     </tr>
   </tbody>
 </table>
-<p>2 rows × 92 columns</p>
+<p>2 rows × 91 columns</p>
 </div></div></div>
 </div>
 </section>
 </section>
-<section id="id15">
-<h2><span class="section-number">1.6. </span>データフレームの保存<a class="headerlink" href="#id15" title="Link to this heading">#</a></h2>
+<section id="id16">
+<h2><span class="section-number">1.6. </span>データフレームの保存<a class="headerlink" href="#id16" title="Link to this heading">#</a></h2>
 <p>データフレームの中身をCSV/TSVファイルに保存するにはDataFrameオブジェクトの<code class="docutils literal notranslate"><span class="pre">to_csv</span></code>メソッドを用いる．
 以下，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>を<code class="docutils literal notranslate"><span class="pre">data</span></code>ディレクトリにCSVファイルとして保存するコード例．</p>
 <div class="cell docutils container">
@@ -3218,16 +3552,16 @@ TSVファイルとして保存したい場合は，以下のように引数<code
 </div>
 </div>
 </section>
-<section id="id16">
-<h2><span class="section-number">1.7. </span>前処理<a class="headerlink" href="#id16" title="Link to this heading">#</a></h2>
 <section id="id17">
-<h3><span class="section-number">1.7.1. </span>列名の変更<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<h2><span class="section-number">1.7. </span>前処理<a class="headerlink" href="#id17" title="Link to this heading">#</a></h2>
+<section id="id18">
+<h3><span class="section-number">1.7.1. </span>列名の変更<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
 <p>列名の変更はDataFrameオブジェクトの<code class="docutils literal notranslate"><span class="pre">rename</span></code>メソッドで行う．
 <code class="docutils literal notranslate"><span class="pre">rename</span></code>メソッドのの<code class="docutils literal notranslate"><span class="pre">columns</span></code>引数に<code class="docutils literal notranslate"><span class="pre">{'変更前の列名':</span> <span class="pre">'変更後の列名'}</span></code>形式の辞書を与えると，列名を変更できる．
 <code class="docutils literal notranslate"><span class="pre">rename</span></code>メソッドは列名変更後のDataFrameオブジェクトを返す．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;地域コード&#39;</span><span class="p">:</span> <span class="s1">&#39;pid&#39;</span><span class="p">,</span> <span class="s1">&#39;都道府県&#39;</span><span class="p">:</span> <span class="s1">&#39;prefecture&#39;</span><span class="p">})</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;都道府県&#39;</span><span class="p">:</span> <span class="s1">&#39;prefecture&#39;</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
@@ -3250,7 +3584,6 @@ TSVファイルとして保存したい場合は，以下のように引数<code
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>pid</th>
       <th>prefecture</th>
       <th>総人口</th>
       <th>日本人人口</th>
@@ -3260,6 +3593,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <th>外国人人口</th>
       <th>出生数</th>
       <th>合計特殊出生率</th>
+      <th>死亡数</th>
       <th>...</th>
       <th>歯科診療所数</th>
       <th>医師数</th>
@@ -3272,11 +3606,34 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <th>住居費（二人以上の世帯）</th>
       <th>教養娯楽費（二人以上の世帯）</th>
     </tr>
+    <tr>
+      <th>地域コード</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>R00000</td>
+      <th>R00000</th>
       <td>全国</td>
       <td>124947000</td>
       <td>122031000</td>
@@ -3286,6 +3643,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>2402460</td>
       <td>811622</td>
       <td>1.30</td>
+      <td>1439856</td>
       <td>...</td>
       <td>67899</td>
       <td>339623</td>
@@ -3299,8 +3657,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>26642</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>R01000</td>
+      <th>R01000</th>
       <td>北海道</td>
       <td>5140000</td>
       <td>5098000</td>
@@ -3310,6 +3667,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>34321</td>
       <td>28762</td>
       <td>1.20</td>
+      <td>69023</td>
       <td>...</td>
       <td>2818</td>
       <td>13731</td>
@@ -3323,8 +3681,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>27234</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>R02000</td>
+      <th>R02000</th>
       <td>青森県</td>
       <td>1204000</td>
       <td>1198000</td>
@@ -3334,6 +3691,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>5409</td>
       <td>6513</td>
       <td>1.31</td>
+      <td>18785</td>
       <td>...</td>
       <td>505</td>
       <td>2773</td>
@@ -3347,8 +3705,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>20068</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>R03000</td>
+      <th>R03000</th>
       <td>岩手県</td>
       <td>1181000</td>
       <td>1173000</td>
@@ -3358,6 +3715,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>6937</td>
       <td>6472</td>
       <td>1.30</td>
+      <td>17631</td>
       <td>...</td>
       <td>557</td>
       <td>2700</td>
@@ -3371,8 +3729,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>25733</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>R04000</td>
+      <th>R04000</th>
       <td>宮城県</td>
       <td>2280000</td>
       <td>2256000</td>
@@ -3382,6 +3739,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>19453</td>
       <td>13761</td>
       <td>1.15</td>
+      <td>25897</td>
       <td>...</td>
       <td>1051</td>
       <td>5950</td>
@@ -3419,8 +3777,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>...</td>
     </tr>
     <tr>
-      <th>43</th>
-      <td>R43000</td>
+      <th>R43000</th>
       <td>熊本県</td>
       <td>1718000</td>
       <td>1699000</td>
@@ -3430,6 +3787,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>14591</td>
       <td>12670</td>
       <td>1.59</td>
+      <td>22093</td>
       <td>...</td>
       <td>835</td>
       <td>5415</td>
@@ -3443,8 +3801,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>24428</td>
     </tr>
     <tr>
-      <th>44</th>
-      <td>R44000</td>
+      <th>R44000</th>
       <td>大分県</td>
       <td>1107000</td>
       <td>1092000</td>
@@ -3454,6 +3811,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>10168</td>
       <td>7327</td>
       <td>1.54</td>
+      <td>15104</td>
       <td>...</td>
       <td>530</td>
       <td>3370</td>
@@ -3467,8 +3825,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>28260</td>
     </tr>
     <tr>
-      <th>45</th>
-      <td>R45000</td>
+      <th>R45000</th>
       <td>宮崎県</td>
       <td>1052000</td>
       <td>1044000</td>
@@ -3478,6 +3835,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>6474</td>
       <td>7590</td>
       <td>1.64</td>
+      <td>14520</td>
       <td>...</td>
       <td>493</td>
       <td>2879</td>
@@ -3491,8 +3849,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>21950</td>
     </tr>
     <tr>
-      <th>46</th>
-      <td>R46000</td>
+      <th>R46000</th>
       <td>鹿児島県</td>
       <td>1563000</td>
       <td>1550000</td>
@@ -3502,6 +3859,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>10037</td>
       <td>11618</td>
       <td>1.65</td>
+      <td>21979</td>
       <td>...</td>
       <td>795</td>
       <td>4653</td>
@@ -3515,8 +3873,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>22440</td>
     </tr>
     <tr>
-      <th>47</th>
-      <td>R47000</td>
+      <th>R47000</th>
       <td>沖縄県</td>
       <td>1468000</td>
       <td>1446000</td>
@@ -3526,6 +3883,7 @@ TSVファイルとして保存したい場合は，以下のように引数<code
       <td>18157</td>
       <td>14535</td>
       <td>1.80</td>
+      <td>13582</td>
       <td>...</td>
       <td>607</td>
       <td>3887</td>
@@ -3540,12 +3898,12 @@ TSVファイルとして保存したい場合は，以下のように引数<code
     </tr>
   </tbody>
 </table>
-<p>48 rows × 92 columns</p>
+<p>48 rows × 91 columns</p>
 </div></div></div>
 </div>
 </section>
-<section id="id18">
-<h3><span class="section-number">1.7.2. </span>新しい列の追加<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<section id="id19">
+<h3><span class="section-number">1.7.2. </span>新しい列の追加<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
 <p>DataFrameオブジェクトに新しい列を追加する最も単純な方法は，中括弧で新規で追加する列に「アクセス」して値を代入する方法である．
 以下は，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>に<code class="docutils literal notranslate"><span class="pre">生産年齢人口率</span></code>という列名を追加して，<code class="docutils literal notranslate"><span class="pre">15〜64歳人口</span></code>列の値を<code class="docutils literal notranslate"><span class="pre">総人口</span></code>列の値で割った値を代入するコード例である．</p>
 <div class="cell docutils container">
@@ -3638,8 +3996,8 @@ TSVファイルとして保存したい場合は，以下のように引数<code
 </section>
 </section>
 <hr class="docutils" />
-<section id="id19">
-<h2><span class="section-number">1.8. </span>クイズ<a class="headerlink" href="#id19" title="Link to this heading">#</a></h2>
+<section id="id20">
+<h2><span class="section-number">1.8. </span>クイズ<a class="headerlink" href="#id20" title="Link to this heading">#</a></h2>
 <p>以下のクイズの回答にGoogle Colaboratoryを使いたい方は<a class="reference external" href="https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-pandas.ipynb">コチラ</a>をクリック．</p>
 <section id="q1">
 <span id="c1-q1"></span><h3><span class="section-number">1.8.1. </span>Q1: データの読み込み<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
@@ -3766,17 +4124,17 @@ z = \frac{x - \mu}{\sigma} \times 10 + 50
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">1.5.2. 射影</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">1.5.3. データフレームに対する四則演算</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">1.5.4. 任意の行にあるレコードの取得</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">1.5.5. 絞り込み</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">1.5.5. 絞り込み</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">1.6. データフレームの保存</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">1.7. 前処理</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">1.7.1. 列名の変更</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">1.7.2. 新しい列の追加</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">1.6. データフレームの保存</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">1.7. 前処理</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">1.7.1. 列名の変更</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">1.7.2. 新しい列の追加</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy">1.7.3. NumPy行列の取得</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">1.8. クイズ</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">1.8. クイズ</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q1">1.8.1. Q1: データの読み込み</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q2">1.8.2. Q2: データの確認</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q3-hp">1.8.3. Q3: HP, 攻撃力, 防御力</a></li>
