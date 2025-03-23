@@ -367,18 +367,18 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-tsv">1.3.1. CSV/TSVファイルを読み込む</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">1.4. データの確認</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">1.4.1. 表の行数，列数の確認</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">1.4.2. 表の行数</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">1.4.3. 表の項目情報</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">1.4.4. 基本統計量</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">1.4. データの確認</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">1.4.1. 表の行数，列数の確認</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">1.4.2. 表の行数</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">1.4.3. 表の項目情報</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">1.4.4. 基本統計量</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">1.5. データフレームへのアクセス</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">1.5.1. 先頭・末尾のレコード（行）の取得</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">1.5.2. 射影</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">1.5.3. データフレームに対する四則演算</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">1.5.4. 任意の行にあるレコードの取得</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">1.5. データフレームへのアクセス</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">1.5.1. 先頭・末尾のレコード（行）の取得</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">1.5.2. 射影</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">1.5.3. データフレームに対する四則演算</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">1.5.4. 任意の行にあるレコードの取得</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">1.5.5. 絞り込み</a></li>
 </ul>
 </li>
@@ -759,8 +759,15 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 <li><p><code class="docutils literal notranslate"><span class="pre">sep</span></code>: 区切り文字</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">header</span></code>: 指定ファイルの中で見出し項目が格納された行番号（デフォルトは0）</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">encoding</span></code>: ファイルの文字コード</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">index_col</span></code>: インデックス名（表中の各行を識別するための固有の名前）に用い列名</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">index_col</span></code>: インデックスをつけるために用いる列名</p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p class="rubric" id="id4">インデックス</p>
+<p>DataFrameオブジェクトにおけるインデックスとは，表中の行を識別するために各行につけられた固有の名前である．
+pandasでCSVファイルやTSVファイルをデータフレームとして読み込む際，インデックスを指定しない場合，行番号（先頭から数えて何番目の行かを表す数字）がインデックスとなる．
+インデックスが指定されていると，インデックスと行番号が同じにならないこともある．</p>
+</div>
 <p>例えば，<a class="reference external" href="https://www.nstac.go.jp/sys/files/SSDSE-E-2024.csv">こちらのURL</a>で公開されている独立行政法人統計センター作成の<a class="reference external" href="https://www.nstac.go.jp/use/literacy/ssdse/#SSDSE-E">教育用標準データセットSSDSE-基本素材（SSDSE-E）</a>の表データを読み込んでみよう．</p>
 <p>このデータはCSVファイルに格納されているが，文字コードとしてSHIFT-JISが用いられている．
 また，表の見出しは3行目で定義されており，4行目以降に実データが記述されている．
@@ -778,11 +785,11 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 </div>
 </section>
 </section>
-<section id="id4">
-<h2><span class="section-number">1.4. </span>データの確認<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
-<p>以下，上で読み込んだ独立行政法人統計センター作成の<a class="reference external" href="https://www.nstac.go.jp/use/literacy/ssdse/#SSDSE-E">教育用標準データセットSSDSE-基本素材（SSDSE-E）</a>の表データがデータフレームに変換の上，変数<code class="docutils literal notranslate"><span class="pre">df</span></code>に格納されているとの前提で説明する．</p>
 <section id="id5">
-<h3><span class="section-number">1.4.1. </span>表の行数，列数の確認<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<h2><span class="section-number">1.4. </span>データの確認<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>以下，上で読み込んだ独立行政法人統計センター作成の<a class="reference external" href="https://www.nstac.go.jp/use/literacy/ssdse/#SSDSE-E">教育用標準データセットSSDSE-基本素材（SSDSE-E）</a>の表データがデータフレームに変換の上，変数<code class="docutils literal notranslate"><span class="pre">df</span></code>に格納されているとの前提で説明する．</p>
+<section id="id6">
+<h3><span class="section-number">1.4.1. </span>表の行数，列数の確認<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <p>DataFrameオブジェクトのプロパティ<code class="docutils literal notranslate"><span class="pre">shape</span></code>にアクセスすると行数と列数のタプルが得られる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -797,8 +804,8 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 </div>
 </div>
 </section>
-<section id="id6">
-<h3><span class="section-number">1.4.2. </span>表の行数<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<section id="id7">
+<h3><span class="section-number">1.4.2. </span>表の行数<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <p>表データの行数だけを得たいときは，<code class="docutils literal notranslate"><span class="pre">len</span></code>関数を用いる（<a class="reference internal" href="#c1-q2"><span class="std std-ref">★Quiz Q2</span></a>）．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -813,8 +820,8 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 </div>
 </div>
 </section>
-<section id="id7">
-<h3><span class="section-number">1.4.3. </span>表の項目情報<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<section id="id8">
+<h3><span class="section-number">1.4.3. </span>表の項目情報<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
 <p>表データの項目名を取得したい場合は，DataFrameオブジェクトのプロパティ<code class="docutils literal notranslate"><span class="pre">columns</span></code>にアクセスする．
 <code class="docutils literal notranslate"><span class="pre">columns</span></code>にアクセスすると，項目名のリストを得られる．</p>
 <div class="cell docutils container">
@@ -848,8 +855,8 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 </div>
 </div>
 </section>
-<section id="id8">
-<h3><span class="section-number">1.4.4. </span>基本統計量<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<section id="id9">
+<h3><span class="section-number">1.4.4. </span>基本統計量<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
 <p>DataFrameオブジェクトのメソッド<code class="docutils literal notranslate"><span class="pre">describe</span></code>を用いると，表の各項目の基本統計量が得られる．
 得られる基本統計量は以下の通り：</p>
 <ul class="simple">
@@ -1108,10 +1115,10 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 </div>
 </section>
 </section>
-<section id="id9">
-<h2><span class="section-number">1.5. </span>データフレームへのアクセス<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
 <section id="id10">
-<h3><span class="section-number">1.5.1. </span>先頭・末尾のレコード（行）の取得<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<h2><span class="section-number">1.5. </span>データフレームへのアクセス<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
+<section id="id11">
+<h3><span class="section-number">1.5.1. </span>先頭・末尾のレコード（行）の取得<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
 <p>DataFrameオブジェクトのメソッド<code class="docutils literal notranslate"><span class="pre">head</span></code>は，データフレームの先頭<span class="math notranslate nohighlight">\(N\)</span>件のレコードを返す．
 引数に何も指定しないと5件返す．</p>
 <div class="cell docutils container">
@@ -1513,8 +1520,8 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 </div></div></div>
 </div>
 </section>
-<section id="id11">
-<h3><span class="section-number">1.5.2. </span>射影<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<section id="id12">
+<h3><span class="section-number">1.5.2. </span>射影<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
 <p>表データから指定した列のみに注目してデータを抽出する操作，関係データベースの分野では<strong>射影</strong>と呼ぶ．</p>
 <p>pandasのDataFrameで射影を行う方法は2種類ある．
 1つ目は注目したい列項目名をドット（.）で指定する方法である．
@@ -1673,8 +1680,8 @@ Name: 総人口, Length: 48, dtype: int64
 </div></div></div>
 </div>
 </section>
-<section id="id12">
-<h3><span class="section-number">1.5.3. </span>データフレームに対する四則演算<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<section id="id13">
+<h3><span class="section-number">1.5.3. </span>データフレームに対する四則演算<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
 <p>pandasのDataFrameオブジェクトから任意の列を射影した後，スカラーの四則演算を適用すると，射影した列データ全体に演算が適用される．
 例えば，以下はデータフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>の<code class="docutils literal notranslate"><span class="pre">総人口</span></code>列の各値に100を加算するコード例である．</p>
 <div class="cell docutils container">
@@ -1730,8 +1737,8 @@ Length: 48, dtype: float64
 </div>
 </div>
 </section>
-<section id="id13">
-<h3><span class="section-number">1.5.4. </span>任意の行にあるレコードの取得<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<section id="id14">
+<h3><span class="section-number">1.5.4. </span>任意の行にあるレコードの取得<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">df[i:j]</span></code>と書くと，データフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>の<code class="docutils literal notranslate"><span class="pre">i</span></code>件目（ゼロを起点）から<code class="docutils literal notranslate"><span class="pre">j-1</span></code>件目のレコードを取得できる．
 以下はデータフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>の2件目から4件目まで（5件目は含まれない）のレコードを取得するコードである．</p>
 <div class="cell docutils container">
@@ -1890,13 +1897,6 @@ Length: 48, dtype: float64
 <li><p><code class="docutils literal notranslate"><span class="pre">iloc</span></code>メソッドは任意の行<strong>番号</strong>，列<strong>番号</strong>で</p></li>
 </ul>
 <p>値を取得するという違いがある．</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p class="rubric" id="id14">インデックス名</p>
-<p>DataFrameオブジェクトにおけるインデックス名とは，各行に付けられた行の名前である．
-pandasでCSVファイルやTSVファイルをデータフレームとして読み込む際，インデックスを指定しない場合，行番号（先頭から数えて何番目の行かを表す数字）がインデックス名となる．
-インデックス名が指定されていると，インデックス名と行番号が同じにならないこともある．</p>
-</div>
 <p><code class="docutils literal notranslate"><span class="pre">loc</span></code>メソッドを用いると，行名，列名でレコードを取得できる．
 以下はデータフレーム<code class="docutils literal notranslate"><span class="pre">df</span></code>のインデックス名が任意の値をもつレコード（つまり全てのレコード）について，「都道府県」「総人口」の列の値だけ抽出（射影）するコードである．
 ここで，コロン（”）は<strong>すべて</strong>を意味する．</p>
@@ -4112,18 +4112,18 @@ z = \frac{x - \mu}{\sigma} \times 10 + 50
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-tsv">1.3.1. CSV/TSVファイルを読み込む</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">1.4. データの確認</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">1.4.1. 表の行数，列数の確認</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">1.4.2. 表の行数</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">1.4.3. 表の項目情報</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">1.4.4. 基本統計量</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">1.4. データの確認</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">1.4.1. 表の行数，列数の確認</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">1.4.2. 表の行数</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">1.4.3. 表の項目情報</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">1.4.4. 基本統計量</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">1.5. データフレームへのアクセス</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">1.5.1. 先頭・末尾のレコード（行）の取得</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">1.5.2. 射影</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">1.5.3. データフレームに対する四則演算</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">1.5.4. 任意の行にあるレコードの取得</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">1.5. データフレームへのアクセス</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">1.5.1. 先頭・末尾のレコード（行）の取得</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">1.5.2. 射影</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">1.5.3. データフレームに対する四則演算</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">1.5.4. 任意の行にあるレコードの取得</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">1.5.5. 絞り込み</a></li>
 </ul>
 </li>
