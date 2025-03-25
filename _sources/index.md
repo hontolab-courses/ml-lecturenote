@@ -29,7 +29,7 @@ Googleアカウントを持っていない学生は，授業までに取得し�
 | |  日時  | トピック | スライド資料 | Hands-on | クイズ | クイズ解答 |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | 1 | 04/14 | ガイダンス | Speaker Deck | - | - | - |
-| 2 | 04/21 | pandas入門 | SpeakerDeck | [Here](content/introduction-to-pandas.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-pandas.ipynb) |  |
+| 2 | 04/21 | pandas入門 | [SpeakerDeck](https://speakerdeck.com/trycycle/ji-jie-xue-xi-pandasru-men) | [Here](content/introduction-to-pandas.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-pandas.ipynb) |  |
 | 3 | 04/28 | 決定木からはじめる機械学習 | [SpeakerDeck](https://speakerdeck.com/trycycle/tetamaininkutoji-jie-xue-xi-2022-di-1hui-20220413) | [Here](content/introduction-to-ml.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-ml.ipynb) |  |
 | 4 | 05/12 | クラスタリング1: K-means & 階層的クラスタリング | [SpeakerDeck](https://speakerdeck.com/trycycle/tetamaininkutoji-jie-xue-xi-kurasutaringu1) | [Here](content/kmeans-and-hierarchical-clustering.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/kmeans-and-hierarchical-clustering.ipynb) |  |
 | 5 | 05/19 | クラスタリング2：密度ベースクラスタリング | [SpeakerDeck](https://speakerdeck.com/trycycle/detamainingutoji-jie-xue-xi-kurasutaringu2) | [Here](content/dbscan-and-others.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/dbscan-and-others.ipynb) |  |
