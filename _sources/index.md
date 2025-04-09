@@ -31,7 +31,7 @@ Googleアカウントを持っていない学生は，授業までに取得し�
 ## 授業計画とコンテンツ
 | |  日時  | トピック | スライド資料 | Hands-on | クイズ | クイズ解答 |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| 1 | 04/14 | ガイダンス | Speaker Deck | - | - | - |
+| 1 | 04/14 | ガイダンス | [Speaker Deck](https://speakerdeck.com/trycycle/ml-lecture-01-guidance) | - | - | - |
 | 2 | 04/21 | pandas入門 | [SpeakerDeck](https://speakerdeck.com/trycycle/ml-lecture-02-pandas) | [Here](content/introduction-to-pandas.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-pandas.ipynb) |  |
 | 3 | 04/28 | 決定木からはじめる機械学習 | [SpeakerDeck](https://speakerdeck.com/trycycle/ml-lecture-03-decision-tree) | [Here](content/introduction-to-ml.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/introduction-to-ml.ipynb) |  |
 | 4 | 05/12 | クラスタリング1: K-means & 階層的クラスタリング | [SpeakerDeck](https://speakerdeck.com/trycycle/ml-lecture-04-clustering-1) | [Here](content/kmeans-and-hierarchical-clustering.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/kmeans-and-hierarchical-clustering.ipynb) |  |
