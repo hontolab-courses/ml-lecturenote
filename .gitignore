@@ -178,3 +178,4 @@ taxi-dataset
 k49/
 kmnist/
 FashionMNIST/
+quiz/answer/*.tsv
