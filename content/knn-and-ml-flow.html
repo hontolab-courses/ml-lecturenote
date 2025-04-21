@@ -2160,7 +2160,7 @@ True : 7841 (24.1%)
 <span id="c5-q1"></span><h3><span class="section-number">5.4.1. </span>Q1: 崩し字データのダウンロード<a class="headerlink" href="#q1" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://github.com/rois-codh/kmnist">Kuzushiji-MNIST</a>は，<a class="reference external" href="https://codh.rois.ac.jp/index.html.ja">ROIS-DS人文学オープンデータ共同利用センター</a>が公開している日本語<a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%81%8F%E3%81%9A%E3%81%97%E5%AD%97">くずし字</a>の画像データセットである（画像出典:<a class="reference external" href="https://github.com/rois-codh/kmnist">GitHubのkmnistレポジトリより参照</a>）．</p>
 <p><img alt="Kuzushiji MNIST" src="https://github.com/rois-codh/kmnist/raw/master/images/kmnist_examples.png" /></p>
-<p>クイズに取り組むに先だって以下のコードを実行し，下記4つのデータファイルをダウンロードしなさい．</p>
+<p>クイズに取り組むに先だって以下のコードを実行し，下記3つのデータファイルをダウンロードしなさい．</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">k49-test-imgs.npz</span></code>: （評価用）画像データ</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">k49-test-labels.npz</span></code>: （評価用）ラベルデータ</p></li>
@@ -2171,15 +2171,6 @@ True : 7841 (24.1%)
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>curl<span class="w"> </span>-o<span class="w"> </span>data/k49/k49-test-imgs.npz<span class="w"> </span>--create-dirs<span class="w"> </span>https://codh.rois.ac.jp/kmnist/dataset/k49/k49-test-imgs.npz
 <span class="o">!</span>curl<span class="w"> </span>-o<span class="w"> </span>data/k49/k49-test-labels.npz<span class="w"> </span>--create-dirs<span class="w"> </span>https://codh.rois.ac.jp/kmnist/dataset/k49/k49-test-labels.npz
 <span class="o">!</span>curl<span class="w"> </span>-o<span class="w"> </span>data/k49/k49_classmap.csv<span class="w"> </span>--create-dirs<span class="w"> </span>http://codh.rois.ac.jp/kmnist/dataset/k49/k49_classmap.csv
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_remove-output docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>curl<span class="w"> </span>-o<span class="w"> </span>data/kmnist/kmnist-test-imgs.npz<span class="w"> </span>--create-dirs<span class="w"> </span>https://codh.rois.ac.jp/kmnist/dataset/kmnist/kmnist-test-imgs.npz
-<span class="o">!</span>curl<span class="w"> </span>-o<span class="w"> </span>data/kmnist/kmnist-test-labels.npz<span class="w"> </span>--create-dirs<span class="w"> </span>https://codh.rois.ac.jp/kmnist/dataset/kmnist/kmnist-test-labels.npz
-<span class="o">!</span>curl<span class="w"> </span>-o<span class="w"> </span>data/kmnist/kmnist_classmap.csv<span class="w"> </span>--create-dirs<span class="w"> </span>https://codh.rois.ac.jp/kmnist/dataset/kmnist/kmnist_classmap.csv
 </pre></div>
 </div>
 </div>
