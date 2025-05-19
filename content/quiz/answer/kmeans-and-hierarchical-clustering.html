@@ -16,33 +16,36 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
@@ -78,6 +81,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -93,19 +97,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -113,7 +106,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -121,8 +113,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -140,7 +132,8 @@
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -170,15 +163,11 @@
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">はじめに</span></p>
@@ -204,9 +193,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -334,24 +328,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -451,13 +437,13 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../_images/749732a1babae37ebf1511bf7fcb9b6d600f53f48215303b26fac8675814a9af.png" src="../../../_images/749732a1babae37ebf1511bf7fcb9b6d600f53f48215303b26fac8675814a9af.png" />
+<img alt="../../../_images/180ffe37cdf70bd50cabd562f537a0d13d45ba7f889bbc4cfb0c2b3f1f79c0d0.png" src="../../../_images/180ffe37cdf70bd50cabd562f537a0d13d45ba7f889bbc4cfb0c2b3f1f79c0d0.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># write your code</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">math</span> 
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">calc_euclidean_dist</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">v2</span><span class="p">):</span>
@@ -466,7 +452,7 @@ document.write(`
             <span class="n">x1</span> <span class="o">=</span> <span class="n">v1</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
             <span class="n">x2</span> <span class="o">=</span> <span class="n">v2</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
             <span class="n">dist</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>  
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
@@ -495,13 +481,228 @@ document.write(`
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
         <span class="n">result</span> <span class="o">+=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-        
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">calc_cosine_sim</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">norm</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">norm</span><span class="p">(</span><span class="n">v2</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">inner_product</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span> <span class="o">*</span> <span class="n">norm</span><span class="p">(</span><span class="n">v2</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>    
+        <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># データ数</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># ユークリッド距離</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+        <span class="n">euclidean_dist</span> <span class="o">=</span> <span class="n">calc_euclidean_dist</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">}</span><span class="s1">: Euclidean = </span><span class="si">{</span><span class="n">euclidean_dist</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2, 2) - (2, 2): Euclidean = 0.000
+(2, 2) - (3, 4): Euclidean = 2.236
+(2, 2) - (5, 2): Euclidean = 3.000
+(2, 2) - (10, 5): Euclidean = 8.544
+(2, 2) - (9, 3): Euclidean = 7.071
+(2, 2) - (11, 4): Euclidean = 9.220
+(2, 2) - (12, 3): Euclidean = 10.050
+(2, 2) - (12, 6): Euclidean = 10.770
+(2, 2) - (4, 10): Euclidean = 8.246
+(2, 2) - (4, 8): Euclidean = 6.325
+(2, 2) - (6, 8): Euclidean = 7.211
+(2, 2) - (7, 10): Euclidean = 9.434
+(2, 2) - (7, 6): Euclidean = 6.403
+(3, 4) - (3, 4): Euclidean = 0.000
+(3, 4) - (5, 2): Euclidean = 2.828
+(3, 4) - (10, 5): Euclidean = 7.071
+(3, 4) - (9, 3): Euclidean = 6.083
+(3, 4) - (11, 4): Euclidean = 8.000
+(3, 4) - (12, 3): Euclidean = 9.055
+(3, 4) - (12, 6): Euclidean = 9.220
+(3, 4) - (4, 10): Euclidean = 6.083
+(3, 4) - (4, 8): Euclidean = 4.123
+(3, 4) - (6, 8): Euclidean = 5.000
+(3, 4) - (7, 10): Euclidean = 7.211
+(3, 4) - (7, 6): Euclidean = 4.472
+(5, 2) - (5, 2): Euclidean = 0.000
+(5, 2) - (10, 5): Euclidean = 5.831
+(5, 2) - (9, 3): Euclidean = 4.123
+(5, 2) - (11, 4): Euclidean = 6.325
+(5, 2) - (12, 3): Euclidean = 7.071
+(5, 2) - (12, 6): Euclidean = 8.062
+(5, 2) - (4, 10): Euclidean = 8.062
+(5, 2) - (4, 8): Euclidean = 6.083
+(5, 2) - (6, 8): Euclidean = 6.083
+(5, 2) - (7, 10): Euclidean = 8.246
+(5, 2) - (7, 6): Euclidean = 4.472
+(10, 5) - (10, 5): Euclidean = 0.000
+(10, 5) - (9, 3): Euclidean = 2.236
+(10, 5) - (11, 4): Euclidean = 1.414
+(10, 5) - (12, 3): Euclidean = 2.828
+(10, 5) - (12, 6): Euclidean = 2.236
+(10, 5) - (4, 10): Euclidean = 7.810
+(10, 5) - (4, 8): Euclidean = 6.708
+(10, 5) - (6, 8): Euclidean = 5.000
+(10, 5) - (7, 10): Euclidean = 5.831
+(10, 5) - (7, 6): Euclidean = 3.162
+(9, 3) - (9, 3): Euclidean = 0.000
+(9, 3) - (11, 4): Euclidean = 2.236
+(9, 3) - (12, 3): Euclidean = 3.000
+(9, 3) - (12, 6): Euclidean = 4.243
+(9, 3) - (4, 10): Euclidean = 8.602
+(9, 3) - (4, 8): Euclidean = 7.071
+(9, 3) - (6, 8): Euclidean = 5.831
+(9, 3) - (7, 10): Euclidean = 7.280
+(9, 3) - (7, 6): Euclidean = 3.606
+(11, 4) - (11, 4): Euclidean = 0.000
+(11, 4) - (12, 3): Euclidean = 1.414
+(11, 4) - (12, 6): Euclidean = 2.236
+(11, 4) - (4, 10): Euclidean = 9.220
+(11, 4) - (4, 8): Euclidean = 8.062
+(11, 4) - (6, 8): Euclidean = 6.403
+(11, 4) - (7, 10): Euclidean = 7.211
+(11, 4) - (7, 6): Euclidean = 4.472
+(12, 3) - (12, 3): Euclidean = 0.000
+(12, 3) - (12, 6): Euclidean = 3.000
+(12, 3) - (4, 10): Euclidean = 10.630
+(12, 3) - (4, 8): Euclidean = 9.434
+(12, 3) - (6, 8): Euclidean = 7.810
+(12, 3) - (7, 10): Euclidean = 8.602
+(12, 3) - (7, 6): Euclidean = 5.831
+(12, 6) - (12, 6): Euclidean = 0.000
+(12, 6) - (4, 10): Euclidean = 8.944
+(12, 6) - (4, 8): Euclidean = 8.246
+(12, 6) - (6, 8): Euclidean = 6.325
+(12, 6) - (7, 10): Euclidean = 6.403
+(12, 6) - (7, 6): Euclidean = 5.000
+(4, 10) - (4, 10): Euclidean = 0.000
+(4, 10) - (4, 8): Euclidean = 2.000
+(4, 10) - (6, 8): Euclidean = 2.828
+(4, 10) - (7, 10): Euclidean = 3.000
+(4, 10) - (7, 6): Euclidean = 5.000
+(4, 8) - (4, 8): Euclidean = 0.000
+(4, 8) - (6, 8): Euclidean = 2.000
+(4, 8) - (7, 10): Euclidean = 3.606
+(4, 8) - (7, 6): Euclidean = 3.606
+(6, 8) - (6, 8): Euclidean = 0.000
+(6, 8) - (7, 10): Euclidean = 2.236
+(6, 8) - (7, 6): Euclidean = 2.236
+(7, 10) - (7, 10): Euclidean = 0.000
+(7, 10) - (7, 6): Euclidean = 4.000
+(7, 6) - (7, 6): Euclidean = 0.000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># コサイン類似度</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+        <span class="n">cosine_sim</span> <span class="o">=</span> <span class="n">calc_cosine_sim</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">}</span><span class="s1">: Cosine = </span><span class="si">{</span><span class="n">cosine_sim</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2, 2) - (2, 2): Cosine = 1.000
+(2, 2) - (3, 4): Cosine = 0.990
+(2, 2) - (5, 2): Cosine = 0.919
+(2, 2) - (10, 5): Cosine = 0.949
+(2, 2) - (9, 3): Cosine = 0.894
+(2, 2) - (11, 4): Cosine = 0.906
+(2, 2) - (12, 3): Cosine = 0.857
+(2, 2) - (12, 6): Cosine = 0.949
+(2, 2) - (4, 10): Cosine = 0.919
+(2, 2) - (4, 8): Cosine = 0.949
+(2, 2) - (6, 8): Cosine = 0.990
+(2, 2) - (7, 10): Cosine = 0.985
+(2, 2) - (7, 6): Cosine = 0.997
+(3, 4) - (3, 4): Cosine = 1.000
+(3, 4) - (5, 2): Cosine = 0.854
+(3, 4) - (10, 5): Cosine = 0.894
+(3, 4) - (9, 3): Cosine = 0.822
+(3, 4) - (11, 4): Cosine = 0.837
+(3, 4) - (12, 3): Cosine = 0.776
+(3, 4) - (12, 6): Cosine = 0.894
+(3, 4) - (4, 10): Cosine = 0.966
+(3, 4) - (4, 8): Cosine = 0.984
+(3, 4) - (6, 8): Cosine = 1.000
+(3, 4) - (7, 10): Cosine = 0.999
+(3, 4) - (7, 6): Cosine = 0.976
+(5, 2) - (5, 2): Cosine = 1.000
+(5, 2) - (10, 5): Cosine = 0.997
+(5, 2) - (9, 3): Cosine = 0.998
+(5, 2) - (11, 4): Cosine = 0.999
+(5, 2) - (12, 3): Cosine = 0.991
+(5, 2) - (12, 6): Cosine = 0.997
+(5, 2) - (4, 10): Cosine = 0.690
+(5, 2) - (4, 8): Cosine = 0.747
+(5, 2) - (6, 8): Cosine = 0.854
+(5, 2) - (7, 10): Cosine = 0.837
+(5, 2) - (7, 6): Cosine = 0.947
+(10, 5) - (10, 5): Cosine = 1.000
+(10, 5) - (9, 3): Cosine = 0.990
+(10, 5) - (11, 4): Cosine = 0.993
+(10, 5) - (12, 3): Cosine = 0.976
+(10, 5) - (12, 6): Cosine = 1.000
+(10, 5) - (4, 10): Cosine = 0.747
+(10, 5) - (4, 8): Cosine = 0.800
+(10, 5) - (6, 8): Cosine = 0.894
+(10, 5) - (7, 10): Cosine = 0.879
+(10, 5) - (7, 6): Cosine = 0.970
+(9, 3) - (9, 3): Cosine = 1.000
+(9, 3) - (11, 4): Cosine = 1.000
+(9, 3) - (12, 3): Cosine = 0.997
+(9, 3) - (12, 6): Cosine = 0.990
+(9, 3) - (4, 10): Cosine = 0.646
+(9, 3) - (4, 8): Cosine = 0.707
+(9, 3) - (6, 8): Cosine = 0.822
+(9, 3) - (7, 10): Cosine = 0.803
+(9, 3) - (7, 6): Cosine = 0.926
+(11, 4) - (11, 4): Cosine = 1.000
+(11, 4) - (12, 3): Cosine = 0.995
+(11, 4) - (12, 6): Cosine = 0.993
+(11, 4) - (4, 10): Cosine = 0.666
+(11, 4) - (4, 8): Cosine = 0.726
+(11, 4) - (6, 8): Cosine = 0.837
+(11, 4) - (7, 10): Cosine = 0.819
+(11, 4) - (7, 6): Cosine = 0.936
+(12, 3) - (12, 3): Cosine = 1.000
+(12, 3) - (12, 6): Cosine = 0.976
+(12, 3) - (4, 10): Cosine = 0.585
+(12, 3) - (4, 8): Cosine = 0.651
+(12, 3) - (6, 8): Cosine = 0.776
+(12, 3) - (7, 10): Cosine = 0.755
+(12, 3) - (7, 6): Cosine = 0.894
+(12, 6) - (12, 6): Cosine = 1.000
+(12, 6) - (4, 10): Cosine = 0.747
+(12, 6) - (4, 8): Cosine = 0.800
+(12, 6) - (6, 8): Cosine = 0.894
+(12, 6) - (7, 10): Cosine = 0.879
+(12, 6) - (7, 6): Cosine = 0.970
+(4, 10) - (4, 10): Cosine = 1.000
+(4, 10) - (4, 8): Cosine = 0.997
+(4, 10) - (6, 8): Cosine = 0.966
+(4, 10) - (7, 10): Cosine = 0.974
+(4, 10) - (7, 6): Cosine = 0.886
+(4, 8) - (4, 8): Cosine = 1.000
+(4, 8) - (6, 8): Cosine = 0.984
+(4, 8) - (7, 10): Cosine = 0.989
+(4, 8) - (7, 6): Cosine = 0.922
+(6, 8) - (6, 8): Cosine = 1.000
+(6, 8) - (7, 10): Cosine = 0.999
+(6, 8) - (7, 6): Cosine = 0.976
+(7, 10) - (7, 10): Cosine = 1.000
+(7, 10) - (7, 6): Cosine = 0.969
+(7, 6) - (7, 6): Cosine = 1.000
 </pre></div>
 </div>
 </div>
@@ -740,66 +941,66 @@ document.write(`
   <tbody>
     <tr>
       <th>0</th>
-      <td>166.250000</td>
-      <td>57.500000</td>
-      <td>33.750000</td>
-      <td>57.500000</td>
-      <td>72.500000</td>
-      <td>36.250000</td>
+      <td>168.333333</td>
+      <td>40.000000</td>
+      <td>23.333333</td>
+      <td>55.000000</td>
+      <td>60.000000</td>
+      <td>38.333333</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>65.166667</td>
-      <td>95.500000</td>
-      <td>68.791667</td>
-      <td>58.166667</td>
-      <td>74.583333</td>
-      <td>94.958333</td>
+      <td>71.666667</td>
+      <td>115.000000</td>
+      <td>117.777778</td>
+      <td>61.111111</td>
+      <td>61.666667</td>
+      <td>63.888889</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>55.277778</td>
-      <td>85.833333</td>
-      <td>112.500000</td>
-      <td>49.722222</td>
-      <td>45.555556</td>
-      <td>48.055556</td>
+      <td>93.592593</td>
+      <td>93.074074</td>
+      <td>84.148148</td>
+      <td>95.444444</td>
+      <td>92.592593</td>
+      <td>72.666667</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>38.346154</td>
-      <td>47.961538</td>
-      <td>43.538462</td>
-      <td>39.192308</td>
-      <td>39.923077</td>
-      <td>64.807692</td>
+      <td>43.150000</td>
+      <td>49.200000</td>
+      <td>43.725000</td>
+      <td>47.050000</td>
+      <td>46.825000</td>
+      <td>62.075000</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>53.117647</td>
-      <td>54.235294</td>
-      <td>56.176471</td>
-      <td>104.705882</td>
-      <td>75.294118</td>
-      <td>98.823529</td>
+      <td>65.045455</td>
+      <td>93.272727</td>
+      <td>65.727273</td>
+      <td>56.545455</td>
+      <td>74.181818</td>
+      <td>93.818182</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>58.677419</td>
-      <td>61.806452</td>
-      <td>59.419355</td>
-      <td>60.354839</td>
-      <td>61.161290</td>
-      <td>45.000000</td>
+      <td>55.103448</td>
+      <td>68.206897</td>
+      <td>82.827586</td>
+      <td>55.344828</td>
+      <td>51.689655</td>
+      <td>39.896552</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>88.806452</td>
-      <td>92.193548</td>
-      <td>82.645161</td>
-      <td>95.064516</td>
-      <td>92.419355</td>
-      <td>76.774194</td>
+      <td>60.190476</td>
+      <td>64.000000</td>
+      <td>62.047619</td>
+      <td>100.714286</td>
+      <td>82.857143</td>
+      <td>98.714286</td>
     </tr>
   </tbody>
 </table>
@@ -839,7 +1040,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../_images/111cf2c7d421f2414dd2b998e3e73954139366c44f451804da05ae85d64fedba.png" src="../../../_images/111cf2c7d421f2414dd2b998e3e73954139366c44f451804da05ae85d64fedba.png" />
+<img alt="../../../_images/4ad5359761163fd377b96d946f484e9d72a59f604a246d04cd7cfa9440ea75c8.png" src="../../../_images/4ad5359761163fd377b96d946f484e9d72a59f604a246d04cd7cfa9440ea75c8.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -854,7 +1055,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../_images/473ff60065ad4d55a0ff0422eea6d406e8d96f4f7c244f455c74c7f1409062b1.png" src="../../../_images/473ff60065ad4d55a0ff0422eea6d406e8d96f4f7c244f455c74c7f1409062b1.png" />
+<img alt="../../../_images/7b37d63034c9237266c0394bd7fc0fb5775b1aa3bec5f9187506bf9f17c9193b.png" src="../../../_images/7b37d63034c9237266c0394bd7fc0fb5775b1aa3bec5f9187506bf9f17c9193b.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -869,7 +1070,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../_images/55fc5688e55253ace0312f3cc9f1aba19c167940342ce896d1e40040b06cc2b7.png" src="../../../_images/55fc5688e55253ace0312f3cc9f1aba19c167940342ce896d1e40040b06cc2b7.png" />
+<img alt="../../../_images/676db7054a9ef28c82fe676d7978311d2880333531543fe40080994696b8db70.png" src="../../../_images/676db7054a9ef28c82fe676d7978311d2880333531543fe40080994696b8db70.png" />
 </div>
 </div>
 </section>
@@ -913,7 +1114,8 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -975,8 +1177,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
