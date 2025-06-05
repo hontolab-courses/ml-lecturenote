@@ -37,9 +37,14 @@ Googleアカウントを持っていない学生は，授業までに取得し�
 | 4 | 05/12 | クラスタリング1: K-means & 階層的クラスタリング | [SpeakerDeck](https://speakerdeck.com/trycycle/ml-lecture-04-clustering-1) | [Here](content/kmeans-and-hierarchical-clustering.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/kmeans-and-hierarchical-clustering.ipynb) | [Here](content/quiz/answer/kmeans-and-hierarchical-clustering.ipynb) |
 | 5 | 05/19 | クラスタリング2：密度ベースクラスタリング | [SpeakerDeck](https://speakerdeck.com/trycycle/ml-lecture-05-clustering-2) | [Here](content/dbscan-and-others.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/dbscan-and-others.ipynb) | [Here](content/quiz/answer/dbscan-and-others.ipynb) |
 | 6 | 05/26 | 分類1: K近傍法 & 教師あり機械学習のお作法 | [SpeakerDeck](https://speakerdeck.com/trycycle/ml-lecture-06-knn) | [Here](content/knn-and-ml-flow.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/knn-and-ml-flow.ipynb) | [Here](content/quiz/answer/knn-and-ml-flow.ipynb) |
-| 7 | 06/02 | 分類2: サポートベクターマシン | [SpeakerDeck](https://speakerdeck.com/trycycle/ml-lecture-07-svm) | [Here](content/svm.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/svm.ipynb) |  |
-| 8 | 06/09 | 分類3: ニューラルネットワーク入門 | [SpeakerDeck](https://speakerdeck.com/trycycle/ml-lecture-08-neural-network) | [Here](content/neural-network.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/neural-network.ipynb) |  |
+| 7 | 06/02 | 分類2: サポートベクターマシン | [SpeakerDeck](https://speakerdeck.com/trycycle/ml-lecture-07-svm) | [Here](content/svm.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/svm.ipynb) | [Here](content/quiz/answer/svm.ipynb) |
+| 8 | 06/09 | 分類3: ニューラルネットワーク入門 | [SpeakerDeck](https://speakerdeck.com/trycycle/ml-lecture-08-neural-network) | [Here](content/neural-network.ipynb) | [Google Colab](https://colab.research.google.com/github/hontolab-courses/ml-lecturenote/blob/main/content/quiz/neural-network.ipynb) | [Here](content/quiz/answer/neural-network.ipynb) |
 
 
 ## レポート課題
-後日掲載予定．
+- 課題内容: [コチラのPDFファイル](https://www.dropbox.com/scl/fi/raerhvj9bmae85h6dxcel/assignment.pdf?rlkey=s0olw4ydec57xe08s7n1xjggl&dl=1)に記載（パスワードは学務情報システム経由でお知らせします）．
+- 締め切り: 2025年7月7日（金）
+- 提出先: 学務情報システム
+- 提出形式
+    - [指定したテンプレートファイル（Wordファイル）](https://www.dropbox.com/scl/fi/0r1z7i47x8jghnn9u8dk8/_-_-_.docx?rlkey=g8c476vws6gveje6wd2slrjqv&dl=1)を用いて解答を作成すること
+    - 提出時にはWordファイルをPDFファイルに変換すること

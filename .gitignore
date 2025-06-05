@@ -179,3 +179,5 @@ k49/
 kmnist/
 FashionMNIST/
 quiz/answer/*.tsv
+tex
+content/assignment/*
