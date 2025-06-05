@@ -42,9 +42,9 @@ Googleアカウントを持っていない学生は，授業までに取得し�
 
 
 ## レポート課題
-- 課題内容: [コチラのPDFファイル](https://www.dropbox.com/scl/fi/raerhvj9bmae85h6dxcel/assignment.pdf?rlkey=s0olw4ydec57xe08s7n1xjggl&dl=1)に記載（パスワードは学務情報システム経由でお知らせします）．
+- 課題内容: [コチラのPDFファイル](https://b.hontolab.org/3FHQqj9)に記載（パスワードは学務情報システム経由でお知らせします）．
 - 締め切り: 2025年7月7日（金）
 - 提出先: 学務情報システム
 - 提出形式
-    - [指定したテンプレートファイル（Wordファイル）](https://www.dropbox.com/scl/fi/0r1z7i47x8jghnn9u8dk8/_-_-_.docx?rlkey=g8c476vws6gveje6wd2slrjqv&dl=1)を用いて解答を作成すること
+    - [指定したテンプレートファイル（Wordファイル）](https://b.hontolab.org/4kW0jJg)を用いて解答を作成すること
     - 提出時にはWordファイルをPDFファイルに変換すること
