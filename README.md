@@ -29,7 +29,7 @@ $ jb build --all .
 
 ### GitHub Pagesの作成
 ```
-$ ghp-import -n -p -f _build/html --cname=dbnote.hontolab.org
+$ ghp-import -n -p -f _build/html --cname=mlnote.hontolab.org
 ```
 
 ### MyST Markdown
