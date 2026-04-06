@@ -31,10 +31,10 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -45,15 +45,15 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-DK1T0PB7LS"></script>
@@ -314,7 +314,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -338,7 +338,7 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -763,7 +763,7 @@ Jupyterを用いている場合，下記コードを実行すると<code class="
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p class="rubric" id="id4">インデックス</p>
+<h3 class="rubric" id="id4">インデックス</h3>
 <p>DataFrameオブジェクトにおけるインデックスとは，表中の行を識別するために各行につけられた固有の名前である．
 pandasでCSVファイルやTSVファイルをデータフレームとして読み込む際，インデックスを指定しない場合，行番号（先頭から数えて何番目の行かを表す数字）がインデックスとなる．
 インデックスが指定されていると，インデックスと行番号が同じにならないこともある．</p>
@@ -2610,7 +2610,7 @@ Length: 48, dtype: float64
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p class="rubric" id="df-7000000">df.総人口 &gt;= 7000000 を実行すると何が返ってくるのか？</p>
+<h4 class="rubric" id="df-7000000">df.総人口 &gt;= 7000000 を実行すると何が返ってくるのか？</h4>
 <p>実行してみると分かるが，<code class="docutils literal notranslate"><span class="pre">df</span></code>の各レコードの<code class="docutils literal notranslate"><span class="pre">総人口</span></code>が700万以上かそうでないかを<code class="docutils literal notranslate"><span class="pre">True</span></code>か<code class="docutils literal notranslate"><span class="pre">False</span></code>で表したpandas.Series（リストのようなもの）が返ってくる．
 返ってくるpandas.Seriesでは，nつ目の要素が<code class="docutils literal notranslate"><span class="pre">df</span></code>のn番目のレコードが<code class="docutils literal notranslate"><span class="pre">True</span></code>か<code class="docutils literal notranslate"><span class="pre">False</span></code>を表している．
 pandasのDataFrameオブジェクトは中括弧の中に<code class="docutils literal notranslate"><span class="pre">True/False</span></code>のリスト（もしくはpandas.Series）を入れると，値がTrueのレコードだけをDataFrameオブジェクトから抽出して返す．
@@ -3758,11 +3758,12 @@ z = \frac{x - \mu}{\sigma} \times 10 + 50
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1.1. はじめに - 表データとデータフレーム</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1.2. ライブラリの準備</a></li>
@@ -3822,7 +3823,7 @@ z = \frac{x - \mu}{\sigma} \times 10 + 50
 
   <p class="copyright">
     
-      © Copyright 2025- by Yusuke Yamamoto.
+      © Copyright 2026- by Yusuke Yamamoto.
       <br/>
     
   </p>
